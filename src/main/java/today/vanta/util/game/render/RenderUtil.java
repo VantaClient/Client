@@ -132,9 +132,11 @@ public class RenderUtil {
     }
 
     public static void image(int textureId, int x, int y, int width, int height) {
-        GlStateManager.enableBlend();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        if (textureId == 0) return;
 
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.enableTexture2D();
         GlStateManager.bindTexture(textureId);
 
         GL11.glBegin(GL11.GL_QUADS);
@@ -149,6 +151,7 @@ public class RenderUtil {
         GL11.glEnd();
 
         GlStateManager.disableBlend();
+        GlStateManager.bindTexture(0);
     }
 
     public static void color(Color color) {

@@ -32,8 +32,7 @@ public class AccountComponent extends Component {
         Color color1 = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
         RenderUtil.rectangle(x, y, width, height, hover ? new Color(40, 40, 40) : new Color(35, 35, 35));
         font.drawYCenteredString(text, x + height - 4 + 3.5f, y + height / 2 - 2, currentAccount ? color1 : Color.WHITE, false);
-        int imageId = RenderUtil.bindBufferedImage(bufferedImage);
-        RenderUtil.image(imageId, (int) x + 2, (int) y + 2, (int) height - 4, (int) height - 4);
+        RenderUtil.image(RenderUtil.bindBufferedImage(bufferedImage), (int) x + 2, (int) y + 2, (int) height - 4, (int) height - 4);
     }
 
     @Override
