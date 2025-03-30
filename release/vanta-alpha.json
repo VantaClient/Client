@@ -20,10 +20,43 @@
           "path": "fr/litarvan/openauth/1.1.6/openauth-1.1.6.jar",
           "sha1": "b130fd84bc7b844d9ac570c40cd18b0e59b5c43c",
           "size": 49460,
-          "url": "https://github.com/MarkGG8181/cloud/raw/refs/heads/main/sigma/openauth-1.1.6.jar"
+          "url": "https://github.com/Litarvan/OpenAuth/releases/download/v1.1.6/openauth-1.1.6.jar"
         }
       },
       "name": "fr.litarvan:openauth:1.1.6"
+    },
+    {
+      "downloads": {
+        "artifact": {
+          "path": "com/viaversion/ViaVersion/5.2.0/ViaVersion-5.2.0-downgraded.jar",
+          "sha1": "b4e214d8a6204316b30bdc33155cb9c3b381ea80",
+          "size": 5103867,
+          "url": "https://github.com/VantaClient/Client/raw/refs/heads/main/release/ViaVersion-5.2.0-downgraded.jar"
+        }
+      },
+      "name": "com.viaversion:ViaVersion:5.2.0-downgraded"
+    },
+    {
+      "downloads": {
+        "artifact": {
+          "path": "com/viaversion/ViaBackwards/5.2.0/ViaBackwards-5.2.0-downgraded.jar",
+          "sha1": "5ce245f8d5fb85402f6e9124c0be7241c765ae4f",
+          "size": 1254347,
+          "url": "https://github.com/VantaClient/Client/raw/refs/heads/main/release/ViaBackwards-5.2.0-downgraded.jar"
+        }
+      },
+      "name": "com.viaversion:ViaBackwards:5.2.0-downgraded"
+    },
+    {
+      "downloads": {
+        "artifact": {
+          "path": "com/viaversion/ViaRewind/4.0.4/ViaRewind-4.0.4-downgraded.jar",
+          "sha1": "cdefaae6a0fdb582bab9ffac3888c88b1f2e4511",
+          "size": 385455,
+          "url": "https://github.com/VantaClient/Client/raw/refs/heads/main/release/ViaRewind-4.0.4-downgraded.jar"
+        }
+      },
+      "name": "com.viaversion:ViaRewind:4.0.4-downgraded"
     },
     {
       "downloads": {
