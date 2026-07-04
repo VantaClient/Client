@@ -74,6 +74,19 @@
                 <imgui.natives>imgui-java-natives-windows</imgui.natives>
             </properties>
         </profile>
+        <profile>
+            <id>lwjgl-natives-windows-aa64</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <properties>
+                <lwjgl.natives>natives-windows</lwjgl.natives>
+                <imgui.natives>imgui-java-natives-windows</imgui.natives>
+            </properties>
+        </profile>
     </profiles>
 
     <dependencies>
@@ -107,22 +120,26 @@
             <version>1.1.6</version>
         </dependency>
 
+        <!-- Source: https://mvnrepository.com/artifact/com.github.oshi/oshi-core -->
         <dependency>
-            <groupId>oshi-project</groupId>
+            <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
-            <version>1.1</version>
+            <version>7.3.2</version>
         </dependency>
 
         <dependency>
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
-            <version>3.4.0</version>
+            <version>5.19.1</version>
+            <scope>compile</scope>
         </dependency>
 
+        <!-- Source: https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform -->
         <dependency>
             <groupId>net.java.dev.jna</groupId>
-            <artifactId>platform</artifactId>
-            <version>3.4.0</version>
+            <artifactId>jna-platform</artifactId>
+            <version>5.19.1</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
@@ -286,6 +303,12 @@
             <artifactId>${imgui.natives}</artifactId>
             <version>1.86.10</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>26.1.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

@@ -111,6 +111,7 @@ import today.vanta.client.event.impl.system.KeyboardEvent;
 import today.vanta.util.client.IClient;
 import today.vanta.util.game.events.EventState;
 import today.vanta.util.game.render.font.impl.BitMapFontRenderer;
+import today.vanta.util.os.windows.DarkTitleBar;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -446,6 +447,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
             Display.create();
         }
+        DarkTitleBar.doIt();
     }
 
     private void setInitialDisplayMode() throws LWJGLException {

@@ -47,7 +47,7 @@ public class Fly extends Module {
                 }
                 break;
             case "Jump":
-                if (jumpCounter.hasElapsed(550, true)) {
+                if (jumpCounter.hasElapsed(540, true)) {
                     mc.thePlayer.jump();
                 }
                 break;
