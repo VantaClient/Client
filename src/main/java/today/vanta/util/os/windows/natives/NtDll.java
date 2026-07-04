@@ -3,7 +3,7 @@ package today.vanta.util.os.windows.natives;
 import com.sun.jna.Native;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.win32.StdCallLibrary;
-import today.vanta.util.os.windows.WindowsEnhancements;
+import today.vanta.util.os.windows.enhancements.api.WindowsEnhancements;
 
 public interface NtDll extends StdCallLibrary {
 
@@ -16,7 +16,7 @@ public interface NtDll extends StdCallLibrary {
             IntByReference BuildNumber
     );
 
-    static void getBuildNumber() {
+    static void setBuildInfo() {
         // Get Windows Info
         final IntByReference majorVersion = new IntByReference();
         final IntByReference buildNumber = new IntByReference();

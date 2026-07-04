@@ -7,8 +7,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 @NotNullByDefault
-public final class LWJGLImpl {
-    public static Object getDisplayImpl() {
+public final class LWJGLInternals {
+    public static Object displayImpl() {
         final Method getImplementation;
         try {
             getImplementation = Display.class.getDeclaredMethod("getImplementation");
