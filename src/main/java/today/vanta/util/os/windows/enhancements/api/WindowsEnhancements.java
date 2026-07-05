@@ -3,7 +3,8 @@ package today.vanta.util.os.windows.enhancements.api;
 import org.jetbrains.annotations.NotNullByDefault;
 import today.vanta.util.os.windows.WindowsOS;
 import today.vanta.util.os.windows.enhancements.impl.DarkTitleBar;
-import today.vanta.util.os.windows.enhancements.impl.MicaBackdrop;
+import today.vanta.util.os.windows.enhancements.impl.SystemBackdrop;
+import today.vanta.util.os.windows.enhancements.impl.WindowCorner;
 import today.vanta.util.os.windows.natives.NtDll;
 
 import java.util.Arrays;
@@ -12,16 +13,20 @@ import java.util.Arrays;
 public final class WindowsEnhancements {
     public static int majorVersion = Integer.MIN_VALUE;
     public static int buildNumber = Integer.MIN_VALUE;
-    private static final WindowsEnhancement[] ENHANCEMENTS = new WindowsEnhancement[]{
+    private static final WindowsEnhancement<?>[] PRESETS
+            = new WindowsEnhancement<?>[] {
             DarkTitleBar.INSTANCE,
-            MicaBackdrop.INSTANCE
+            SystemBackdrop.INSTANCE,
+            WindowCorner.INSTANCE,
             // TODO: more enhancements
     };
 
     public static void apply() {
         NtDll.setBuildInfo();
-        Arrays.stream(ENHANCEMENTS)
-                .filter(f -> f.shouldApply(WindowsOS.INSTANCE))
-                .forEach(f -> f.apply(WindowsOS.INSTANCE));
+        Arrays.stream(PRESETS)
+                .filter(f -> f.canApply(WindowsOS.INSTANCE))
+                .forEach(f -> f.apply(
+                        WindowsOS.INSTANCE, null
+                ));
     }
 }
