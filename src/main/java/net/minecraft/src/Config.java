@@ -1477,7 +1477,7 @@ public class Config {
                     Display.setResizable(false);
                     Display.setResizable(true);
                 }
-            } catch (LWJGLException lwjglexception2) {
+            } catch (Exception lwjglexception2) {
                 warn("Error setting FSAA: " + i + "x");
                 lwjglexception2.printStackTrace();
 
@@ -1489,7 +1489,7 @@ public class Config {
                         Display.setResizable(false);
                         Display.setResizable(true);
                     }
-                } catch (LWJGLException lwjglexception1) {
+                } catch (Exception lwjglexception1) {
                     lwjglexception1.printStackTrace();
 
                     try {
@@ -1500,7 +1500,7 @@ public class Config {
                             Display.setResizable(false);
                             Display.setResizable(true);
                         }
-                    } catch (LWJGLException lwjglexception) {
+                    } catch (Exception lwjglexception) {
                         lwjglexception.printStackTrace();
                     }
                 }
