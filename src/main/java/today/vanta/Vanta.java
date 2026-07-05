@@ -1,6 +1,7 @@
 package today.vanta;
 
 import de.florianmichael.viamcp.ViaMCP;
+import net.minecraft.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import today.vanta.storage.impl.*;
@@ -29,7 +30,9 @@ public enum Vanta {
 
     public void start() {
         try {
-            ImGuiImpl.init();
+            if (ImGuiImpl.canUseImGui) {
+                ImGuiImpl.init();
+            }
             ViaMCP.create();
             ViaMCP.INSTANCE.initAsyncSlider();
         } catch (Exception e) {

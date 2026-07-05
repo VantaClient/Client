@@ -58,7 +58,7 @@
             </activation>
             <properties>
                 <lwjgl.natives>natives-linux-arm64</lwjgl.natives>
-                <imgui.natives>imgui-java-natives</imgui.natives>
+                <imgui.natives>imgui-java-natives-linux</imgui.natives>
             </properties>
         </profile>
 

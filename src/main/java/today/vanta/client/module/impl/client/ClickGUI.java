@@ -11,6 +11,8 @@ import today.vanta.client.screen.VantaScreen;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.StringSetting;
+import today.vanta.util.game.player.ChatUtil;
+import today.vanta.util.system.lwjgl.imgui.ImGuiImpl;
 
 public class ClickGUI extends Module {
     public final BooleanSetting
@@ -53,6 +55,10 @@ public class ClickGUI extends Module {
 
         switch (design.getValue()) {
             case "ImGui":
+                if (!ImGuiImpl.canUseImGui) {
+                    send("Can't use ImGUI when on ARM CPUs and not on macOS, defaulting to dropdown ClickGUI.");
+                    return clickGUIScreen;
+                }
                 return imGuiClickGuiScreen;
 
             case "Boxy":

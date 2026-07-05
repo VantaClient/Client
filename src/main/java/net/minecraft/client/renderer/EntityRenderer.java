@@ -1132,8 +1132,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
             new RenderEvent(partialTicks, scaledresolution, true).call();
 
-            ImGuiImpl.scroll();
-            ImGuiImpl.render(mc.getFramebuffer(), partialTicks);
+            if (ImGuiImpl.canUseImGui) {
+                ImGuiImpl.scroll();
+                ImGuiImpl.render(mc.getFramebuffer(), partialTicks);
+            }
         }
 
         this.frameFinish();
