@@ -3,14 +3,15 @@ package today.vanta.util.os.windows;
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef;
 import org.jetbrains.annotations.NotNullByDefault;
+import org.lwjgl.glfw.GLFWNativeWin32;
+import org.lwjgl.opengl.Display;
 import today.vanta.util.os.OS;
 import today.vanta.util.os.windows.enhancements.api.WindowsEnhancements;
 
-import java.lang.reflect.Field;
-
 @NotNullByDefault
-public final class WindowsOS implements OS<Object> {
+public final class WindowsOS implements OS {
     public static final WindowsOS INSTANCE = new WindowsOS();
+    @SuppressWarnings("unused") // shut
     public int majorVersion() {
         return WindowsEnhancements.majorVersion;
     }
@@ -19,19 +20,8 @@ public final class WindowsOS implements OS<Object> {
     }
 
     public WinDef.HWND hwnd() {
-        final Object impl = display();
-        final Class<? extends Object> c = impl.getClass();
-        final Field hwnd;
-        try {
-            hwnd = c.getDeclaredField("hwnd");
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
-        hwnd.setAccessible(true);
-        try {
-            return new WinDef.HWND(new Pointer(hwnd.getLong(impl)));
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        return new WinDef.HWND(new Pointer(GLFWNativeWin32.glfwGetWin32Window(
+                Display.getWindowHandle()
+        )));
     }
 }

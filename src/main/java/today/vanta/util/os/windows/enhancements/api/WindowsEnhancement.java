@@ -5,5 +5,5 @@ import today.vanta.util.os.CommonEnhancement;
 import today.vanta.util.os.windows.WindowsOS;
 
 @NotNullByDefault
-public abstract class WindowsEnhancement<C> implements CommonEnhancement<WindowsOS, Object, C> {
+public abstract class WindowsEnhancement<C> implements CommonEnhancement<WindowsOS, C> {
 }
