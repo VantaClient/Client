@@ -1,13 +1,14 @@
 package today.vanta.util.game.render.shape.impl;
 
+import org.jetbrains.annotations.NotNullByDefault;
 import org.lwjgl.opengl.GL11;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.Renderable;
 import today.vanta.util.game.render.shape.Shape;
 
-import javax.annotation.Nonnull;
 import java.awt.*;
 
+@NotNullByDefault
 public class Triangle extends Shape<Triangle> {
     private Color color = Color.WHITE;
 
@@ -25,7 +26,7 @@ public class Triangle extends Shape<Triangle> {
         return new Triangle(x, y, width, height);
     }
 
-    public Triangle color(@Nonnull Color color) {
+    public Triangle color(Color color) {
         this.color = color;
         return this;
     }
