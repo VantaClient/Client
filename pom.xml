@@ -57,8 +57,8 @@
                 </os>
             </activation>
             <properties>
-                <lwjgl.natives>natives-linux</lwjgl.natives>
-                <imgui.natives>imgui-java-natives-linux</imgui.natives>
+                <lwjgl.natives>natives-linux-arm64</lwjgl.natives>
+                <imgui.natives>imgui-java-natives</imgui.natives>
             </properties>
         </profile>
 
@@ -85,7 +85,7 @@
                 </os>
             </activation>
             <properties>
-                <lwjgl.natives>natives-windows</lwjgl.natives>
+                <lwjgl.natives>natives-windows-arm64</lwjgl.natives>
                 <imgui.natives>imgui-java-natives-windows</imgui.natives>
             </properties>
         </profile>
@@ -98,7 +98,7 @@
                 </os>
             </activation>
             <properties>
-                <lwjgl.natives>natives-windows</lwjgl.natives>
+                <lwjgl.natives>natives-windows-arm64</lwjgl.natives>
                 <imgui.natives>imgui-java-natives-windows</imgui.natives>
             </properties>
         </profile>
