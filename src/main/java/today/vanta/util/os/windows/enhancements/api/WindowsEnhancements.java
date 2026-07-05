@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNullByDefault;
 import today.vanta.util.os.windows.WindowsOS;
 import today.vanta.util.os.windows.enhancements.impl.DarkTitleBar;
 import today.vanta.util.os.windows.enhancements.impl.SystemBackdrop;
+import today.vanta.util.os.windows.enhancements.impl.Transparent;
 import today.vanta.util.os.windows.enhancements.impl.WindowCorner;
 import today.vanta.util.os.windows.natives.NtDll;
 
@@ -18,7 +19,7 @@ public final class WindowsEnhancements {
             DarkTitleBar.INSTANCE,
             SystemBackdrop.INSTANCE,
             WindowCorner.INSTANCE,
-            // TODO: more enhancements
+//            Transparent.INSTANCE
     };
 
     public static void apply() {
