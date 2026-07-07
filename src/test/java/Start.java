@@ -1,7 +1,5 @@
 import net.minecraft.client.main.Main;
 
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 import java.util.Arrays;
 
 public class Start {
