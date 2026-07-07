@@ -15,7 +15,7 @@ public final class DarkTitleBar extends WindowsEnhancement<Boolean> {
 
     @Override
     public boolean canApply(final WindowsOS OS) {
-        return OS.buildNumber() >= MIN_BUILD_NUMBER;
+        return OS.build() >= MIN_BUILD_NUMBER;
     }
 
     @Override
@@ -24,7 +24,7 @@ public final class DarkTitleBar extends WindowsEnhancement<Boolean> {
         final WinDef.HWND hwnd = OS.hwnd();
         DwmAPI.INSTANCE.DwmSetWindowAttribute(
                 hwnd,
-                DwmAPI.WindowAttribute.immersiveDarkMode(OS.buildNumber()),
+                DwmAPI.WindowAttribute.immersiveDarkMode(OS.build()),
                 new WinDef.BOOLByReference(new WinDef.BOOL(dark)),
                 DwmAPI.INT_SIZE
         );

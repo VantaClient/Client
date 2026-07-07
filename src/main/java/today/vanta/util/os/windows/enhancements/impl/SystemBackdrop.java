@@ -28,7 +28,7 @@ public final class SystemBackdrop extends WindowsEnhancement<SystemBackdrop.Type
 
     @Override
     public boolean canApply(WindowsOS OS) {
-        return OS.buildNumber() >= 22621;
+        return OS.build() >= 22621;
     }
 
     @Override
@@ -36,7 +36,7 @@ public final class SystemBackdrop extends WindowsEnhancement<SystemBackdrop.Type
         DwmAPI.INSTANCE.DwmSetWindowAttribute(
                 OS.hwnd(),
                 DwmAPI.WindowAttribute.SYSTEMBACKDROP_TYPE,
-                (type != null ? type : Type.AUTO).value(),
+                (type != null ? type : Type.MICA).value(),
                 DwmAPI.INT_SIZE
         );
     }

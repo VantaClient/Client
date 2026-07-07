@@ -25,7 +25,7 @@ public class WindowCorner extends WindowsEnhancement<WindowCorner.Preference> {
 
     @Override
     public boolean canApply(WindowsOS os) {
-        return os.buildNumber() >= 22621;
+        return os.build() >= 22621;
     }
 
     @Override

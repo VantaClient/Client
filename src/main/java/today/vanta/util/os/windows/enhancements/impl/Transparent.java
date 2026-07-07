@@ -7,7 +7,6 @@ import org.jetbrains.annotations.Nullable;
 import today.vanta.util.os.windows.WindowsOS;
 import today.vanta.util.os.windows.enhancements.api.WindowsEnhancement;
 
-// TODO: this doing anything but bugging stuff requires LWJGL 3, I'll port to LWJGL 3 soon.
 @NotNullByDefault
 public final class Transparent extends WindowsEnhancement<Boolean> {
     public static final Transparent INSTANCE = new Transparent();
@@ -38,11 +37,11 @@ public final class Transparent extends WindowsEnhancement<Boolean> {
                 exStyle
         );
 
-        User32.INSTANCE.SetLayeredWindowAttributes(
-                os.hwnd(),
-                0,
-                (byte)255,
-                WinUser.LWA_ALPHA
-        );
+//        User32.INSTANCE.SetLayeredWindowAttributes(
+//                os.hwnd(),
+//                0,
+//                (byte)255,
+//                WinUser.LWA_ALPHA
+//        );
     }
 }
