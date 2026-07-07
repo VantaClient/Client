@@ -5,5 +5,5 @@ import today.vanta.util.os.CommonEnhancement;
 import today.vanta.util.os.osx.enhancements.MacOS;
 
 @NotNullByDefault
-public abstract class OSXEnhancement<C> implements CommonEnhancement<MacOS, C> {
+public abstract class OSXEnhancement implements CommonEnhancement<MacOS> {
 }

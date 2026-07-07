@@ -4,11 +4,11 @@ import com.sun.jna.ptr.IntByReference;
 import org.jetbrains.annotations.NotNullByDefault;
 import org.jetbrains.annotations.Nullable;
 import today.vanta.util.os.windows.WindowsOS;
-import today.vanta.util.os.windows.enhancements.api.WindowsEnhancement;
+import today.vanta.util.os.windows.enhancements.api.WindowsConfigurableEnhancement;
 import today.vanta.util.os.windows.natives.DwmAPI;
 
 @NotNullByDefault
-public final class SystemBackdrop extends WindowsEnhancement<SystemBackdrop.Type> {
+public final class SystemBackdrop extends WindowsConfigurableEnhancement<SystemBackdrop.Type> {
     public static final SystemBackdrop INSTANCE = new SystemBackdrop();
     public enum Type {
         AUTO("Auto"), // 0 Auto

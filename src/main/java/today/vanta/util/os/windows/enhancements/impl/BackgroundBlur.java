@@ -4,7 +4,6 @@ import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinNT;
 import com.sun.jna.ptr.IntByReference;
 import org.jetbrains.annotations.NotNullByDefault;
-import org.jetbrains.annotations.Nullable;
 import today.vanta.Vanta;
 import today.vanta.util.os.windows.WindowsOS;
 import today.vanta.util.os.windows.enhancements.api.WindowsEnhancement;
@@ -12,7 +11,7 @@ import today.vanta.util.os.windows.natives.DwmAPI;
 
 // TODO: make the background blur disable when you leave the main menu
 @NotNullByDefault
-public final class BackgroundBlur extends WindowsEnhancement<Void> {
+public final class BackgroundBlur extends WindowsEnhancement {
     // mfs be saying "if it works don't touch it", but what if my code is absolute trash? do I not touch it?
     public static final BackgroundBlur INSTANCE = new BackgroundBlur();
     private static boolean isBlurBehindSupported(final WindowsOS OS) {
@@ -144,7 +143,7 @@ public final class BackgroundBlur extends WindowsEnhancement<Void> {
     }
 
     @Override
-    public void apply(final WindowsOS OS, @Nullable Void config) {
+    public void apply(final WindowsOS OS) {
         // Windows 11 -> Windows 10 -> Windows Vista until Windows 8 -> update son
         if (micaSupported(OS)) logIfFail(applyMica(OS), "apply Mica blur");
         else if (acrylicSupported(OS)) logIfFail(applyAcrylic(OS), "apply Acrylic blur");

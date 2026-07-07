@@ -1,10 +1,9 @@
 package today.vanta.util.os;
 
 import org.jetbrains.annotations.NotNullByDefault;
-import org.jetbrains.annotations.Nullable;
 
 @NotNullByDefault
-public interface CommonEnhancement<O extends OS, C> {
+public interface CommonEnhancement<O extends OS> {
     boolean canApply(final O os);
-    void apply(final O OS, final @Nullable C config);
+    void apply(final O os);
 }

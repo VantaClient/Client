@@ -29,6 +29,7 @@ public class ModuleStorage extends Storage<Module> {
         list.add(new AutoDisable());
         list.add(new Test());
         list.add(new ClientSounds());
+        list.add(new OSEnhancements());
         list.add(new WindowSettings());
 
         // Combat

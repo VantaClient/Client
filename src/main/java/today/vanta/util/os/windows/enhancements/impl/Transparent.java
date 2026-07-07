@@ -5,10 +5,10 @@ import com.sun.jna.platform.win32.WinUser;
 import org.jetbrains.annotations.NotNullByDefault;
 import org.jetbrains.annotations.Nullable;
 import today.vanta.util.os.windows.WindowsOS;
-import today.vanta.util.os.windows.enhancements.api.WindowsEnhancement;
+import today.vanta.util.os.windows.enhancements.api.WindowsConfigurableEnhancement;
 
 @NotNullByDefault
-public final class Transparent extends WindowsEnhancement<Boolean> {
+public final class Transparent extends WindowsConfigurableEnhancement<Boolean> {
     public static final Transparent INSTANCE = new Transparent();
 
     @Override

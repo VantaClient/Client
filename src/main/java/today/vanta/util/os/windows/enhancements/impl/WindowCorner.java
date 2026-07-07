@@ -4,11 +4,11 @@ import com.sun.jna.ptr.IntByReference;
 import org.jetbrains.annotations.NotNullByDefault;
 import org.jetbrains.annotations.Nullable;
 import today.vanta.util.os.windows.WindowsOS;
-import today.vanta.util.os.windows.enhancements.api.WindowsEnhancement;
+import today.vanta.util.os.windows.enhancements.api.WindowsConfigurableEnhancement;
 import today.vanta.util.os.windows.natives.DwmAPI;
 
 @NotNullByDefault
-public class WindowCorner extends WindowsEnhancement<WindowCorner.Preference> {
+public class WindowCorner extends WindowsConfigurableEnhancement<WindowCorner.Preference> {
     public static final WindowCorner INSTANCE = new WindowCorner();
     public enum Preference {
         DEFAULT("Default"), // 0
