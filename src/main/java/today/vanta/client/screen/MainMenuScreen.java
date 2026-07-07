@@ -3,6 +3,8 @@ package today.vanta.client.screen;
 import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiOptions;
 import net.minecraft.client.gui.GuiSelectWorld;
+import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.opengl.GL11;
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.screen.component.Component;
@@ -14,6 +16,7 @@ import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 import today.vanta.util.game.render.font.CFonts;
 import today.vanta.util.game.render.shape.impl.ImageRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
+import today.vanta.util.os.Enhancements;
 
 import java.awt.*;
 import java.io.IOException;
@@ -51,10 +54,15 @@ public class MainMenuScreen extends VantaScreen {
 
     @EventListen
     private void onRender(RenderScreenEvent event) {
-        Rectangle
-                .create(0, 0, width, height)
-                .color(new Color(20, 20, 20, 0))
-                .push(event);
+        if (Enhancements.supportsWindowBlur()) {
+            GlStateManager.clearColor(0, 0, 0, 0);
+            GlStateManager.clear(GL11.GL_COLOR_BUFFER_BIT);
+        } else {
+            Rectangle
+                    .create(0, 0, width, height)
+                    .color(new Color(20, 20, 20))
+                    .push(event);
+        }
 
         float panelWidth = 0;
         for (String change : IClient.CHANGELOG) {
@@ -97,11 +105,6 @@ public class MainMenuScreen extends VantaScreen {
         if (rotation > 360) {
             rotation = 0;
         }
-
-        Rectangle
-                .create(width - 100 - 20, 20, 100, 100)
-                .color(new Color(20, 20, 20))
-                .push(event);
 
         ImageRectangle
                 .create(width - 100 - 20, 20, 100, 100, -1)

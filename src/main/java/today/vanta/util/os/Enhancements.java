@@ -15,11 +15,15 @@ public final class Enhancements {
                 return WindowsEnhancements::apply;
             case OSX:
                 return OSXEnhancements::apply;
-//            case LINUX:
-//            case UNKNOWN:
-//            case SOLARIS:
+            case LINUX:
+            case UNKNOWN:
+            case SOLARIS:
         }
         return null;
+    }
+
+    public static boolean supportsWindowBlur() {
+        return Util.getOSType() == Util.EnumOS.WINDOWS;
     }
 
     public static void apply() {
