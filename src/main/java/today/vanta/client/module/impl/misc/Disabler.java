@@ -60,7 +60,7 @@ public class Disabler extends Module {
     private void onSendPacket(SendPacketEvent event) {
         if (isProcessing || mc.thePlayer == null) return;
 
-        if (disable.isEnabled("Miniblox")) {
+        if (disable.isEnabled("Miniblox") && !Vanta.instance.moduleStorage.getT(Fly.class).isEnabled()) {
             if (event.packet instanceof C03PacketPlayer) {
                 PacketBuffer packetbuffer = new PacketBuffer(Unpooled.buffer());
                 packetbuffer.writeDouble(mc.thePlayer.lastTickPosX);
