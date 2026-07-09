@@ -49,7 +49,7 @@ public class Fly extends Module {
             case "MinibloxMeme":
                 if (stage == MinibloxStage.MOVE) {
                     mc.thePlayer.motionY = 0;
-                    MovementUtil.strafe(0.29998f);
+                    MovementUtil.strafe(0.06f);
                 }
                 break;
             case "Vanilla":
