@@ -27,6 +27,7 @@ public class Disabler extends Module {
 
     public Disabler() {
         super("Disabler", "Disable anticheats, or at least parts of them.", Category.MISC);
+        displayNames = new String[]{"Disabler", "ConsentBypass", "AntiFBI"};
     }
 
     private final Queue<Packet<?>> packetQueue = new LinkedList<>();
