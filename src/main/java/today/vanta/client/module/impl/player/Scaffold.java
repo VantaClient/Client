@@ -54,7 +54,8 @@ public class Scaffold extends Module {
             keepY = Setting.of("Keep Y", false).hide(() -> rotationMode.isValue("Godbridge")),
             speedKeepY = Setting.of("Keep Y on speed", false).hide(() -> rotationMode.isValue("Godbridge") || keepY.getValue()),
             downwards = Setting.of("Downwards", false).hide(() -> rotationMode.isValue("Godbridge")),
-            smoothRotations = Setting.of("Smooth rotations", false).hide(() -> rotationMode.isValue("Godbridge"));
+            smoothRotations = Setting.of("Smooth rotations", false).hide(() -> rotationMode.isValue("Godbridge")),
+            telly = Setting.of("Telly", false).hide(() -> rotationMode.isValue("Godbridge"));
 
     private final DistanceCounter distCounter = new DistanceCounter();
     private int targetDistance = 7;
@@ -92,6 +93,15 @@ public class Scaffold extends Module {
         });
     }
 
+    private boolean jumped;
+    private boolean unRotateNextTick = false;
+
+    private boolean rotate(Rotation target) {
+        if (telly.getValue() && mc.thePlayer.isSprinting() && mc.thePlayer.onGround && jumped) return false;
+        RotationProcessor.getInstance().setTargetRotation(target);
+        return true;
+    }
+
     @EventListen
     private void onUpdate(UpdateEvent event) {
         if (!mc.thePlayer.onGround) {
@@ -103,116 +113,128 @@ public class Scaffold extends Module {
 
     @EventListen(priority = EventPriority.HIGHEST)
     private void onRunTick(RunTickEvent event) {
-        if (mc.thePlayer != null && event.state == EventState.PRE) {
-            if (InventoryUtil.getHotbarBlockCount() == 0) {
-                this.setEnabled(false);
-                return;
-            }
+        if (mc.thePlayer == null || event.state != EventState.PRE) return;
+        if (InventoryUtil.getHotbarBlockCount() == 0) {
+            this.setEnabled(false);
+            return;
+        }
 
-            if (sprintMode.isValue("Always")) {
-                mc.gameSettings.keyBindSprint.pressed = true;
-            }
+        if (sprintMode.isValue("Always")) {
+            mc.gameSettings.keyBindSprint.pressed = true;
+        }
 
-            if (itemSwitchMode.isValue("Spoof")) {
-                int blockSlot = -1;
-                for (int i = 0; i < 9; i++) {
-                    ItemStack stack = mc.thePlayer.inventory.getStackInSlot(i);
-                    if (stack != null && stack.getItem() instanceof ItemBlock && stack.stackSize > 0 && ((ItemBlock) stack.getItem()).getBlock().isBlockNormalCube()) {
-                        blockSlot = i;
-                        break;
+        switchItem();
+
+        if (!MovementUtil.isMoving() && mc.gameSettings.keyBindJump.isKeyDown() && !mc.gameSettings.keyBindJump.isPressed()) {
+            switch (towerMode.getValue()) {
+                case "Motion":
+                    mc.thePlayer.motionY = 0.5;
+                    break;
+                case "Low":
+                    if (tick < 2) {
+                        mc.thePlayer.motionY = 0.4198499917984999;
                     }
-                }
-
-                if (blockSlot != -1 && lastSlot != blockSlot) {
-                    lastSlot = blockSlot;
-                    if (mc.thePlayer.inventory.currentItem != blockSlot) {
-                        sendPacket(new C09PacketHeldItemChange(blockSlot));
+                    if (tick > 3) {
+                        mc.thePlayer.motionY -= 0.06f;
+                        tick = 0;
                     }
+                    break;
+            }
+        }
+
+        if (rotationMode.isValue("Godbridge")) {
+            distCounter.tick(mc.thePlayer);
+            if (distCounter.getTravelled() >= targetDistance) {
+                if (mc.thePlayer.onGround) {
+                    mc.thePlayer.jump();
                 }
-            } else if (mc.thePlayer.getHeldItem() == null) {
-                switch (itemSwitchMode.getValue()) {
-                    case "Switch":
-                        InventoryUtil.switchToNextSlot();
-                        break;
+                distCounter.reset();
+                targetDistance = 7 + new Random().nextInt(3);
+            }
+        } else if (sneak.getValue() && sneakMode.isValue("Blatant")) {
+            if (unSneakCounter.hasElapsed(unSneakDelay.getValue().longValue(), true)) {
+                mc.gameSettings.keyBindSneak.pressed = Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode());
+            }
+            distCounter.tick(mc.thePlayer);
+            if (distCounter.getTravelled() >= 1) {
+                if (sneakCounter.hasElapsed(sneakDelay.getValue().longValue(), true)) {
+                    mc.gameSettings.keyBindSneak.pressed = true;
                 }
+                distCounter.reset();
+            }
+        }
+
+        if (downwards.getValue() && mc.gameSettings.keyBindSneak.isKeyDown()) {
+            posY = mc.thePlayer.posY - 1.8;
+        } else if (mc.thePlayer.posY < posY || (!mc.thePlayer.onGround && !MovementUtil.isMoving()) || mc.thePlayer.posY - posY > 6 || !shouldKeepY()) {
+            posY = mc.thePlayer.posY - 0.9;
+        }
+
+        BlockPos playerBlockPos = new BlockPos(mc.thePlayer.posX, posY, mc.thePlayer.posZ);
+        TargetProcessor.getInstance().cache = BlockCache.getCache(playerBlockPos);
+
+        if (unRotateNextTick && tick == 0) {
+            unRotateNextTick = false;
+            rots = null;
+            lastRots = null;
+            return;
+        }
+        applyRotations();
+    }
+
+    private void applyRotations() {
+        if (TargetProcessor.getInstance().cache != null) {
+            switch (rotationMode.getValue()) {
+                case "Simple":
+                    rots = smoothRotations.getValue() ? RotationUtil.getSimpleRotations(TargetProcessor.getInstance().cache, lastRots) : RotationUtil.getSimpleRotations(TargetProcessor.getInstance().cache);
+                    break;
+
+                case "Godbridge":
+                    rots = RotationUtil.getGodbridgeRotations(TargetProcessor.getInstance().cache, lastRots);
+                    break;
+
+                case "Static":
+                    rots = RotationUtil.getStaticRotations(TargetProcessor.getInstance().cache, lastRots);
+                    break;
+
+                case "Forward":
+                    rots = RotationUtil.getForwardRotations(TargetProcessor.getInstance().cache, lastRots);
+                    break;
+
+                case "Sideways":
+                    rots = RotationUtil.getSidewaysRotations();
+                    break;
             }
 
-            if (!MovementUtil.isMoving() && mc.gameSettings.keyBindJump.isKeyDown() && !mc.gameSettings.keyBindJump.isPressed()) {
-                switch (towerMode.getValue()) {
-                    case "Motion":
-                        mc.thePlayer.motionY = 0.5;
-                        break;
-                    case "Low":
-                        if (tick < 2) {
-                            mc.thePlayer.motionY = 0.4198499917984999;
-                        }
-                        if (tick > 3) {
-                            mc.thePlayer.motionY -= 0.06f;
-                            tick = 0;
-                        }
-                        break;
-                }
-            }
-
-            if (rotationMode.isValue("Godbridge")) {
-                distCounter.tick(mc.thePlayer);
-                if (distCounter.getTravelled() >= targetDistance) {
-                    if (mc.thePlayer.onGround) {
-                        mc.thePlayer.jump();
-                    }
-                    distCounter.reset();
-                    targetDistance = 7 + new Random().nextInt(3);
-                }
-            } else if (sneak.getValue() && sneakMode.isValue("Blatant")) {
-                if (unSneakCounter.hasElapsed(unSneakDelay.getValue().longValue(), true)) {
-                    mc.gameSettings.keyBindSneak.pressed = Keyboard.isKeyDown(mc.gameSettings.keyBindSneak.getKeyCode());
-                }
-                distCounter.tick(mc.thePlayer);
-                if (distCounter.getTravelled() >= 1) {
-                    if (sneakCounter.hasElapsed(sneakDelay.getValue().longValue(), true)) {
-                        mc.gameSettings.keyBindSneak.pressed = true;
-                    }
-                    distCounter.reset();
-                }
-            }
-
-            if (downwards.getValue() && mc.gameSettings.keyBindSneak.isKeyDown()) {
-                posY = mc.thePlayer.posY - 1.8;
-            } else if (mc.thePlayer.posY < posY || (!mc.thePlayer.onGround && !MovementUtil.isMoving()) || mc.thePlayer.posY - posY > 6 || !shouldKeepY()) {
-                posY = mc.thePlayer.posY - 0.9;
-            }
-
-            BlockPos playerBlockPos = new BlockPos(mc.thePlayer.posX, posY, mc.thePlayer.posZ);
-            TargetProcessor.getInstance().cache = BlockCache.getCache(playerBlockPos);
-
-            if (TargetProcessor.getInstance().cache != null && lastRots != null) {
-                switch (rotationMode.getValue()) {
-                    case "Simple":
-                        rots = smoothRotations.getValue() ? RotationUtil.getSimpleRotations(TargetProcessor.getInstance().cache, lastRots) : RotationUtil.getSimpleRotations(TargetProcessor.getInstance().cache);
-                        break;
-
-                    case "Godbridge":
-                        rots = RotationUtil.getGodbridgeRotations(TargetProcessor.getInstance().cache, lastRots);
-                        break;
-
-                    case "Static":
-                        rots = RotationUtil.getStaticRotations(TargetProcessor.getInstance().cache, lastRots);
-                        break;
-
-                    case "Forward":
-                        rots = RotationUtil.getForwardRotations(TargetProcessor.getInstance().cache, lastRots);
-                        break;
-
-                    case "Sideways":
-                        rots = RotationUtil.getSidewaysRotations();
-                        break;
-                }
-
-                RotationProcessor.getInstance().setTargetRotation(rots);
+            if (rotate(rots)) {
                 lastRots = rots;
-            } else if (lastRots != null) {
-                rots = lastRots;
-                RotationProcessor.getInstance().setTargetRotation(rots);
+            }
+        } else if (lastRots != null) {
+            rots = lastRots;
+            rotate(rots);
+        }
+    }
+
+    private void switchItem() {
+        if (itemSwitchMode.isValue("Spoof")) {
+            int blockSlot = -1;
+            for (int i = 0; i < 9; i++) {
+                ItemStack stack = mc.thePlayer.inventory.getStackInSlot(i);
+                if (stack != null && stack.getItem() instanceof ItemBlock && ((ItemBlock) stack.getItem()).getBlock().minY == 1 && stack.stackSize > 0) {
+                    blockSlot = i;
+                    break;
+                }
+            }
+
+            if (blockSlot != -1 && lastSlot != blockSlot) {
+                lastSlot = blockSlot;
+                if (mc.thePlayer.inventory.currentItem != blockSlot) {
+                    sendPacket(new C09PacketHeldItemChange(blockSlot));
+                }
+            }
+        } else if (mc.thePlayer.getHeldItem() == null) {
+            if (itemSwitchMode.isValue("Switch")) {
+                InventoryUtil.switchToNextSlot();
             }
         }
     }
@@ -220,6 +242,14 @@ public class Scaffold extends Module {
     @EventListen(priority = EventPriority.HIGHEST)
     private void onMotion(MotionEvent event) {
         if (event.state.equals(EventState.PRE)) {
+            if (telly.getValue()) {
+                if (!mc.thePlayer.onGround || !mc.thePlayer.isSprinting()) {
+                    jumped = false;
+                } else {
+                    mc.thePlayer.jump();
+                    jumped = true;
+                }
+            }
             if (sneak.getValue()) {
                 switch (sneakMode.getValue()) {
                     case "Eagle":
@@ -250,6 +280,7 @@ public class Scaffold extends Module {
                     if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, heldItemStack, TargetProcessor.getInstance().cache.pos, TargetProcessor.getInstance().cache.facing, new Vec3(TargetProcessor.getInstance().cache.pos))) {
                         mc.thePlayer.swingItem();
                     }
+                    unRotateNextTick = true;
                 }
             }
         }
