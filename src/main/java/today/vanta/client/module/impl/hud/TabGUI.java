@@ -1,5 +1,5 @@
 package today.vanta.client.module.impl.hud;
-// half of this module is made by Claude (Claude made most of the functions, and I made all of the UI/Design and rendering)
+// half of this module is made by Claude (Claude made most of the functions, and I made all the UI/Design and rendering)
 
 import net.minecraft.client.gui.GuiChat;
 import org.lwjgl.input.Keyboard;
@@ -93,6 +93,7 @@ public class TabGUI extends Module {
         return 0;
     }
 
+    @SuppressWarnings("unused")
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
         ModuleStorage moduleStorage = Vanta.instance.moduleStorage;
@@ -194,13 +195,12 @@ public class TabGUI extends Module {
 
                 }
 
-                for (int i = 0; i < currentModules.size(); i++) {
-                    Module module = currentModules.get(i);
+                for (Module module : currentModules) {
                     CFonts.SFPT_REGULAR_20.drawStringWithShadow(
                             module.name,
                             drawX + 0.5f,
                             drawY - 1,
-                                    (module.isEnabled() ? Vanta.instance.moduleStorage.getT(Theme.class).colors[0] : Color.WHITE)
+                            (module.isEnabled() ? Vanta.instance.moduleStorage.getT(Theme.class).colors[0] : Color.WHITE)
                     );
                     drawY += ROW_HEIGHT;
                 }
@@ -214,13 +214,9 @@ public class TabGUI extends Module {
                     isExpanded = true;
                     hasExpanded = true;
                 }
-                if (isExpanded && !hasExpanded) {
+                if (!hasExpanded) {
                     Module module = moduleStorage.getModulesByCategory(getSelectedCategory()).get(selectedModuleIndex);
-                    if (module.isEnabled()) {
-                        module.setEnabled(false);
-                    } else {
-                        module.setEnabled(true);
-                    }
+                    module.setEnabled(!module.isEnabled());
                 }
                 reset = true;
             }
