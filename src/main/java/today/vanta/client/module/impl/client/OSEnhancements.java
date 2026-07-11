@@ -1,9 +1,13 @@
 package today.vanta.client.module.impl.client;
 
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.Util;
 import today.vanta.client.event.impl.game.render.DisplayGuiScreenEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
+import today.vanta.client.screen.BoxyClickGUIScreen;
+import today.vanta.client.screen.ClickGUIScreen;
+import today.vanta.client.screen.ImGuiClickGUIScreen;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.StringSetting;
@@ -28,12 +32,14 @@ public class OSEnhancements extends Module {
                     DarkTitleBar.INSTANCE.apply(WindowsOS.INSTANCE, newValue));
 
             backdrop.addListener((setting, oldValue, newValue) -> {
+                if (isClickGui(mc.currentScreen)) return;
                 if (!colorMask.getValue() || mc.currentScreen != null) {
                     SystemBackdrop.INSTANCE.apply(WindowsOS.INSTANCE, parseBackdrop(newValue));
                 }
             });
 
             transparent.addListener((setting, oldValue, newValue) -> {
+                if (isClickGui(mc.currentScreen)) return;
                 if (newValue) {
                     Transparent.INSTANCE.apply(WindowsOS.INSTANCE, mc.currentScreen != null);
                 } else {
@@ -59,14 +65,23 @@ public class OSEnhancements extends Module {
     @EventListen
     private void onDisplayGuiScreen(DisplayGuiScreenEvent event) {
         boolean inMenu = event.screen != null;
+        boolean clickGui = isClickGui(event.screen);
 
         if (transparent.getValue()) {
-            Transparent.INSTANCE.apply(WindowsOS.INSTANCE, inMenu);
+            Transparent.INSTANCE.apply(WindowsOS.INSTANCE, inMenu && !clickGui);
         }
 
-        if (colorMask.getValue()) {
+        if (clickGui) {
+            SystemBackdrop.INSTANCE.apply(WindowsOS.INSTANCE, SystemBackdrop.Type.NONE);
+        } else if (colorMask.getValue()) {
             SystemBackdrop.INSTANCE.apply(WindowsOS.INSTANCE, inMenu ? parseBackdrop(backdrop.getValue()) : SystemBackdrop.Type.NONE);
         }
+    }
+
+    private static boolean isClickGui(GuiScreen screen) {
+        return screen instanceof ClickGUIScreen
+                || screen instanceof ImGuiClickGUIScreen
+                || screen instanceof BoxyClickGUIScreen;
     }
 
     private static SystemBackdrop.Type parseBackdrop(String value) {

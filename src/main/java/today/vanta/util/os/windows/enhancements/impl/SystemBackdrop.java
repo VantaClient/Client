@@ -1,5 +1,6 @@
 package today.vanta.util.os.windows.enhancements.impl;
 
+import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.ptr.IntByReference;
 import org.jetbrains.annotations.NotNullByDefault;
 import org.jetbrains.annotations.Nullable;
@@ -39,5 +40,15 @@ public final class SystemBackdrop extends WindowsConfigurableEnhancement<SystemB
                 (type != null ? type : Type.MICA).value(),
                 DwmAPI.INT_SIZE
         );
+
+        if (OS.version.atLeastB(22000) && !OS.version.atLeastB(22523)) {
+            boolean enableMica = type != null && type != Type.NONE;
+            DwmAPI.INSTANCE.DwmSetWindowAttribute(
+                    OS.hwnd(),
+                    DwmAPI.WindowAttribute.MICA_EFFECT,
+                    new WinDef.BOOLByReference(new WinDef.BOOL(enableMica)),
+                    DwmAPI.INT_SIZE
+            );
+        }
     }
 }
