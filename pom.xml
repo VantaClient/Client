@@ -10,6 +10,7 @@
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.release>8</maven.compiler.release>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lwjgl.version>3.4.1</lwjgl.version>
@@ -21,6 +22,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
+                    <release>8</release>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
