@@ -13,6 +13,7 @@ import today.vanta.Vanta;
 import today.vanta.client.event.impl.game.RunTickEvent;
 import today.vanta.client.event.impl.game.network.SendPacketEvent;
 import today.vanta.client.event.impl.game.player.MotionEvent;
+import today.vanta.client.event.impl.game.player.MoveButtonEvent;
 import today.vanta.client.event.impl.game.player.SprintEvent;
 import today.vanta.client.event.impl.game.world.UpdateEvent;
 import today.vanta.client.module.Category;
@@ -103,6 +104,12 @@ public class Scaffold extends Module {
     }
 
     @EventListen
+    private void onMoveButton(MoveButtonEvent e) {
+        if (downwards.getValue() && e.sneak)
+            e.sneak = false;
+    }
+
+    @EventListen
     private void onUpdate(UpdateEvent event) {
         if (!mc.thePlayer.onGround) {
             tick++;
@@ -175,8 +182,8 @@ public class Scaffold extends Module {
 
         if (unRotateNextTick && tick == 0) {
             unRotateNextTick = false;
-            rots = null;
             lastRots = null;
+            rots = null;
             return;
         }
         applyRotations();
@@ -243,9 +250,9 @@ public class Scaffold extends Module {
     private void onMotion(MotionEvent event) {
         if (event.state.equals(EventState.PRE)) {
             if (telly.getValue()) {
-                if (!mc.thePlayer.onGround || !mc.thePlayer.isSprinting()) {
+                if (!mc.thePlayer.onGround) {
                     jumped = false;
-                } else {
+                } else if (mc.gameSettings.keyBindJump.isKeyDown() && mc.thePlayer.isSprinting()) {
                     mc.thePlayer.jump();
                     jumped = true;
                 }
