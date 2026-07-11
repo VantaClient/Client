@@ -1,7 +1,9 @@
 package today.vanta.client.screen;
 
 import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.Session;
+import org.lwjgl.opengl.GL11;
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.screen.component.Component;
@@ -13,6 +15,7 @@ import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 import today.vanta.util.game.render.font.CFonts;
 import today.vanta.util.game.render.shape.impl.Rectangle;
+import today.vanta.util.os.Enhancements;
 
 import java.awt.*;
 import java.io.IOException;
@@ -89,10 +92,15 @@ public class AltLoginScreen extends VantaScreen {
 
     @EventListen
     private void onRender(RenderScreenEvent event) {
-        Rectangle
-                .create(0, 0, width, height)
-                .color(new Color(20, 20, 20))
-                .push(event);
+        if (Enhancements.supportsWindowBlur()) {
+            GlStateManager.clearColor(0, 0, 0, 0);
+            GlStateManager.clear(GL11.GL_COLOR_BUFFER_BIT);
+        } else {
+            Rectangle
+                    .create(0, 0, width, height)
+                    .color(new Color(20, 20, 20))
+                    .push(event);
+        }
 
         buttonText.drawString("(Alt accounts) Left click to login, right click to delete.", 5, 5, new Color(125, 125, 125).getRGB());
 
