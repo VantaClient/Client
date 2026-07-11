@@ -1,8 +1,6 @@
 package today.vanta.client.screen;
 
-import net.minecraft.client.gui.GuiMultiplayer;
 import net.minecraft.client.gui.GuiOptions;
-import net.minecraft.client.gui.GuiSelectWorld;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 import today.vanta.Vanta;
@@ -143,10 +141,10 @@ public class MainMenuScreen extends VantaScreen {
             if (but.click(mouseX, mouseY, 0)) {
                 switch (but.text) {
                     case "Singleplayer":
-                        mc.displayGuiScreen(new GuiSelectWorld(this));
+                        mc.displayGuiScreen(new CustomSingleplayerScreen(this));
                         break;
                     case "Multiplayer":
-                        mc.displayGuiScreen(new GuiMultiplayer(this));
+                        mc.displayGuiScreen(new CustomMultiplayerScreen(this));
                         break;
                     case "Options":
                         mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings));
