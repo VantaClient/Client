@@ -70,12 +70,6 @@ public class OSEnhancements extends Module {
         if (transparent.getValue()) {
             Transparent.INSTANCE.apply(WindowsOS.INSTANCE, inMenu && !clickGui);
         }
-
-        if (clickGui) {
-            SystemBackdrop.INSTANCE.apply(WindowsOS.INSTANCE, SystemBackdrop.Type.NONE);
-        } else if (colorMask.getValue()) {
-            SystemBackdrop.INSTANCE.apply(WindowsOS.INSTANCE, inMenu ? parseBackdrop(backdrop.getValue()) : SystemBackdrop.Type.NONE);
-        }
     }
 
     private static boolean isClickGui(GuiScreen screen) {

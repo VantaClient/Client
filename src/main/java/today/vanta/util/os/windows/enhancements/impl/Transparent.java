@@ -25,16 +25,26 @@ public final class Transparent extends WindowsConfigurableEnhancement<Boolean> {
                 WinUser.GWL_EXSTYLE
         );
 
-        if (transparent) {
-            exStyle |= WinUser.WS_EX_LAYERED;
-        } else {
-            exStyle &= ~WinUser.WS_EX_LAYERED;
-        }
+        exStyle |= WinUser.WS_EX_LAYERED;
 
         User32.INSTANCE.SetWindowLong(
                 os.hwnd(),
                 WinUser.GWL_EXSTYLE,
                 exStyle
         );
+
+        if (transparent) {
+            exStyle &= ~WinUser.WS_EX_LAYERED;
+            User32.INSTANCE.SetWindowLong(os.hwnd(), WinUser.GWL_EXSTYLE, exStyle);
+            exStyle |= WinUser.WS_EX_LAYERED;
+            User32.INSTANCE.SetWindowLong(os.hwnd(), WinUser.GWL_EXSTYLE, exStyle);
+        } else {
+            User32.INSTANCE.SetLayeredWindowAttributes(
+                    os.hwnd(),
+                    0,
+                    (byte) 255,
+                    WinUser.LWA_ALPHA
+            );
+        }
     }
 }
