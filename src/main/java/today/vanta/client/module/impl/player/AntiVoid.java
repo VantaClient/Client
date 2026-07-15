@@ -1,6 +1,5 @@
 package today.vanta.client.module.impl.player;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import today.vanta.client.event.impl.game.network.SendPacketEvent;
 import today.vanta.client.event.impl.game.world.UpdateEvent;
 import today.vanta.client.module.Category;
@@ -10,7 +9,6 @@ import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.game.events.EventListen;
-import today.vanta.util.game.player.ChatUtil;
 import today.vanta.util.game.player.MovementUtil;
 import today.vanta.util.game.player.PlayerUtil;
 
