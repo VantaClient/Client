@@ -80,6 +80,7 @@ public class Disabler extends Module {
                 packetbuffer.writeBoolean(mc.thePlayer.movementInput.jump);
                 packetbuffer.writeBoolean(mc.thePlayer.movementInput.sneak);
                 packetbuffer.writeBoolean(mc.thePlayer.onGround);
+                packetbuffer.writeBoolean(mc.thePlayer.isSprinting());
                 mc.getNetHandler().addToSendQueue(new C17PacketCustomPayload("miniblox:movepacket", packetbuffer));
             }
         }
