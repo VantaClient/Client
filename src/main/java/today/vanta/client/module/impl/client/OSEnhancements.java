@@ -20,7 +20,6 @@ public class OSEnhancements extends Module {
     public final StringSetting backdrop = Setting.of("Backdrop", "Auto", "Auto", "None", "Mica", "Acrylic", "Tabbed");
     public final BooleanSetting transparent = Setting.of("Transparent", true);
     public final StringSetting windowCorner = Setting.of("Window corner", "Default", "Default", "Don't round", "Round", "Round (Small)");
-    public final BooleanSetting colorMask = Setting.of("Color mask", false);
 
     public OSEnhancements() {
         super("OSEnhancements", "Configure OS-specific window enhancements.", Category.CLIENT);
@@ -33,7 +32,7 @@ public class OSEnhancements extends Module {
 
             backdrop.addListener((setting, oldValue, newValue) -> {
                 if (isClickGui(mc.currentScreen)) return;
-                if (!colorMask.getValue() || mc.currentScreen != null) {
+                if (mc.currentScreen != null) {
                     SystemBackdrop.INSTANCE.apply(WindowsOS.INSTANCE, parseBackdrop(newValue));
                 }
             });
@@ -49,12 +48,6 @@ public class OSEnhancements extends Module {
 
             windowCorner.addListener((setting, oldValue, newValue) ->
                     WindowCorner.INSTANCE.apply(WindowsOS.INSTANCE, parseCorner(newValue)));
-
-            colorMask.addListener((setting, oldValue, newValue) -> {
-                if (mc.currentScreen == null) {
-                    SystemBackdrop.INSTANCE.apply(WindowsOS.INSTANCE, newValue ? SystemBackdrop.Type.NONE : parseBackdrop(backdrop.getValue()));
-                }
-            });
 
             if (transparent.getValue() && mc.currentScreen != null) {
                 Transparent.INSTANCE.apply(WindowsOS.INSTANCE, true);
