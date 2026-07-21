@@ -20,15 +20,15 @@ import java.util.Set;
 
 public class ChestESP extends Module {
     private final List<AxisAlignedBB> boxes = new ArrayList<>();
-    private Color color = Vanta.instance.moduleStorage.getT(Theme.class).colors[1];
 
     public ChestESP() {
         super("ChestESP", "Shows you where chests are.", Category.PLAYER);
+        displayNames = new String[] {"ChestESP", "ChestEsp", "StorageESP", "StorageEsp"};
     }
 
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
-        color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
+        Color color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
         boxes.clear();
 
         List<TileEntityChest> chests = new ArrayList<>();
