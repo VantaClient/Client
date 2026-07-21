@@ -12,6 +12,7 @@ public interface Strings {
     List<String> CHANGELOG = Arrays.asList(
             "[#] Fixed Boxy ClickGUI size & position not saving",
             "[#] Fixed glass check checking for barriers",
+            "[#] Fixed macOS ImGui font atlas issue",
             "[#] Fixed Boxy ClickGUI stutterness",
             "[#] Fixed module event crashes",
             "[+] Added StaffDetector",
