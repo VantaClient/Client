@@ -1,13 +1,7 @@
 package today.vanta.client.module.impl.movement;
 
-import net.minecraft.client.renderer.EntityRenderer;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.event.impl.game.player.MotionEvent;
 import today.vanta.client.event.impl.game.player.MoveEvent;
@@ -19,7 +13,6 @@ import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.events.EventState;
-import today.vanta.util.game.player.ChatUtil;
 import today.vanta.util.game.player.InventoryUtil;
 import today.vanta.util.game.player.MovementUtil;
 import today.vanta.util.system.math.Counter;
@@ -40,6 +33,7 @@ public class Fly extends Module {
         super("Fly", "Allows you to fly like a pelican.", Category.MOVEMENT);
         displayNames = new String[]{"Fly", "Flight", "AirWalk", "AirJump"};
     }
+
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
         if (viewBobbing.getValue().floatValue() != 0) {
