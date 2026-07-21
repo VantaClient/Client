@@ -23,8 +23,9 @@ public class VClip extends Command {
         }
 
         int blocks = Integer.parseInt(blocksString);
+        String direction = blocks > 0 ? "up" : blocks < 0 ? "down" : "";
         mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + blocks, mc.thePlayer.posZ);
-        send("Teleported you &e{}&r blocks {}!", blocks, blocks < 0 ? "down" : "up");
+        send("Teleported you &e{}&r blocks {}!", Math.abs(blocks), direction);
     }
 
     @Override
