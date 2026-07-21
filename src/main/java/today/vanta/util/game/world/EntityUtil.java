@@ -25,7 +25,7 @@ public class EntityUtil implements Commons {
     private static final Map<String, Float> skinCache = new ConcurrentHashMap<>();
     private static final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
-    public static Comparator<EntityLivingBase> getComparatorForSorting(String mode) {
+    public static <T extends EntityLivingBase> Comparator<T> getComparatorForSorting(String mode) {
         switch (mode) {
             case "Health":
                 return Comparator.comparingDouble(EntityLivingBase::getHealth);
