@@ -1,6 +1,5 @@
 package today.vanta.client.module.impl.misc;
 
-import com.sun.scenario.animation.shared.AnimationAccessor;
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.event.impl.game.network.PrintChatMessage;
@@ -14,8 +13,6 @@ import today.vanta.util.game.player.ChatUtil;
 import today.vanta.util.game.render.font.CFonts;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 import today.vanta.util.system.math.Counter;
-import today.vanta.util.system.math.animation.Animation;
-import today.vanta.util.system.math.animation.Easing;
 
 import java.awt.*;
 

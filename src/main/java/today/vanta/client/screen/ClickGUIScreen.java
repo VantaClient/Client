@@ -70,9 +70,11 @@ public class ClickGUIScreen extends VantaScreen {
         }
 
 
+        int overlayAlpha = mc.theWorld != null ? (int) (150 * globalAnim) : (int) (255 * globalAnim);
+
         if (Vanta.instance.moduleStorage.getT(ClickGUI.class).darkenBackground.getValue()) {
             Rectangle.create(0, 0, width, height)
-                    .color(new Color(0, 0, 0, (int) (150 * globalAnim)))
+                    .color(new Color(0, 0, 0, overlayAlpha))
                     .push(event);
         }
 
@@ -80,8 +82,8 @@ public class ClickGUIScreen extends VantaScreen {
 
         if (Vanta.instance.moduleStorage.getT(ClickGUI.class).gradientBackground.getValue()) {
             GradientRectangle.create(0, 0, width, height)
-                    .firstColor(new Color(0, 0, 0, (int) (150 * globalAnim)))
-                    .secondColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), (int) (150 * globalAnim)))
+                    .firstColor(new Color(0, 0, 0, overlayAlpha))
+                    .secondColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), overlayAlpha))
                     .gradientMode(GradientMode.VERTICAL)
                     .push(event);
         }

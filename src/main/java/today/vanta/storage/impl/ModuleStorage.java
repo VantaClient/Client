@@ -29,6 +29,7 @@ public class ModuleStorage extends Storage<Module> {
         list.add(new AutoDisable());
         list.add(new Test());
         list.add(new ClientSounds());
+        list.add(new OSEnhancements());
         list.add(new WindowSettings());
 
         // Combat
@@ -76,7 +77,7 @@ public class ModuleStorage extends Storage<Module> {
         list.add(new ChestESP());
 
         // Misc
-        list.add(new Disabler());
+        list.add(Disabler.INSTANCE);
         list.add(new ClientBrand());
         list.add(new Timer());
         list.add(new AntiExploit());

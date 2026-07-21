@@ -1,14 +1,15 @@
 package today.vanta.util.game.render.shape.impl;
 
+import org.jetbrains.annotations.NotNullByDefault;
 import org.lwjgl.opengl.GL11;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.Renderable;
 import today.vanta.util.game.render.shape.GradientMode;
 import today.vanta.util.game.render.shape.Shape;
 
-import javax.annotation.Nonnull;
 import java.awt.*;
 
+@NotNullByDefault
 public class GradientRectangle extends Shape<GradientRectangle> {
     private Color firstColor = Color.WHITE;
     private Color secondColor = Color.BLACK;
@@ -29,17 +30,17 @@ public class GradientRectangle extends Shape<GradientRectangle> {
         return new GradientRectangle(x, y, width, height);
     }
 
-    public GradientRectangle firstColor(@Nonnull Color firstColor) {
+    public GradientRectangle firstColor(Color firstColor) {
         this.firstColor = firstColor;
         return this;
     }
 
-    public GradientRectangle secondColor(@Nonnull Color secondColor) {
+    public GradientRectangle secondColor(Color secondColor) {
         this.secondColor = secondColor;
         return this;
     }
 
-    public GradientRectangle gradientMode(@Nonnull GradientMode gradientMode) {
+    public GradientRectangle gradientMode(GradientMode gradientMode) {
         this.gradientMode = gradientMode;
         return this;
     }

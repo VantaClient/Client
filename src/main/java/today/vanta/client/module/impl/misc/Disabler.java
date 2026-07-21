@@ -17,22 +17,26 @@ import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.MultiStringSetting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.util.game.events.EventListen;
+import today.vanta.util.game.events.EventState;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class Disabler extends Module {
+    public static final Disabler INSTANCE = new Disabler();
     private final MultiStringSetting disable = Setting.of("Disable", new String[]{"Miniblox"}, new String[]{"Miniblox", "Grim", "S08"});
     private final NumberSetting holdLength = Setting.of("Hold length", 50, 0, 1000, "ms").hide(() -> !disable.isEnabled("Grim"));
 
     public Disabler() {
         super("Disabler", "Disable anticheats, or at least parts of them.", Category.MISC);
+        displayNames = new String[]{"Disabler", "ConsentBypass", "AntiFBI"};
     }
 
     private final Queue<Packet<?>> packetQueue = new LinkedList<>();
     private long lastSendTime = 0;
     private boolean isProcessing = false;
+    public boolean sendInput = true;
 
     @EventListen
     private void onUpdate(UpdateEvent event) {
@@ -56,6 +60,9 @@ public class Disabler extends Module {
             if (speedEffect != null) {
                 mc.thePlayer.moveForward = mc.thePlayer.capabilities.getWalkSpeed() * speedEffect.getAmplifier();
             }
+            if (event.state == EventState.POST) {
+                sendInput = true;
+            }
         }
     }
 
@@ -63,7 +70,7 @@ public class Disabler extends Module {
     private void onSendPacket(SendPacketEvent event) {
         if (isProcessing || mc.thePlayer == null) return;
 
-        if (disable.isEnabled("Miniblox")) {
+        if (disable.isEnabled("Miniblox") && sendInput) {
             if (event.packet instanceof C03PacketPlayer) {
                 PacketBuffer packetbuffer = new PacketBuffer(Unpooled.buffer());
                 packetbuffer.writeDouble(mc.thePlayer.lastTickPosX);

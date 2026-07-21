@@ -40,7 +40,7 @@ public class ScreenProcessor extends Processor {
 
     @EventListen
     private void onDisplayGui(DisplayGuiScreenEvent event) {
-        if (event.screen == null && mc.theWorld == null) {
+        if (event.screen == null && mc.theWorld == null && mc.thePlayer == null) {
             event.screen = screenStorage.getT(MainMenuScreen.class);
         }
 

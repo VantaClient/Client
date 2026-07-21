@@ -259,23 +259,14 @@ public class ImGuiLwjgl2 {
             if (key < keyOwnerWindows.length && pressed != io.getKeysDown(key)) {
                 io.setKeysDown(key, pressed);
 
-                switch (key) {
-                    case Keyboard.KEY_LCONTROL:
-                    case Keyboard.KEY_RCONTROL:
-                        io.setKeyCtrl(io.getKeysDown(Keyboard.KEY_LCONTROL) || io.getKeysDown(Keyboard.KEY_RCONTROL));
-                        break;
-                    case Keyboard.KEY_LSHIFT:
-                    case Keyboard.KEY_RSHIFT:
-                        io.setKeyShift(io.getKeysDown(Keyboard.KEY_LSHIFT) || io.getKeysDown(Keyboard.KEY_RSHIFT));
-                        break;
-                    case Keyboard.KEY_LMENU:
-                    case Keyboard.KEY_RMENU:
-                        io.setKeyAlt(io.getKeysDown(Keyboard.KEY_LMENU) || io.getKeysDown(Keyboard.KEY_RMENU));
-                        break;
-                    case Keyboard.KEY_LMETA:
-                    case Keyboard.KEY_RMETA:
-                        io.setKeySuper(io.getKeysDown(Keyboard.KEY_LMETA) || io.getKeysDown(Keyboard.KEY_RMETA));
-                        break;
+                if (key == Keyboard.KEY_LCONTROL || key == Keyboard.KEY_RCONTROL) {
+                    io.setKeyCtrl(io.getKeysDown(Keyboard.KEY_LCONTROL) || io.getKeysDown(Keyboard.KEY_RCONTROL));
+                } else if (key == Keyboard.KEY_LSHIFT || key == Keyboard.KEY_RSHIFT) {
+                    io.setKeyShift(io.getKeysDown(Keyboard.KEY_LSHIFT) || io.getKeysDown(Keyboard.KEY_RSHIFT));
+                } else if (key == Keyboard.KEY_LMENU || key == Keyboard.KEY_RMENU) {
+                    io.setKeyAlt(io.getKeysDown(Keyboard.KEY_LMENU) || io.getKeysDown(Keyboard.KEY_RMENU));
+                } else if (key == Keyboard.KEY_LMETA || key == Keyboard.KEY_RMETA) {
+                    io.setKeySuper(io.getKeysDown(Keyboard.KEY_LMETA) || io.getKeysDown(Keyboard.KEY_RMETA));
                 }
             }
         }

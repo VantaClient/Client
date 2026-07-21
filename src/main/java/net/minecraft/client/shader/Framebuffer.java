@@ -179,7 +179,7 @@ public class Framebuffer {
 
     public void framebufferRenderExt(int p_178038_1_, int p_178038_2_, boolean p_178038_3_) {
         if (OpenGlHelper.isFramebufferEnabled()) {
-            GlStateManager.colorMask(true, true, true, false);
+            GlStateManager.colorMask(true, true, true, true);
             GlStateManager.disableDepth();
             GlStateManager.depthMask(false);
             GlStateManager.matrixMode(5889);

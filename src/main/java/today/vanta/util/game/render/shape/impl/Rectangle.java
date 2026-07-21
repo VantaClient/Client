@@ -1,13 +1,14 @@
 package today.vanta.util.game.render.shape.impl;
 
+import org.jetbrains.annotations.NotNullByDefault;
 import org.lwjgl.opengl.GL11;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.Renderable;
 import today.vanta.util.game.render.shape.Shape;
 
-import javax.annotation.Nonnull;
 import java.awt.*;
 
+@NotNullByDefault
 public class Rectangle extends Shape<Rectangle> {
     private Color color = Color.WHITE;
 
@@ -25,7 +26,7 @@ public class Rectangle extends Shape<Rectangle> {
         return new Rectangle(x, y, width, height);
     }
 
-    public Rectangle color(@Nonnull Color color) {
+    public Rectangle color(Color color) {
         this.color = color;
         return this;
     }

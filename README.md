@@ -2,7 +2,7 @@
 <p>
   Vanta Client is a blatant Minecraft 1.8.9 cheat client for servers like funnymc.ru, miniblox.io & more.
   It's built on top of MCP + Optifine sources 1.8.9 and has code from other projects.
-  <img src="https://i.imgur.com/71GnVBp.png" width="148" height="148" align="right">
+  <img src="https://i.imgur.com/71GnVBp.png" width="148" height="148" align="right" alt="Vanta logo">
     <br>Use Azul Zulu JDK 8, many other JDKs are known to mess with the font renderer<br>
 </p>
 
@@ -11,9 +11,9 @@
 - CFontRenderer @ https://github.com/IUDevman/gamesense-client
 
 ## Visuals
-- ClickGUI ![](https://i.imgur.com/cN2ndrX.png)
-- Main menu ![](https://i.imgur.com/aFR2CaO.png)
-- Alt manager ![](https://i.imgur.com/rlWefBb.png)
+- ![ClickGUI](https://i.imgur.com/cN2ndrX.png)
+- ![Main Menu](https://i.imgur.com/aFR2CaO.png)
+- ![Alt manager](https://i.imgur.com/rlWefBb.png)
 
 ## How to Start (Intellij IDEA)
 -> Use JDK8

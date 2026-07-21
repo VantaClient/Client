@@ -402,6 +402,9 @@ public class ClickTeleport extends Module {
         GlStateManager.enableLighting();
         GlStateManager.enableDepth();
         GlStateManager.enableTexture2D();
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.disableBlend();
+        GL11.glLineWidth(1.0F);
         GlStateManager.popMatrix();
     }
 

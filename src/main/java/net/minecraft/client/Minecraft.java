@@ -54,8 +54,8 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLeashKnot;
 import net.minecraft.entity.EntityList;
-import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.item.*;
+import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Bootstrap;
@@ -95,7 +95,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -111,6 +110,8 @@ import today.vanta.client.event.impl.system.KeyboardEvent;
 import today.vanta.util.client.Strings;
 import today.vanta.util.game.events.EventState;
 import today.vanta.util.game.render.font.impl.BitMapFontRenderer;
+import today.vanta.util.os.Enhancements;
+import today.vanta.util.os.windows.enhancements.impl.DarkTitleBar;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -301,7 +302,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
         }
     }
 
-    private void startGame() throws LWJGLException, IOException {
+    private void startGame() throws IOException {
         this.gameSettings = new GameSettings(this, this.mcDataDir);
         this.defaultResourcePacks.add(this.mcDefaultResourcePack);
         this.startTimerHackThread();
@@ -426,29 +427,14 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
         this.metadataSerializer_.registerMetadataSectionType(new LanguageMetadataSectionSerializer(), LanguageMetadataSection.class);
     }
 
-    private void createDisplay() throws LWJGLException {
+    private void createDisplay() {
         Display.setResizable(true);
         Display.setTitle(Strings.CLIENT_FULL_TITLE);
-
-        try {
-            Display.create((new PixelFormat()).withDepthBits(24));
-        } catch (LWJGLException lwjglexception) {
-            logger.error("Couldn't set pixel format", lwjglexception);
-
-            try {
-                Thread.sleep(1000L);
-            } catch (InterruptedException var3) {
-            }
-
-            if (this.fullscreen) {
-                this.updateDisplayMode();
-            }
-
-            Display.create();
-        }
+        Display.create();
+        Enhancements.apply();
     }
 
-    private void setInitialDisplayMode() throws LWJGLException {
+    private void setInitialDisplayMode() {
         if (this.fullscreen) {
             Display.setFullscreen(true);
             DisplayMode displaymode = Display.getDisplayMode();
@@ -589,7 +575,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
         return bytebuffer;
     }
 
-    private void updateDisplayMode() throws LWJGLException {
+    private void updateDisplayMode() {
         Set<DisplayMode> set = Sets.newHashSet();
         Collections.addAll(set, Display.getAvailableDisplayModes());
         DisplayMode displaymode = Display.getDesktopDisplayMode();
@@ -633,7 +619,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
         this.displayHeight = displaymode.getHeight();
     }
 
-    private void drawSplashScreen(TextureManager textureManagerInstance) throws LWJGLException {
+    private void drawSplashScreen(TextureManager textureManagerInstance) {
         ScaledResolution scaledresolution = new ScaledResolution(this);
         int i = scaledresolution.getScaleFactor();
         Framebuffer framebuffer = new Framebuffer(scaledresolution.getScaledWidth() * i, scaledresolution.getScaledHeight() * i, true);
@@ -1234,7 +1220,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
         }
     }
 
-    private void resize(int width, int height) {
+    public void resize(int width, int height) {
         this.displayWidth = Math.max(1, width);
         this.displayHeight = Math.max(1, height);
 
@@ -2017,7 +2003,12 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
         });
         theCrash.getCategory().addCrashSectionCallable("OpenGL", new Callable<String>() {
             public String call() {
-                return GL11.glGetString(GL11.GL_RENDERER) + " GL version " + GL11.glGetString(GL11.GL_VERSION) + ", " + GL11.glGetString(GL11.GL_VENDOR);
+                try {
+                    GL.getCapabilities();
+                    return GL11.glGetString(GL11.GL_RENDERER) + " GL version " + GL11.glGetString(GL11.GL_VERSION) + ", " + GL11.glGetString(GL11.GL_VENDOR);
+                } catch (Exception e) {
+                    return "Unknown (GL not initialized)";
+                }
             }
         });
         theCrash.getCategory().addCrashSectionCallable("GL Caps", new Callable<String>() {

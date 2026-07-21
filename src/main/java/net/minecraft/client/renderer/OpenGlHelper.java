@@ -5,11 +5,12 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.src.Config;
 import org.lwjgl.opengl.*;
 import oshi.SystemInfo;
-import oshi.hardware.Processor;
+import oshi.hardware.CentralProcessor;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -278,8 +279,8 @@ public class OpenGlHelper {
         }
 
         try {
-            Processor[] aprocessor = (new SystemInfo()).getHardware().getProcessors();
-            cpu = String.format("%dx %s", Integer.valueOf(aprocessor.length), aprocessor[0]).replaceAll("\\s+", " ");
+            CentralProcessor aprocessor = (new SystemInfo()).getHardware().getProcessor();
+            cpu = String.format("%dx %s", aprocessor.getLogicalProcessorCount(), aprocessor).replaceAll("\\s+", " ");
         } catch (Throwable var5) {
         }
     }
@@ -318,9 +319,9 @@ public class OpenGlHelper {
 
     public static void glShaderSource(int shaderIn, ByteBuffer string) {
         if (arbShaders) {
-            ARBShaderObjects.glShaderSourceARB(shaderIn, string);
+            ARBShaderObjects.glShaderSourceARB(shaderIn, StandardCharsets.UTF_8.decode(string).toString());
         } else {
-            GL20.glShaderSource(shaderIn, string);
+            GL20.glShaderSource(shaderIn, StandardCharsets.UTF_8.decode(string).toString());
         }
     }
 
@@ -378,7 +379,7 @@ public class OpenGlHelper {
 
     public static void glUniform1(int location, IntBuffer values) {
         if (arbShaders) {
-            ARBShaderObjects.glUniform1ARB(location, values);
+            ARBShaderObjects.glUniform1ivARB(location, values);
         } else {
             GL20.glUniform1(location, values);
         }
@@ -394,7 +395,7 @@ public class OpenGlHelper {
 
     public static void glUniform1(int location, FloatBuffer values) {
         if (arbShaders) {
-            ARBShaderObjects.glUniform1ARB(location, values);
+            ARBShaderObjects.glUniform1fvARB(location, values);
         } else {
             GL20.glUniform1(location, values);
         }
@@ -402,7 +403,7 @@ public class OpenGlHelper {
 
     public static void glUniform2(int location, IntBuffer values) {
         if (arbShaders) {
-            ARBShaderObjects.glUniform2ARB(location, values);
+            ARBShaderObjects.glUniform2ivARB(location, values);
         } else {
             GL20.glUniform2(location, values);
         }
@@ -410,7 +411,7 @@ public class OpenGlHelper {
 
     public static void glUniform2(int location, FloatBuffer values) {
         if (arbShaders) {
-            ARBShaderObjects.glUniform2ARB(location, values);
+            ARBShaderObjects.glUniform2fvARB(location, values);
         } else {
             GL20.glUniform2(location, values);
         }
@@ -418,7 +419,7 @@ public class OpenGlHelper {
 
     public static void glUniform3(int location, IntBuffer values) {
         if (arbShaders) {
-            ARBShaderObjects.glUniform3ARB(location, values);
+            ARBShaderObjects.glUniform3ivARB(location, values);
         } else {
             GL20.glUniform3(location, values);
         }
@@ -426,7 +427,7 @@ public class OpenGlHelper {
 
     public static void glUniform3(int location, FloatBuffer values) {
         if (arbShaders) {
-            ARBShaderObjects.glUniform3ARB(location, values);
+            ARBShaderObjects.glUniform3fvARB(location, values);
         } else {
             GL20.glUniform3(location, values);
         }
@@ -434,7 +435,7 @@ public class OpenGlHelper {
 
     public static void glUniform4(int location, IntBuffer values) {
         if (arbShaders) {
-            ARBShaderObjects.glUniform4ARB(location, values);
+            ARBShaderObjects.glUniform4ivARB(location, values);
         } else {
             GL20.glUniform4(location, values);
         }
@@ -442,7 +443,7 @@ public class OpenGlHelper {
 
     public static void glUniform4(int location, FloatBuffer values) {
         if (arbShaders) {
-            ARBShaderObjects.glUniform4ARB(location, values);
+            ARBShaderObjects.glUniform4fvARB(location, values);
         } else {
             GL20.glUniform4(location, values);
         }
@@ -450,7 +451,7 @@ public class OpenGlHelper {
 
     public static void glUniformMatrix2(int location, boolean transpose, FloatBuffer matrices) {
         if (arbShaders) {
-            ARBShaderObjects.glUniformMatrix2ARB(location, transpose, matrices);
+            ARBShaderObjects.glUniformMatrix2fvARB(location, transpose, matrices);
         } else {
             GL20.glUniformMatrix2(location, transpose, matrices);
         }
@@ -458,7 +459,7 @@ public class OpenGlHelper {
 
     public static void glUniformMatrix3(int location, boolean transpose, FloatBuffer matrices) {
         if (arbShaders) {
-            ARBShaderObjects.glUniformMatrix3ARB(location, transpose, matrices);
+            ARBShaderObjects.glUniformMatrix3fvARB(location, transpose, matrices);
         } else {
             GL20.glUniformMatrix3(location, transpose, matrices);
         }

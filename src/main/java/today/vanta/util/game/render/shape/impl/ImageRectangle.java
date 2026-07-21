@@ -2,15 +2,17 @@ package today.vanta.util.game.render.shape.impl;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.NotNullByDefault;
 import org.lwjgl.opengl.GL11;
 import today.vanta.util.game.render.ImageUtil;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.Renderable;
 import today.vanta.util.game.render.shape.Shape;
 
-import javax.annotation.Nonnull;
 import java.awt.*;
 
+@NotNullByDefault
 public class ImageRectangle extends Shape<ImageRectangle> {
     private int textureId = -1;
     private Color color = Color.WHITE;
@@ -53,7 +55,7 @@ public class ImageRectangle extends Shape<ImageRectangle> {
         return this;
     }
 
-    public ImageRectangle color(@Nonnull Color color) {
+    public ImageRectangle color(Color color) {
         this.color = color;
         return this;
     }

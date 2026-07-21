@@ -25,7 +25,7 @@ import today.vanta.util.game.player.MovementUtil;
 import today.vanta.util.system.math.Counter;
 
 public class Fly extends Module {
-    private final StringSetting mode = Setting.of("Mode", "Vanilla", "Vanilla", "Miniblox", "Teleport", "Jump", "AirPlace");
+    private final StringSetting mode = Setting.of("Mode", "Vanilla", "Vanilla", "Teleport", "Jump", "AirPlace");
     private final NumberSetting speed = Setting.of("Speed", 2f, 0.1f,10f,1).hide(() -> !mode.isValue("Vanilla"));
 
     private final NumberSetting distance = Setting.of("TP distance", 3, 0, 10, "m").hide(() -> !mode.isValue("Teleport"));
@@ -33,8 +33,6 @@ public class Fly extends Module {
     private final NumberSetting viewBobbing = Setting.of("View-bob amount", 0.8f, 0.0f, 1f, 1);
 
     private final Counter jumpCounter = new Counter();
-
-    private double prevposY;
 
     public Fly() {
         super("Fly", "Allows you to fly like a pelican.", Category.MOVEMENT);
@@ -47,6 +45,7 @@ public class Fly extends Module {
         }
     }
 
+    @SuppressWarnings("unused")
     @EventListen
     private void onUpdate(UpdateEvent event) {
         switch (mode.getValue()) {
@@ -62,7 +61,7 @@ public class Fly extends Module {
                 }
                 break;
             case "Jump":
-                if (jumpCounter.hasElapsed(550, true)) {
+                if (jumpCounter.hasElapsed(540, true)) {
                     mc.thePlayer.jump();
                 }
                 break;
@@ -94,17 +93,17 @@ public class Fly extends Module {
         }
     }
 
+    @SuppressWarnings("unused")
     @EventListen
     private void onMotion(MotionEvent event) {
         if (event.state == EventState.PRE) {
-            switch (mode.getValue()) {
-                case "Teleport":
-                    mc.thePlayer.motionY = 0;
+            if (mode.isValue("Teleport")) {
+                mc.thePlayer.motionY = 0;
 
-                    if ((mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0)
-                            && mc.thePlayer.ticksExisted % ticks.getValue().intValue() == 0) {
+                if ((mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0)
+                        && mc.thePlayer.ticksExisted % ticks.getValue().intValue() == 0) {
 
-                        double distance = this.distance.getValue().intValue();
+                    double distance = this.distance.getValue().intValue();
 
                         mc.thePlayer.setPosition(
                                 mc.thePlayer.posX - Math.sin(Math.toRadians(mc.thePlayer.rotationYaw)) * distance,
@@ -112,30 +111,14 @@ public class Fly extends Module {
                                 mc.thePlayer.posZ + Math.cos(Math.toRadians(mc.thePlayer.rotationYaw)) * distance
                         );
                     }
-                    break;
-
-                case "Miniblox":
-                    MovementUtil.strafe(0.15f);
-                    if (mc.thePlayer.posY <= prevposY) {
-                        mc.thePlayer.jump();
-                    }
-                    break;
             }
         }
     }
 
     @EventListen
+    @SuppressWarnings("unused")
     private void onMove(MoveEvent event) {
-        if (mode.isValue("Teleport")) {
-            event.setSpeed(0);
-        }
-    }
-
-    @Override
-    public void onEnable() {
-        if (mc.thePlayer == null) return;
-
-        prevposY = mc.thePlayer.posY;
+        if (mode.isValue("Teleport")) event.setSpeed(0);
     }
 
     @Override
