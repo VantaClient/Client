@@ -17,7 +17,6 @@ public class ImGuiImpl {
         ImGui.createContext();
         imGuiLwjgl.init();
         imGuiGl.init();
-        ImGui.init();
     }
 
     public static void draw(ImGuiCall call) {
@@ -35,9 +34,13 @@ public class ImGuiImpl {
     }
 
     public static void render(Framebuffer fb, float delta) {
-        //startup fix
         if (delta <= 0f) delta = 0.1f;
         imGuiLwjgl.newFrame(fb.framebufferWidth, fb.framebufferHeight, delta);
+
+        if (!ImGui.getIO().getFonts().isBuilt()) {
+            imGuiGl.updateFontsTexture();
+        }
+
         ImGui.newFrame();
 
         list.forEach(ImGuiCall::execute);
