@@ -28,7 +28,7 @@ public class Watermark extends Module {
     private static final Color BACKGROUND = new Color(20, 20, 20, 190);
 
     private final StringSetting
-            style = Setting.of("Style", "Vanta", "Vanta", "Jello", "Char", "Exhi", "Adjust" , "Vestige"),
+            style = Setting.of("Style", "Vanta", "Vanta", "Jello", "Char", "Exhi", "Adjust" , "Vestige", "Clean"),
             fontMode = Setting.of("Font mode", "Exhi", "Exhi", "Minecraft", "SFPT").hide(() -> !style.isValue("Exhi"));
 
     public Watermark() {
@@ -103,6 +103,14 @@ public class Watermark extends Module {
                         .push(event);
 
                 CFonts.SFPT_MEDIUM_24.drawString(Strings.CLIENT_NAME + " v"+ Strings.CLIENT_VERSION, 2,4,Color.WHITE,false);
+                break;
+            case "Clean":
+                Rectangle
+                        .create(2,2,63f,13f)
+                        .color(BACKGROUND)
+                        .push(event);
+                CFonts.getFont("SFPT-Medium", 24).drawHorizontalGradientString(firstChar, 2, 1, colors[0], colors[1],1,1);
+                CFonts.getFont("SFPT-Regular", 24).drawStringWithShadow(watermarkText + EnumChatFormatting.GRAY + " v" + Strings.CLIENT_VERSION, 10, 1, Color.WHITE);
                 break;
         }
     }
