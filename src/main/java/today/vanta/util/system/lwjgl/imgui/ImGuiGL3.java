@@ -124,7 +124,13 @@ public final class ImGuiGL3 {
         setupBackendCapabilitiesFlags();
 
         if (glslVersion == null) {
-            this.glslVersion = "#version 130";
+            if (glVersion < 210) {
+                this.glslVersion = "#version 110";
+            } else if (glVersion == 210) {
+                this.glslVersion = "#version 120";
+            } else {
+                this.glslVersion = "#version 130";
+            }
         } else {
             this.glslVersion = glslVersion;
         }
@@ -247,9 +253,15 @@ public final class ImGuiGL3 {
     }
 
     private void readGlVersion() {
-        final int major = glGetInteger(GL_MAJOR_VERSION);
-        final int minor = glGetInteger(GL_MINOR_VERSION);
-        glVersion = major * 100 + minor * 10;
+        String versionStr = glGetString(GL_VERSION);
+        if (versionStr != null) {
+            String[] parts = versionStr.split("\\s+")[0].split("\\.");
+            int major = Integer.parseInt(parts[0]);
+            int minor = parts.length > 1 ? Integer.parseInt(parts[1]) : 0;
+            glVersion = major * 100 + minor * 10;
+        } else {
+            glVersion = 0;
+        }
     }
 
     private void setupBackendCapabilitiesFlags() {
