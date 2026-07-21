@@ -80,7 +80,9 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
         this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, I18n.format("gui.cancel")));
         this.selectServer(this.serverListSelector.func_148193_k());
         //VIA VERSION
-        this.buttonList.add(ViaMCP.INSTANCE.getAsyncVersionSlider());
+        if (ViaMCP.INSTANCE != null && ViaMCP.INSTANCE.getAsyncVersionSlider() != null) {
+            this.buttonList.add(ViaMCP.INSTANCE.getAsyncVersionSlider());
+        }
     }
 
     public void updateScreen() {
