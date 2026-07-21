@@ -9,24 +9,30 @@ import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.player.ChatUtil;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class StaffDetector extends Module {
-    private static final List<Object> STAFF = Collections.unmodifiableList(Arrays.asList(
+    private static final List<String> MINIBLOX_STAFF = Arrays.asList(
             "joudaalt", "MineTrumps"
-    ));
+    );
+
     private String oldTarget;
+
     public StaffDetector() {
         super("StaffDetector", "Detects ze staff.", Category.MISC);
     }
+
     @EventListen
     private void onUpdate(UpdateEvent event) {
-        for (int i = 0; i < TargetProcessor.getInstance().playerlist.size(); i++) {
-            EntityPlayer entityPlayer = (EntityPlayer) TargetProcessor.getInstance().playerlist.get(i);
-            if (STAFF.toString().toLowerCase().contains(mc.thePlayer.getName().toLowerCase()) && !mc.thePlayer.getName().equals(oldTarget)) {
-                ChatUtil.send(ChatUtil.Prefix.WARNING, entityPlayer.getName() + " Might be Staff!");
-                oldTarget = mc.thePlayer.getName();
+        for (EntityPlayer player : TargetProcessor.getInstance().playerlist) {
+            if (MINIBLOX_STAFF.stream()
+                    .anyMatch(name -> name.equalsIgnoreCase(player.getName()))
+                    && !player.getName().equalsIgnoreCase(oldTarget)) {
+
+                ChatUtil.send(ChatUtil.Prefix.WARNING,
+                        player.getName() + " might be staff!");
+
+                oldTarget = player.getName();
             }
         }
     }
