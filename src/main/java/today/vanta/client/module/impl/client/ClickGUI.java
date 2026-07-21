@@ -11,6 +11,7 @@ import today.vanta.client.screen.VantaScreen;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.StringSetting;
+import today.vanta.util.system.lwjgl.imgui.ImGuiImpl;
 
 public class ClickGUI extends Module {
     public final BooleanSetting
@@ -25,6 +26,12 @@ public class ClickGUI extends Module {
     public ClickGUI() {
         super("ClickGUI", "Opens up the ClickGUI.", Category.CLIENT, Keyboard.KEY_RSHIFT);
         hideFromArraylist = true;
+
+        design.addListener((setting, oldValue, newValue) -> {
+            if (newValue.equals("ImGui") && ImGuiImpl.DISABLED) {
+                design.setValue(!oldValue.equals("ImGui") ? oldValue : "Dropdown");
+            }
+        });
     }
 
     private ClickGUIScreen clickGUIScreen;
