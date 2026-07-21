@@ -14,6 +14,7 @@ public interface Strings {
             "[#] Fixed glass check checking for barriers",
             "[#] Fixed Boxy ClickGUI stutterness",
             "[#] Fixed module event crashes",
+            "[+] Added StaffDetector",
             "[~] Moved NoWeb to separate module class",
             "[~] Moved ImGui ini file path"
     );
