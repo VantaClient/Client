@@ -69,6 +69,8 @@ public class Scaffold extends Module {
     private double posY;
     private int lastSlot = -1;
 
+    private BlockCache cache;
+
     public Scaffold() {
         super("Scaffold", "Bridges for you.", Category.PLAYER);
         displayNames = new String[]{"Scaffold", "ScaffoldWalk", "BlockFly"};
@@ -187,30 +189,30 @@ public class Scaffold extends Module {
 
             BlockPos playerBlockPos = new BlockPos(mc.thePlayer.posX, posY, mc.thePlayer.posZ);
             if (miniblox.getValue()) {
-                TargetProcessor.getInstance().cache = BlockCache.getCache(playerBlockPos, mc.thePlayer.rotationYaw);
+                cache = BlockCache.getCache(playerBlockPos, mc.thePlayer.rotationYaw);
             } else {
-                TargetProcessor.getInstance().cache = BlockCache.getCache(playerBlockPos);
+                cache = BlockCache.getCache(playerBlockPos);
             }
 
-            if (TargetProcessor.getInstance().cache != null && lastRots != null) {
+            if (cache != null && lastRots != null) {
                 switch (rotationMode.getValue()) {
                     case "None":
                         rots = new Rotation(mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch);
                         break;
                     case "Simple":
-                        rots = smoothRotations.getValue() ? RotationUtil.getSimpleRotations(TargetProcessor.getInstance().cache, lastRots) : RotationUtil.getSimpleRotations(TargetProcessor.getInstance().cache);
+                        rots = smoothRotations.getValue() ? RotationUtil.getSimpleRotations(cache, lastRots) : RotationUtil.getSimpleRotations(cache);
                         break;
 
                     case "Godbridge":
-                        rots = RotationUtil.getGodbridgeRotations(TargetProcessor.getInstance().cache, lastRots);
+                        rots = RotationUtil.getGodbridgeRotations(cache, lastRots);
                         break;
 
                     case "Static":
-                        rots = RotationUtil.getStaticRotations(TargetProcessor.getInstance().cache, lastRots);
+                        rots = RotationUtil.getStaticRotations(cache, lastRots);
                         break;
 
                     case "Forward":
-                        rots = RotationUtil.getForwardRotations(TargetProcessor.getInstance().cache, lastRots);
+                        rots = RotationUtil.getForwardRotations(cache, lastRots);
                         break;
 
                     case "Sideways":
@@ -249,7 +251,7 @@ public class Scaffold extends Module {
                 }
             }
 
-            if (mc.thePlayer != null && TargetProcessor.getInstance().cache != null) {
+            if (mc.thePlayer != null && cache != null) {
                 ItemStack heldItemStack = mc.thePlayer.getHeldItem();
 
                 if (itemSwitchMode.isValue("Spoof") && lastSlot != -1) {
@@ -257,7 +259,7 @@ public class Scaffold extends Module {
                 }
 
                 if (rots != null && heldItemStack != null && heldItemStack.getItem() instanceof ItemBlock) {
-                    if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, heldItemStack, TargetProcessor.getInstance().cache.pos, TargetProcessor.getInstance().cache.facing, new Vec3(TargetProcessor.getInstance().cache.pos))) {
+                    if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, heldItemStack, cache.pos, cache.facing, new Vec3(cache.pos))) {
                         mc.thePlayer.swingItem();
                     }
                 }
@@ -304,6 +306,7 @@ public class Scaffold extends Module {
         rots = null;
         lastRots = null;
         lastSlot = -1;
+        cache = null;
 
         if (mc.thePlayer == null) return;
         if (itemSwitchMode.isValue("Spoof") && lastSlot != -1 && lastSlot != mc.thePlayer.inventory.currentItem) {

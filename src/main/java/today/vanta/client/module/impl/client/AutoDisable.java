@@ -9,6 +9,7 @@ import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
 import today.vanta.client.module.impl.movement.Fly;
 import today.vanta.client.module.impl.movement.Speed;
+import today.vanta.client.module.impl.player.Scaffold;
 import today.vanta.client.processor.impl.TargetProcessor;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
@@ -82,7 +83,7 @@ public class AutoDisable extends Module {
 
     private void disableModules() {
         if (modules.isEnabled("Scaffold")) {
-            TargetProcessor.getInstance().scaffold.setEnabled(false);
+            Vanta.instance.moduleStorage.getT(Scaffold.class).setEnabled(false);
         }
 
         if (modules.isEnabled("KillAura")) {

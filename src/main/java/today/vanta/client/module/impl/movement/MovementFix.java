@@ -1,10 +1,12 @@
 package today.vanta.client.module.impl.movement;
 
+import today.vanta.Vanta;
 import today.vanta.client.event.impl.game.player.JumpEvent;
 import today.vanta.client.event.impl.game.player.MoveFlyingEvent;
 import today.vanta.client.event.impl.game.player.MoveInputEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
+import today.vanta.client.module.impl.player.Scaffold;
 import today.vanta.client.processor.impl.RotationProcessor;
 import today.vanta.client.processor.impl.TargetProcessor;
 import today.vanta.client.setting.Setting;
@@ -52,7 +54,7 @@ public class MovementFix extends Module {
 
     private boolean isExempted() {
         boolean scaffoldEnabled = exemptions.isEnabled("Scaffold")
-                && TargetProcessor.getInstance().scaffold.isEnabled();
+                && Vanta.instance.moduleStorage.getT(Scaffold.class).isEnabled();
 
         boolean killAuraEnabled = exemptions.isEnabled("KillAura")
                 && TargetProcessor.getInstance().killaura.isEnabled();

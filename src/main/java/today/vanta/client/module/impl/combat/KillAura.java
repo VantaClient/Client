@@ -13,6 +13,7 @@ import today.vanta.client.event.impl.game.player.SprintEvent;
 import today.vanta.client.event.impl.game.world.UpdateEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
+import today.vanta.client.module.impl.player.Scaffold;
 import today.vanta.client.processor.impl.RotationProcessor;
 import today.vanta.client.processor.impl.TargetProcessor;
 import today.vanta.client.setting.Setting;
@@ -48,9 +49,7 @@ public class KillAura extends Module {
             sprintReset = Setting.of("Sprint reset", true),
             keepSprint = Setting.of("Keep sprint", false).hide(sprintReset::getValue),
             swingOnHurtTime = Setting.of("Swing on hurt-time", false),
-            noBlockSwing = Setting.of("Don't swing while blocking", false),
-            nullRot = Setting.of("No Rotations", false);
-
+            noBlockSwing = Setting.of("Don't swing while blocking", false);
 
     public KillAura() {
         super("KillAura", "Attacks entities in proximity.", Category.COMBAT);
@@ -115,7 +114,7 @@ public class KillAura extends Module {
 
     @EventListen(priority = EventPriority.HIGHEST)
     private void onMotion(MotionEvent event) {
-        if (!TargetProcessor.getInstance().scaffold.isEnabled()) {
+        if (!Vanta.instance.moduleStorage.getT(Scaffold.class).isEnabled()) {
             if (TargetProcessor.getInstance().target != null) {
                 rots = RotationUtil.getSimpleRotations(TargetProcessor.getInstance().target);
                 RotationProcessor.getInstance().setTargetRotation(rots);
@@ -201,7 +200,7 @@ public class KillAura extends Module {
     }
 
     private void handleAttack() {
-        if (TargetProcessor.getInstance().scaffold.isEnabled()) {
+        if (Vanta.instance.moduleStorage.getT(Scaffold.class).isEnabled()) {
             if (isBlocking && !autoBlockMode.isValue("Hold")) {
                 performBlock(false);
             }

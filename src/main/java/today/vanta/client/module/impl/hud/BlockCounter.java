@@ -9,12 +9,11 @@ import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
 import today.vanta.client.module.impl.client.Theme;
-import today.vanta.client.processor.impl.TargetProcessor;
+import today.vanta.client.module.impl.player.Scaffold;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.game.events.EventListen;
-import today.vanta.util.game.player.ChatUtil;
 import today.vanta.util.game.player.InventoryUtil;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.Renderable;
@@ -55,7 +54,7 @@ public class BlockCounter extends Module {
     }
 
     private boolean canBeDrawn() {
-        return (mc.currentScreen instanceof GuiChat) || TargetProcessor.getInstance().scaffold.isEnabled();
+        return (mc.currentScreen instanceof GuiChat) || Vanta.instance.moduleStorage.getT(Scaffold.class).isEnabled();
     }
 
     @EventListen
