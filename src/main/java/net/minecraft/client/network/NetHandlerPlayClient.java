@@ -721,7 +721,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
     public void handleConfirmTransaction(S32PacketConfirmTransaction packetIn) {
         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
         //VIA VERSION
-        if (ViaLoadingBase.getInstance().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_17)) {
+        if (ViaLoadingBase.getInstance() != null && ViaLoadingBase.getInstance().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_17)) {
             this.addToSendQueue(new C0FPacketConfirmTransaction(packetIn.getWindowId(), (short) 0, false));
             return;
         }

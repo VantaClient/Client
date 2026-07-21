@@ -34,7 +34,7 @@ public class C0FPacketConfirmTransaction implements Packet<INetHandlerPlayServer
 
     public void writePacketData(PacketBuffer buf) throws IOException {
         //VIA VERSION
-        if (ViaLoadingBase.getInstance().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_17)) {
+        if (ViaLoadingBase.getInstance() != null && ViaLoadingBase.getInstance().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_17)) {
             buf.writeInt(this.windowId);
         } else {
             buf.writeByte(this.windowId);

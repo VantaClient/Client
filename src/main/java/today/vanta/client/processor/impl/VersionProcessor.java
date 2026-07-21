@@ -16,7 +16,7 @@ import today.vanta.util.game.player.MovementUtil;
 
 public class VersionProcessor extends Processor {
     public boolean isNative() {
-        return ViaLoadingBase.getInstance().getTargetVersion().equalTo(ProtocolVersion.v1_8);
+        return ViaLoadingBase.getInstance() == null || ViaLoadingBase.getInstance().getTargetVersion().equalTo(ProtocolVersion.v1_8);
     }
 
     @EventListen

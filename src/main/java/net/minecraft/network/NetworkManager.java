@@ -257,7 +257,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
                 p_initChannel_1_.pipeline().addLast("timeout", new ReadTimeoutHandler(30)).addLast("splitter", new MessageDeserializer2()).addLast("decoder", new MessageDeserializer(EnumPacketDirection.CLIENTBOUND)).addLast("prepender", new MessageSerializer2()).addLast("encoder", new MessageSerializer(EnumPacketDirection.SERVERBOUND)).addLast("packet_handler", networkmanager);
 
                 //VIA VERSION
-                if (p_initChannel_1_ instanceof SocketChannel && ViaLoadingBase.getInstance().getTargetVersion().getVersion() != ViaMCP.NATIVE_VERSION) {
+                if (p_initChannel_1_ instanceof SocketChannel && ViaLoadingBase.getInstance() != null && ViaLoadingBase.getInstance().getTargetVersion().getVersion() != ViaMCP.NATIVE_VERSION) {
                     final UserConnection user = new UserConnectionImpl(p_initChannel_1_, true);
                     new ProtocolPipelineImpl(user);
 
