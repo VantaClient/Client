@@ -614,19 +614,21 @@ public class TargetHUD extends Module {
                 String healthperStr = String.format("%.1f", healthper);
                 float lengthh = SFPT_REGULAR_16.getStringWidth(healthperStr + "%");
                 String ratiostr = String.format("%.1f", mc.thePlayer.getHealth() - localTarget.getHealth());
-                float ratio = Float.parseFloat(ratiostr);
-                if (ratio > 0 && ratio != 0) {
-                    winratio = EnumChatFormatting.GRAY+"Winning"+ EnumChatFormatting.DARK_GRAY + " ("+ "+"+ratio+")";
-                }
-                if (ratio == 0) {
-                    winratio = EnumChatFormatting.GRAY+"Tie"+ EnumChatFormatting.DARK_GRAY + " ("+ "+"+ratio+")";
-                }
-                if (ratio < 0) {
-                    winratio = EnumChatFormatting.GRAY+"Losing"+ EnumChatFormatting.DARK_GRAY + " ("+ratio+")";
+                if (ratiostr != null) {
+                    float ratio = Float.parseFloat(ratiostr);
+                    if (ratio > 0 && ratio != 0) {
+                        winratio = EnumChatFormatting.GRAY+"Winning"+ EnumChatFormatting.DARK_GRAY + " ("+ "+"+ratio+")";
+                    }
+                    if (ratio == 0) {
+                        winratio = EnumChatFormatting.GRAY+"Tie"+ EnumChatFormatting.DARK_GRAY + " ("+ratio+")";
+                    }
+                    if (ratio < 0) {
+                        winratio = EnumChatFormatting.GRAY+"Losing"+ EnumChatFormatting.DARK_GRAY + " ("+ratio+")";
+                    }
                 }
                 float stringheight = SFPT_REGULAR_16.getFontHeight();
-                SFPT_REGULAR_16.drawString(winratio, x + 3, y + 34 + 6 - stringheight, Color.WHITE);
-                SFPT_REGULAR_16.drawString(healthperStr + "%", x + width - lengthh - 4, y + 34 + 6 - stringheight, Color.WHITE);
+                SFPT_REGULAR_16.drawString(winratio, x + 3, y + 34 + 6 - stringheight + .29f, Color.WHITE);
+                SFPT_REGULAR_16.drawString(healthperStr + "%", x + width - lengthh - 4, y + 34 + 6 - stringheight +.29f, Color.WHITE);
                 break;
             case "Atmosphere":
                 width = 130;
@@ -744,7 +746,7 @@ public class TargetHUD extends Module {
 
                 }
                 String healthdif = String.format("%.1f", mc.thePlayer.getHealth() - localTarget.getHealth());
-                if (Float.parseFloat(healthdif) > 0) {
+                if (healthdif != null && Double.parseDouble(healthdif) > 0 && Double.parseDouble(healthdif) != 0) {
                     healthdif = "+"+healthdif;
                 }
                 length = SFPT_REGULAR_16.getStringWidth(healthdif);

@@ -10,6 +10,7 @@ import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.game.events.EventListen;
+import today.vanta.util.game.player.ChatUtil;
 import today.vanta.util.game.sound.Sounds;
 import today.vanta.util.system.math.Counter;
 
@@ -39,6 +40,7 @@ public class ClientSounds extends Module {
                 break;
             case "simSynth":
                 Sounds.ON2.play();
+                ChatUtil.send(ChatUtil.Prefix.INFO, "play");
                 break;
         }
         oldPlay = counter.getElapsedTime();
