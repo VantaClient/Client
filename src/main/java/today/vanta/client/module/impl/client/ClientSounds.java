@@ -8,12 +8,14 @@ import today.vanta.client.module.Module;
 import today.vanta.client.screen.ClickGUIScreen;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
+import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.sound.Sounds;
 import today.vanta.util.system.math.Counter;
 
 public class ClientSounds extends Module {
     private final BooleanSetting toggleSounds = Setting.of("Toggle sounds", true);
+    private final StringSetting toggleMode = Setting.of("Toggle mode", "raymondware", "raymondware", "simSynth").hide(() -> !toggleSounds.getValue());
     private final BooleanSetting expandSounds = Setting.of("Expand sounds", true);
     private final Counter counter = new Counter();
     private float oldPlay = 0;
@@ -31,7 +33,14 @@ public class ClientSounds extends Module {
         if (!toggleSounds.getValue()) return;
         if (event.module instanceof ClickGUI) return;
         if (counter.getElapsedTime() == oldPlay) return;
-        Sounds.ON.play();
+        switch (toggleMode.getValue()) {
+            case "raymondware":
+                Sounds.ON.play();
+                break;
+            case "simSynth":
+                Sounds.ON2.play();
+                break;
+        }
         oldPlay = counter.getElapsedTime();
     }
 
@@ -41,7 +50,14 @@ public class ClientSounds extends Module {
         if (!toggleSounds.getValue()) return;
         if (event.module instanceof ClickGUI) return;
         if (counter.getElapsedTime() == oldDisable) return;
-        Sounds.OFF.play();
+        switch (toggleMode.getValue()) {
+            case "raymondware":
+                Sounds.OFF.play();
+                break;
+            case "simSynth":
+                Sounds.OFF2.play();
+                break;
+        }
         oldDisable = counter.getElapsedTime();
     }
 

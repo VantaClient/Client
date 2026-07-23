@@ -17,7 +17,7 @@ import today.vanta.util.game.player.MovementUtil;
 
 public class Speed extends Module {
     private final StringSetting
-            mode = Setting.of("Mode", "NCP", "OldNCP", "Mospixel-Basic", "Mospixel", "NCP", "Custom"),
+            mode = Setting.of("Mode", "NCP", "OldNCP", "Mospixel", "NCP", "Custom"),
             oncpmode = Setting.of("OldNCP mode", "Y-Port", "Y-Port", "Strafe").hide(() -> !mode.isValue("OldNCP"));
 
     private final BooleanSetting shouldjump = Setting.of("Should jump", true).hide(() -> !mode.isValue("Custom"));
@@ -40,6 +40,7 @@ public class Speed extends Module {
     }
 
     private int offGroundTicks;
+    private int onGroundTicks;
     private int tick;
     private boolean flag;
     private boolean a;
@@ -64,8 +65,10 @@ public class Speed extends Module {
     private void onUpdate(UpdateEvent event) {
         if (!mc.thePlayer.onGround) {
             offGroundTicks++;
+            onGroundTicks = 0;
         } else {
             offGroundTicks = 0;
+            onGroundTicks++;
         }
 
         if (flag) {
@@ -149,20 +152,19 @@ public class Speed extends Module {
                     }
                     break;
                 case "Miniblox":
-                    if (flag) return;
-                    move = 50f;
-                    if (mc.thePlayer.onGround) {
-                        mc.thePlayer.motionY += 0.1f;
-                        if (!a) {
-                            b++;
-                            a = true;
-                        }
-                    } else {
-                        a = false;
-                    }
+                   switch (offGroundTicks) {
+                       case 1:
+                           mc.thePlayer.motionY -= 0.25;
+                           break;
+                       case 2:
+                           mc.thePlayer.motionY -= 0.45;
+                           break;
+                   }
 
-                    if (mc.thePlayer.onGround && b > 8) {
-                        b = 0;
+                    if (mc.thePlayer.isInWater() || !MovementUtil.isMoving() || mc.thePlayer.isCollidedHorizontally) return;
+                    if (onGroundTicks >= 1) {
+                        MovementUtil.strafe(0.3f);
+                        mc.thePlayer.jump();
                     }
 
                     break;
@@ -226,7 +228,7 @@ public class Speed extends Module {
 
     @EventListen
     private void onMove(MoveEvent event) {
-        event.setSpeed(move);
+//        event.setSpeed(move);
     }
 
     @Override
