@@ -1,8 +1,10 @@
 package today.vanta.client.module.impl.misc;
 
+import net.minecraft.network.play.client.C17PacketCustomPayload;
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.event.impl.game.network.PrintChatMessage;
+import today.vanta.client.event.impl.game.network.SendPacketEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
 import today.vanta.client.module.impl.client.Theme;
@@ -42,12 +44,20 @@ public class AutoPlay extends Module {
     }
 
     @EventListen
+    private void onPacket(SendPacketEvent event) {
+        if (mc.getCurrentServerData().serverIP == "localhost") {
+
+        }
+    }
+
+    @EventListen
     public void onRenderOverlay(RenderOverlayEvent event) {
         float x = event.scaledResolution.getScaledWidth() / 2 - (barWidth / 2);
         float y = event.scaledResolution.getScaledHeight() / 2 + 70f;
-        if (mc.thePlayer == null) {
+        if (mc.thePlayer == null || mc.theWorld == null) {
             canQueue = false;
         }
+
         if (canQueue) {
             if (canReset) {
                 time.reset();
@@ -65,7 +75,7 @@ public class AutoPlay extends Module {
                     .push(event);
             if (time.getElapsedTime() > 3000) {
                 mc.thePlayer.sendChatMessage("/play skywars");
-                ChatUtil.send(ChatUtil.Prefix.INFO, "aaa");
+                ChatUtil.send(ChatUtil.Prefix.INFO, "Queueing..");
                 canQueue = false;
             }
         } else {

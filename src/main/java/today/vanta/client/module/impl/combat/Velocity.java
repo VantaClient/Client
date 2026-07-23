@@ -9,12 +9,15 @@ import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.util.game.events.EventListen;
+import today.vanta.util.game.player.MovementUtil;
 
 public class Velocity extends Module {
     private final NumberSetting
             horizontal = Setting.of("Horizontal", 0, 0, 100, "%"),
             vertical = Setting.of("Vertical", 0, 0, 100, "%");
-    private final BooleanSetting staffSafe = Setting.of("Anti staff check", false);
+    private final BooleanSetting
+            staffSafe = Setting.of("Anti staff check", false),
+            stop = Setting.of("Stop motion", false);
 
     public Velocity() {
         super("Velocity", "Reduces knockback.", Category.COMBAT);
@@ -30,6 +33,9 @@ public class Velocity extends Module {
 
             if (veloPacket.getEntityID() == mc.thePlayer.getEntityId()) {
                 if (horizontal.getValue().doubleValue() == 0 && vertical.getValue().doubleValue() == 0) {
+                    if (stop.getValue() ) {
+                        MovementUtil.stop();
+                    }
                     event.cancelled = true;
                 }
 

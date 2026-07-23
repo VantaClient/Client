@@ -156,9 +156,9 @@ public class Speed extends Module {
                        case 1:
                            mc.thePlayer.motionY -= 0.25;
                            break;
-                       case 2:
-                           mc.thePlayer.motionY -= 0.45;
-                           break;
+//                       case 2:
+//                           mc.thePlayer.motionY -= 0.45;
+//                           break;
                    }
 
                     if (mc.thePlayer.isInWater() || !MovementUtil.isMoving() || mc.thePlayer.isCollidedHorizontally) return;

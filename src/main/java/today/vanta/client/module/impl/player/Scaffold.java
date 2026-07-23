@@ -110,6 +110,7 @@ public class Scaffold extends Module {
     private void onRunTick(RunTickEvent event) {
         if (mc.thePlayer != null && event.state == EventState.PRE) {
             if (InventoryUtil.getHotbarBlockCount() == 0) {
+                rots = null;
                 this.setEnabled(false);
                 return;
             }
