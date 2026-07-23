@@ -44,5 +44,17 @@
     "sounds": [
       "open"
     ]
+  },
+  "off2": {
+    "category": "master",
+    "sounds": [
+      "off2"
+    ]
+  },
+  "on2": {
+    "category": "master",
+    "sounds": [
+      "on2"
+    ]
   }
 }

@@ -40,7 +40,6 @@ public class ClientSounds extends Module {
                 break;
             case "simSynth":
                 Sounds.ON2.play();
-                ChatUtil.send(ChatUtil.Prefix.INFO, "play");
                 break;
         }
         oldPlay = counter.getElapsedTime();

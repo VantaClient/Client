@@ -82,7 +82,7 @@ public class Watermark extends Module {
                         break;
                     case "SFPT":
                         CFonts.SFPT_REGULAR_24.drawStringWithShadow(firstChar, 2, 2, colors[0]);
-                        CFonts.SFPT_REGULAR_24.drawStringWithShadow(watermarkText + EnumChatFormatting.GRAY + " [" + EnumChatFormatting.WHITE + format + EnumChatFormatting.GRAY + "] " + "[" + EnumChatFormatting.WHITE + Minecraft.getDebugFPS() + " FPS" + EnumChatFormatting.GRAY + "]", 9, 2, Color.WHITE);
+                        CFonts.SFPT_REGULAR_24.drawStringWithShadow(watermarkText + EnumChatFormatting.GRAY + " [" + EnumChatFormatting.WHITE + format + EnumChatFormatting.GRAY + "] " + "[" + EnumChatFormatting.WHITE + Minecraft.getDebugFPS() + " FPS" + EnumChatFormatting.GRAY + "]", 10, 2, Color.WHITE);
                         break;
                 }
                 break;
