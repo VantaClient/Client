@@ -95,6 +95,7 @@ public class ModuleStorage extends Storage<Module> {
         list.add(new Information());
         list.add(new Arrows());
         list.add(new TabGUI());
+        list.add(new TimerDisplay());
 
         for (Module mod : list) {
             this.context = mod;

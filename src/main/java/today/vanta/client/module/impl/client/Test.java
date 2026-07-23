@@ -68,7 +68,5 @@ public class Test extends Module {
             xAddition += width + 2;
             yAddition = 0;
         }
-
-        CFonts.SFPT_MEDIUM_24.drawStringWithShadow(String.valueOf(mc.timer.timerSpeed), event.scaledResolution.getScaledWidth() / 2f - (CFonts.SFPT_REGULAR_24.getStringWidth(String.valueOf(mc.timer.timerSpeed))),event.scaledResolution.getScaledHeight() / 2f - (CFonts.SFPT_REGULAR_24.getFontHeight() / 2f) - 2.5f,Color.WHITE);
     }
 }
