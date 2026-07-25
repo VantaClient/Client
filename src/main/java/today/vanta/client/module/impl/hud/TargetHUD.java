@@ -630,8 +630,8 @@ public class TargetHUD extends Module {
                 else
                     comparisonText = EnumChatFormatting.GRAY + "Losing" + EnumChatFormatting.DARK_GRAY + " (" + healthDifferenceText + ")";
                 float stringheight = SFPT_REGULAR_16.getFontHeight();
-                SFPT_REGULAR_16.drawString(comparisonText, x + 3, y + 34 + 6 - stringheight + .29f, Color.WHITE);
-                SFPT_REGULAR_16.drawString(healthPercentageText + "%", x + width - healthPercentageWidth - 4, y + 34 + 6 - stringheight +.29f, Color.WHITE);
+                SFPT_REGULAR_16.drawString(comparisonText, x + 3, y + 34 + 6 - (stringheight / 2), Color.WHITE);
+                SFPT_REGULAR_16.drawString(healthPercentageText + "%", x + width - healthPercentageWidth - 4, y + 34 + 6 - (stringheight / 2), Color.WHITE);
                 break;
             case "Atmosphere":
                 width = 130;

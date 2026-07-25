@@ -119,11 +119,11 @@ public class RenderUtil {
                 .push(renderable);
         switch (Vanta.instance.moduleStorage.getT(WindowSettings.class).textAlignment.getValue()) {
             case "Left":
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow(title, x + 0.5f, y - (textHeight / 2) - 2.5f + (windowHeight / 2), Color.white);
+                CFonts.SFPT_REGULAR_18.drawStringWithShadow(title, x + 1f, y - (textHeight / 2) + (windowHeight / 2), Color.white);
                 break;
             case "Center":
                 float textWidth = CFonts.SFPT_REGULAR_18.getStringWidth(title);
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow(title, x + (width / 2) - (textWidth / 2), y - (textHeight / 2) - 2.5f + (windowHeight / 2), Color.white);
+                CFonts.SFPT_REGULAR_18.drawStringWithShadow(title, x + (width / 2) - (textWidth / 2), y - (textHeight / 2) + (windowHeight / 2), Color.white);
                 break;
         }
 
