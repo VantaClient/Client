@@ -29,23 +29,17 @@ public class Notifications extends Module {
 
     @EventListen
     private void onModuleEnable(ModuleEnableEvent event) {
-        ChatUtil.send(ChatUtil.Prefix.INFO, "register");
         NotificationUtil.registerNotification("AAA", event.module.name + " Has Been Enabled", 3000L);
     }
 
     @EventListen
     private void onModuleDisabled(ModuleDisableEvent event) {
-        ChatUtil.send(ChatUtil.Prefix.INFO, "register");
         NotificationUtil.registerNotification("AAA", event.module.name + " Has Been Disabled", 3000L);
     }
 
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
         float yAddition = 5;
-        if (lastNumber != NotificationUtil.notifTitle.size()) {
-            ChatUtil.send(ChatUtil.Prefix.INFO, String.valueOf(NotificationUtil.notifTitle.size()));
-            lastNumber = NotificationUtil.notifTitle.size();
-        }
         for (int i = 0; i < NotificationUtil.notifTitle.size(); i++) {
             if (NotificationUtil.notifTime.get(i) + 3000 <= System.currentTimeMillis()) {
                 NotificationUtil.notifTitle.remove(i);

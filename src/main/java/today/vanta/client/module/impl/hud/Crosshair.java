@@ -20,7 +20,7 @@ public class Crosshair extends Module {
     private final NumberSetting length = Setting.of("Length", 7, 4, 10, 0);
     private final NumberSetting width = Setting.of("Width", 0.5f, 0.5f, 2, 1);
     private final NumberSetting space = Setting.of("Static space", 5, 0, 15);
-    private final NumberSetting spaceMove = Setting.of("Moving space", 7, 1, 16);
+    private final NumberSetting spaceMove = Setting.of("Moving space", 7, 0, 16);
     private final StringSetting colorMode = Setting.of("Crosshair color", "White", "Theme", "White");
     private final BooleanSetting outline = Setting.of("Outline", true);
     private final BooleanSetting renderInThirdPerson = Setting.of("Third person render", true);

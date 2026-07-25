@@ -13,6 +13,7 @@ import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.game.events.EventListen;
+import today.vanta.util.game.player.ChatUtil;
 import today.vanta.util.game.player.MovementUtil;
 
 public class Speed extends Module {
@@ -143,7 +144,7 @@ public class Speed extends Module {
                     } else {
                         MovementUtil.strafe();
                     }
-                    if (offGroundTicks > 12 && mc.thePlayer.motionY < 0.421f) {
+                    if (offGroundTicks > 5 && mc.thePlayer.motionY < 0.421f) {
                         mc.thePlayer.motionY -= 0.07f;
                     }
 
@@ -152,20 +153,20 @@ public class Speed extends Module {
                     }
                     break;
                 case "Miniblox":
-                   switch (offGroundTicks) {
-                       case 1:
-                           mc.thePlayer.motionY -= 0.25;
-                           break;
-//                       case 2:
-//                           mc.thePlayer.motionY -= 0.45;
+//                   switch (offGroundTicks) {
+//                       case 1:
+//                           mc.thePlayer.motionY -= 0.25;
 //                           break;
-                   }
-
-                    if (mc.thePlayer.isInWater() || !MovementUtil.isMoving() || mc.thePlayer.isCollidedHorizontally) return;
-                    if (onGroundTicks >= 1) {
-                        MovementUtil.strafe(0.3f);
-                        mc.thePlayer.jump();
-                    }
+////                       case 2:
+////                           mc.thePlayer.motionY -= 0.45;
+////                           break;
+//                   }
+//
+//                    if (mc.thePlayer.isInWater() || !MovementUtil.isMoving() || mc.thePlayer.isCollidedHorizontally) return;
+//                    if (onGroundTicks >= 1) {
+//                        MovementUtil.strafe(0.3f);
+//                        mc.thePlayer.jump();
+//                    }
 
                     break;
 

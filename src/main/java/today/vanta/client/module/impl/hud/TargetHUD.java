@@ -312,11 +312,11 @@ public class TargetHUD extends Module {
                         .push(renderable);
 
                 RenderUtil.renderHead(renderable, (EntityPlayer) localTarget, x + 2, y + 2, 20f);
-                CFonts.getFont("T-Regular", 16).drawStringWithShadow(localTarget.getName(), x + 24, y + 1, Color.WHITE);
+                CFonts.getFont("T-Regular", 16).drawStringWithShadow(localTarget.getName(), x + 23, y + 1, Color.WHITE);
 
                 Rectangle
-                        .create(x + 2, y + space, width - 4, 3f)
-                        .color(DARKER_BACKGROUND)
+                        .create(x + 1.75f, y + space - 0.25f, barrrrwidth + 0.5f, 3.75f)
+                        .color(new Color(10,10,10))
                         .push(renderable);
 
                 Rectangle
