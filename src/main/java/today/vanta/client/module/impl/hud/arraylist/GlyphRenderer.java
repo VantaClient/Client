@@ -16,7 +16,7 @@ public class GlyphRenderer extends ArraylistRenderer {
 
     @Override
     public float getBoxHeight() {
-        return getFontHeight() + 4;
+        return getFontHeight() + 1;
     }
 
     @Override

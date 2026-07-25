@@ -11,7 +11,6 @@ import today.vanta.util.client.ui.NotificationUtil;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.player.ChatUtil;
 import today.vanta.util.game.render.Renderable;
-import today.vanta.util.game.render.font.CFont;
 import today.vanta.util.game.render.font.CFonts;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;

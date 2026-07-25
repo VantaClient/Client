@@ -27,7 +27,8 @@ import today.vanta.util.game.render.shape.impl.Rectangle;
 import today.vanta.util.system.math.animation.Animation;
 import today.vanta.util.system.math.animation.Easing;
 
-import java.awt.*;
+import java.awt.Color;
+import java.util.Locale;
 
 public class TargetHUD extends Module {
     private static final Color BACKGROUND = new Color(20, 20, 20, 200);
@@ -311,7 +312,14 @@ public class TargetHUD extends Module {
                         .color(BACKGROUND)
                         .push(renderable);
 
-                RenderUtil.renderHead(renderable, (EntityPlayer) localTarget, x + 2, y + 2, 20f);
+                RenderUtil.renderTintedHead(
+                        renderable,
+                        (EntityPlayer) localTarget,
+                        x + 2,
+                        y + 2,
+                        20.0F,
+                        getDamageHeadTint()
+                );
                 CFonts.getFont("T-Regular", 16).drawStringWithShadow(localTarget.getName(), x + 23, y + 1, Color.WHITE);
 
                 Rectangle
@@ -551,7 +559,7 @@ public class TargetHUD extends Module {
                         .color(ATBACKGROUND)
                         .push(renderable);
 
-                RenderUtil.renderHead(renderable, (EntityPlayer) localTarget, x + 2, y + 2, 30f);
+                RenderUtil.renderHead(renderable, (EntityPlayer) localTarget, x + 2, y + 2, 30.0F);
                 CFonts.SFPT_REGULAR_18.drawStringWithShadow(localTarget.getName(), x + 33, y + 1, Color.WHITE);
 
                 Rectangle
@@ -609,26 +617,21 @@ public class TargetHUD extends Module {
                         .color(ATDARKERBACKGROUND)
                         .push(renderable);
 
-                String winratio = "";
-                float healthper = (localTarget.getHealth() / localTarget.getMaxHealth()) * 100;
-                String healthperStr = String.format("%.1f", healthper);
-                float lengthh = SFPT_REGULAR_16.getStringWidth(healthperStr + "%");
-                String ratiostr = String.format("%.1f", mc.thePlayer.getHealth() - localTarget.getHealth());
-                if (ratiostr != null) {
-                    float ratio = Float.parseFloat(ratiostr);
-                    if (ratio > 0 && ratio != 0) {
-                        winratio = EnumChatFormatting.GRAY+"Winning"+ EnumChatFormatting.DARK_GRAY + " ("+ "+"+ratio+")";
-                    }
-                    if (ratio == 0) {
-                        winratio = EnumChatFormatting.GRAY+"Tie"+ EnumChatFormatting.DARK_GRAY + " ("+ratio+")";
-                    }
-                    if (ratio < 0) {
-                        winratio = EnumChatFormatting.GRAY+"Losing"+ EnumChatFormatting.DARK_GRAY + " ("+ratio+")";
-                    }
-                }
+                final float healthPercentage = localTarget.getHealth() / localTarget.getMaxHealth() * 100;
+                final String healthPercentageText = String.format(Locale.ROOT, "%.1f", healthPercentage);
+                final float healthPercentageWidth = SFPT_REGULAR_16.getStringWidth(healthPercentageText + "%");
+                final float oldAtmosphereHealthDifference = mc.thePlayer.getHealth() - localTarget.getHealth();
+                final String healthDifferenceText = String.format(Locale.ROOT, "%.1f", oldAtmosphereHealthDifference);
+                final String comparisonText;
+                if (oldAtmosphereHealthDifference > 0)
+                    comparisonText = EnumChatFormatting.GRAY + "Winning" + EnumChatFormatting.DARK_GRAY + " (+" + healthDifferenceText + ")";
+                else if (oldAtmosphereHealthDifference == 0)
+                    comparisonText = EnumChatFormatting.GRAY + "Tie" + EnumChatFormatting.DARK_GRAY + " (" + healthDifferenceText + ")";
+                else
+                    comparisonText = EnumChatFormatting.GRAY + "Losing" + EnumChatFormatting.DARK_GRAY + " (" + healthDifferenceText + ")";
                 float stringheight = SFPT_REGULAR_16.getFontHeight();
-                SFPT_REGULAR_16.drawString(winratio, x + 3, y + 34 + 6 - stringheight + .29f, Color.WHITE);
-                SFPT_REGULAR_16.drawString(healthperStr + "%", x + width - lengthh - 4, y + 34 + 6 - stringheight +.29f, Color.WHITE);
+                SFPT_REGULAR_16.drawString(comparisonText, x + 3, y + 34 + 6 - stringheight + .29f, Color.WHITE);
+                SFPT_REGULAR_16.drawString(healthPercentageText + "%", x + width - healthPercentageWidth - 4, y + 34 + 6 - stringheight +.29f, Color.WHITE);
                 break;
             case "Atmosphere":
                 width = 130;
@@ -693,7 +696,14 @@ public class TargetHUD extends Module {
                         .color(ATBACKGROUND)
                         .push(renderable);
 
-                RenderUtil.renderHead(renderable, (EntityPlayer) localTarget, x + 2, y + 2, 30f);
+                RenderUtil.renderTintedHead(
+                        renderable,
+                        (EntityPlayer) localTarget,
+                        x + 2,
+                        y + 2,
+                        30.0F,
+                        getDamageHeadTint()
+                );
                 CFonts.SFPT_REGULAR_18.drawStringWithShadow(localTarget.getName(), x + 33, y + 1, Color.WHITE);
 
                 Rectangle
@@ -745,12 +755,12 @@ public class TargetHUD extends Module {
                     RenderUtil.renderScaledItem(currentItem, itemX + 1, itemY + 1, 0.8f);
 
                 }
-                String healthdif = String.format("%.1f", mc.thePlayer.getHealth() - localTarget.getHealth());
-                if (healthdif != null && Double.parseDouble(healthdif) > 0 && Double.parseDouble(healthdif) != 0) {
-                    healthdif = "+"+healthdif;
-                }
-                length = SFPT_REGULAR_16.getStringWidth(healthdif);
-                SFPT_REGULAR_16.drawStringWithShadow(healthdif, x + width - (length) - 2, y + 17, Color.WHITE);
+                final float atmosphereHealthDifference = mc.thePlayer.getHealth() - localTarget.getHealth();
+                String atmosphereHealthDifferenceText = String.format(Locale.ROOT, "%.1f", atmosphereHealthDifference);
+                if (atmosphereHealthDifference > 0)
+                    atmosphereHealthDifferenceText = "+" + atmosphereHealthDifferenceText;
+                length = SFPT_REGULAR_16.getStringWidth(atmosphereHealthDifferenceText);
+                SFPT_REGULAR_16.drawStringWithShadow(atmosphereHealthDifferenceText, x + width - (length) - 2, y + 17, Color.WHITE);
                 break;
         }
 
@@ -770,6 +780,20 @@ public class TargetHUD extends Module {
                         .push(renderable);
             }
         }
+    }
+
+    private Color getDamageHeadTint() {
+        final float hurtProgress = Math.max(
+                0.0F,
+                Math.min(
+                        localTarget.hurtTime == 0
+                                ? 0.0F
+                                : (localTarget.hurtTime - mc.timer.renderPartialTicks) * 0.3F,
+                        1.0F
+                )
+        );
+        final int greenBlue = (int) (255.0F + hurtProgress * (171.0F - 255.0F));
+        return new Color(255, greenBlue, greenBlue);
     }
 
     @Override

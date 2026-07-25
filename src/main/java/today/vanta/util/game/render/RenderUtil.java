@@ -195,19 +195,37 @@ public class RenderUtil {
     }
 
     public static void renderHead(Renderable renderable, EntityPlayer target, float x, float y, float headSize) throws NullPointerException {
-        ImageRectangle
-                .create(x, y, headSize, headSize, -1)
-                .uv(8, 8)
-                .uvSize(8, 8)
-                .tileSize(64, 64)
-                .resource(((AbstractClientPlayer) target).getLocationSkin())
-                .push(renderable);
+        renderHeadLayer(renderable, target, x, y, headSize, 8, Color.WHITE);
+        renderHeadLayer(renderable, target, x, y, headSize, 40, Color.WHITE);
+    }
 
+    public static void renderTintedHead(
+            final Renderable renderable,
+            final EntityPlayer target,
+            final float x,
+            final float y,
+            final float headSize,
+            final Color tint
+    ) throws NullPointerException {
+        renderHeadLayer(renderable, target, x, y, headSize, 8, tint);
+        renderHeadLayer(renderable, target, x, y, headSize, 40, tint);
+    }
+
+    private static void renderHeadLayer(
+            final Renderable renderable,
+            final EntityPlayer target,
+            final float x,
+            final float y,
+            final float headSize,
+            final int textureX,
+            final Color tint
+    ) {
         ImageRectangle
                 .create(x, y, headSize, headSize, -1)
-                .uv(40, 8)
+                .uv(textureX, 8)
                 .uvSize(8, 8)
                 .tileSize(64, 64)
+                .color(tint)
                 .resource(((AbstractClientPlayer) target).getLocationSkin())
                 .push(renderable);
     }
