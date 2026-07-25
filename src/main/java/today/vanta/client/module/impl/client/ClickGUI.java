@@ -21,7 +21,7 @@ public class ClickGUI extends Module {
             image = Setting.of("Image", false);
 
     private final StringSetting design = Setting.of("Design", "Dropdown", "Dropdown", "ImGui", "Boxy");
-    public final StringSetting mascot = Setting.of("Mascot", "longboy", "ermwhat", "silly", "cousin", "longboy").hide(() -> !image.getValue());
+    public final StringSetting mascot = Setting.of("Mascot", "longboy", "ermwhat", "silly", "cousin", "longboy", "mj", "mj2", "mj3").hide(() -> !image.getValue());
 
     public ClickGUI() {
         super("ClickGUI", "Opens up the ClickGUI.", Category.CLIENT, Keyboard.KEY_RSHIFT);
