@@ -17,11 +17,8 @@ import today.vanta.client.processor.impl.TargetProcessor;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.MultiStringSetting;
 import today.vanta.util.game.events.EventListen;
-import today.vanta.util.game.render.ImageUtil;
 import today.vanta.util.game.render.ProjectionUtil;
 import today.vanta.util.game.render.font.CFonts;
-import today.vanta.util.game.render.shape.impl.ImageRectangle;
-import today.vanta.util.game.render.shape.impl.Rectangle;
 
 import java.awt.*;
 import java.util.ArrayList;
