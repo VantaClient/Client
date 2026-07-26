@@ -44,7 +44,7 @@ public class Theme extends Module {
                 colors = new Color[]{new Color(147, 251, 157), new Color(9, 199, 251)};
                 break;
             case "Forest":
-                colors = new Color[]{new Color(73, 145, 113), new Color(21, 77, 52)};
+                colors = new Color[]{new Color(2, 219, 128), new Color(21, 77, 52)};
                 break;
             case "Pale":
                 colors = new Color[]{new Color(158, 255, 255), new Color(21, 77, 52)};

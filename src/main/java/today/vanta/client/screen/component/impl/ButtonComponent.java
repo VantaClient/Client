@@ -25,7 +25,7 @@ public class ButtonComponent extends Component {
                 .color(hover ? new Color(40, 40, 40) : new Color(35, 35, 35))
                 .push(event);
 
-        font.drawYCenteredString(text, x + 3.5f, y + height / 2 - 2, Color.WHITE, false);
+        font.drawStringWithShadow(text, x + 3.5f, y + height / 2, Color.WHITE);
 
         if (didHover && !hover) {
             didHover = false;

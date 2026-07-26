@@ -38,7 +38,7 @@ public class AccountComponent extends Component {
                 .push(event);
         font.drawYCenteredString(text, x + height - 4 + 6, y + height / 2 - 2, currentAccount ? color1 : Color.WHITE, false);
         ImageRectangle
-                .create(x + 4, y + 2, height - 4, height - 4, skinTextureId)
+                .create(x + 4, y, height - 4, height - 4, skinTextureId)
                 .push(event);
     }
 
