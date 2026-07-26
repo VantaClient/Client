@@ -26,6 +26,6 @@ public abstract class ArraylistRenderer {
     public abstract float getFontHeight();
 
     public float getBoxHeight() {
-        return getFontHeight() + 5;
+        return getFontHeight() - 5;
     }
 }

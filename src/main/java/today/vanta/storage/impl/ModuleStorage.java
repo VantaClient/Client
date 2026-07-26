@@ -74,6 +74,7 @@ public class ModuleStorage extends Storage<Module> {
         list.add(new CustomSky());
         list.add(new CustomWorld());
         list.add(new ChestESP());
+        list.add(new Onomatopoeia());
 
         // Misc
         list.add(new Disabler());

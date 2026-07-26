@@ -249,6 +249,11 @@ public class ItemRenderer {
         GlStateManager.translate(0.56F, -0.52F, -0.71999997F);
         GlStateManager.translate(0.0F, equipProgress * -0.6F, 0.0F);
         GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
+        // 1.7 computed this swing-driven rotation unconditionally, right before the
+        // per-action (block/bow/etc) transforms, so it stayed active even while an item
+        // was in use (eating, drinking, blocking, drawing a bow). Callers now pass the
+        // real swing progress in every branch instead of hardcoding 0.0F, which is what
+        // actually restores that 1.7 feel.
         float f = MathHelper.sin(swingProgress * swingProgress * (float) Math.PI);
         float f1 = MathHelper.sin(MathHelper.sqrt_float(swingProgress) * (float) Math.PI);
         GlStateManager.rotate(f * -20.0F, 0.0F, 1.0F, 0.0F);
@@ -307,19 +312,22 @@ public class ItemRenderer {
                 } else if (abstractclientplayer.getItemInUseCount() > 0) {
                     EnumAction enumaction = this.itemToRender.getItemUseAction();
 
+                    // 1.7 kept the arm-swing rotation (f1) alive during eat/drink/block/bow use,
+                    // and only skipped the idle "punch" offset translate while an item was in use.
+                    // Passing f1 here instead of 0.0F restores that behavior.
                     switch (enumaction) {
                         case NONE:
-                            this.transformFirstPersonItem(f, 0.0F);
+                            this.transformFirstPersonItem(f, f1);
                             break;
 
                         case EAT:
                         case DRINK:
                             this.performDrinking(abstractclientplayer, partialTicks);
-                            this.transformFirstPersonItem(f, 0.0F);
+                            this.transformFirstPersonItem(f, f1);
                             break;
 
                         case BLOCK:
-                            PerformBlockEvent event = new PerformBlockEvent(this, partialTicks, f, 0.0f);
+                            PerformBlockEvent event = new PerformBlockEvent(this, partialTicks, f, f1);
                             event.call();
 
                             if (!event.cancelled) {
@@ -329,7 +337,7 @@ public class ItemRenderer {
                             break;
 
                         case BOW:
-                            this.transformFirstPersonItem(f, 0.0F);
+                            this.transformFirstPersonItem(f, f1);
                             this.doBowTransformations(partialTicks, abstractclientplayer);
                     }
                 } else {

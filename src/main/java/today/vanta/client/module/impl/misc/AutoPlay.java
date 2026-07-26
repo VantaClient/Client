@@ -34,6 +34,7 @@ public class AutoPlay extends Module {
 
     @EventListen
     private void onPrintChatMessage(PrintChatMessage event) {
+        if (mc.isSingleplayer()) return;
         String message = event.message;
 
         if (mode.isValue("Miniblox") && !canQueue) {
@@ -45,13 +46,12 @@ public class AutoPlay extends Module {
 
     @EventListen
     private void onPacket(SendPacketEvent event) {
-        if (mc.getCurrentServerData().serverIP == "localhost") {
-
-        }
+        if (mc.isSingleplayer()) return;
     }
 
     @EventListen
     public void onRenderOverlay(RenderOverlayEvent event) {
+        if (mc.isSingleplayer()) return;
         float x = event.scaledResolution.getScaledWidth() / 2 - (barWidth / 2);
         float y = event.scaledResolution.getScaledHeight() / 2 + 70f;
         if (mc.thePlayer == null || mc.theWorld == null) {

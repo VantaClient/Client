@@ -33,15 +33,15 @@ public class MainMenuScreen extends VantaScreen {
         float buttonWidth = 140;
 
         buttons.clear();
-        buttons.add(new ButtonComponent("Singleplayer", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
+        buttons.add(new ButtonComponent("Singleplayer", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_REGULAR_18));
         middleY += 14;
-        buttons.add(new ButtonComponent("Multiplayer", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
+        buttons.add(new ButtonComponent("Multiplayer", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_REGULAR_18));
         middleY += 14;
-        buttons.add(new ButtonComponent("Options", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
+        buttons.add(new ButtonComponent("Options", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_REGULAR_18));
         middleY += 14;
-        buttons.add(new ButtonComponent("Alts", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
+        buttons.add(new ButtonComponent("Alts", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_REGULAR_18));
         middleY += 14;
-        buttons.add(new ButtonComponent("Exit", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
+        buttons.add(new ButtonComponent("Exit", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_REGULAR_18));
     }
 
     @EventListen
@@ -55,7 +55,7 @@ public class MainMenuScreen extends VantaScreen {
         if (!Strings.CHANGELOG.isEmpty()) {
             float panelWidth = 0;
             for (String change : Strings.CHANGELOG) {
-                panelWidth = Math.max(panelWidth, CFonts.SFPT_MEDIUM_18.getStringWidth(change) + 10);
+                panelWidth = Math.max(panelWidth, CFonts.SFPT_REGULAR_18.getStringWidth(change) + 10);
             }
 
             float boxHeight = 14 * Strings.CHANGELOG.size() + 18;
@@ -64,7 +64,7 @@ public class MainMenuScreen extends VantaScreen {
                     .create(5, middleY, panelWidth, boxHeight)
                     .color(new Color(30, 30, 30))
                     .push(event);
-            CFonts.SFPT_SEMIBOLD_20.drawString("Changelog", 5 + 3.5f, middleY + 4.5f - 1, -1);
+            CFonts.getFont("SFPT-Medium", 20).drawString("Changelog", 5 + 3.5f, middleY + 4.5f - 1, -1);
 
             for (int i = 0; i < Strings.CHANGELOG.size(); i++) {
                 String change = Strings.CHANGELOG.get(i);
@@ -77,7 +77,7 @@ public class MainMenuScreen extends VantaScreen {
 
                 String formattedChange = formatChange(change);
 
-                CFonts.SFPT_MEDIUM_18.drawYCenteredString(formattedChange, 5 + 3.5f, y + 14 / 2f - 2, Color.WHITE, false);
+                CFonts.getFont("SFPT-Regular", 18).drawYCenteredString(formattedChange, 5 + 3.5f, y + 14 / 2f - 2, Color.WHITE, false);
             }
         }
 
@@ -88,8 +88,8 @@ public class MainMenuScreen extends VantaScreen {
                 .create(middleX - 143 / 2f, middleY - 16, 143, 14 * (buttons.size()) + 18)
                 .color(new Color(30, 30, 30))
                 .push(event);
-        CFonts.SFPT_SEMIBOLD_20.drawString(Strings.CLIENT_NAME, middleX - 143 / 2f + 3, middleY - 18 + 4.5f, -1);
-        CFonts.SFPT_MEDIUM_18.drawString(Strings.CLIENT_VERSION + " | " + Strings.DEVELOPERS, middleX * 2 - CFonts.SFPT_MEDIUM_18.getStringWidth(Strings.CLIENT_VERSION + " | " + Strings.DEVELOPERS) - 3, middleY * 2 - CFonts.SFPT_MEDIUM_18.getFontHeight() - 5.5f, new Color(200, 200, 200));
+        CFonts.getFont("SFPT-Medium", 20).drawString(Strings.CLIENT_NAME, middleX - 143 / 2f + 3, middleY - 18 + 4.5f, -1);
+        CFonts.getFont("SFPT-Regular", 18).drawString(Strings.CLIENT_VERSION + " | " + Strings.DEVELOPERS, middleX * 2 - CFonts.SFPT_MEDIUM_18.getStringWidth(Strings.CLIENT_VERSION + " | " + Strings.DEVELOPERS) - 3, middleY * 2 - CFonts.SFPT_MEDIUM_18.getFontHeight() - 5.5f, new Color(200, 200, 200));
 
         if (rotation > 360) {
             rotation = 0;

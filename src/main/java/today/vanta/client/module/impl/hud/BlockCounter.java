@@ -129,8 +129,8 @@ public class BlockCounter extends Module {
                 break;
 
             case "Box":
-                WIDTH = 90;
-                HEIGHT = 20;
+                WIDTH = 75;
+                HEIGHT = 19;
 
                 color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
                 blocks = InventoryUtil.getHotbarBlockCount();
@@ -173,20 +173,20 @@ public class BlockCounter extends Module {
                         .push(renderable);
 
                 Rectangle
-                        .create(x + 2, y + 14, barWidth, 3)
+                        .create(x + 2, y + 13, barWidth, 3)
                         .color(BACKGROUND.darker())
                         .push(renderable);
 
                 Rectangle
-                        .create(x + 2, y + 14, animBarWidth, 3)
+                        .create(x + 2, y + 13, animBarWidth, 3)
                         .color(color)
                         .push(renderable);
 
                 String block_str = String.valueOf(blocks);
-                float length = CFonts.SFPT_SEMIBOLD_20.getStringWidth(block_str);
+                float length = CFonts.SFPT_MEDIUM_18.getStringWidth(block_str);
 
-                CFonts.SFPT_SEMIBOLD_20.drawStringWithShadow("Blocks", x + 1, y + 1, -1);
-                CFonts.SFPT_SEMIBOLD_20.drawStringWithShadow(block_str, x + WIDTH - length - 2 - 1, y + 1, -1);
+                CFonts.SFPT_MEDIUM_18.drawStringWithShadow("Blocks", x + 2, y + 1, -1);
+                CFonts.SFPT_MEDIUM_18.drawStringWithShadow(block_str, x + WIDTH - length - 2, y + 1, -1);
                 break;
             case "Adjust":
                 ScaledResolution res = new ScaledResolution(mc);

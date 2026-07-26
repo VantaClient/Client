@@ -1,6 +1,7 @@
 package today.vanta.client.module.impl.misc;
 
 import io.netty.buffer.Unpooled;
+import net.minecraft.item.ItemSword;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -17,9 +18,12 @@ import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.MultiStringSetting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.util.game.events.EventListen;
+import today.vanta.util.game.player.RotationUtil;
+import today.vanta.util.game.player.constructors.Rotation;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Queue;
 
 public class Disabler extends Module {
@@ -50,20 +54,13 @@ public class Disabler extends Module {
                 isProcessing = false;
             }
         }
-
-        if (disable.isEnabled("Miniblox")) {
-            PotionEffect speedEffect = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed);
-            if (speedEffect != null) {
-                mc.thePlayer.moveForward = mc.thePlayer.capabilities.getWalkSpeed() * speedEffect.getAmplifier();
-            }
-        }
     }
 
     @EventListen
     private void onSendPacket(SendPacketEvent event) {
         if (isProcessing || mc.thePlayer == null) return;
 
-        if (disable.isEnabled("Miniblox")) {
+        if (disable.isEnabled("Miniblox") && mc.getCurrentServerData().serverIP.equals("localhost")) {
             if (event.packet instanceof C03PacketPlayer) {
                 PacketBuffer packetbuffer = new PacketBuffer(Unpooled.buffer());
                 packetbuffer.writeDouble(mc.thePlayer.lastTickPosX);

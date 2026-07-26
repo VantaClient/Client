@@ -370,7 +370,7 @@ public class TargetHUD extends Module {
                     RenderUtil.renderScaledItem(slot0, itemX, itemY, 0.75f);
                 }
 
-                CFonts.getFont("T-Regular", 14).drawStringWithShadow(String.format("%.1f", mc.thePlayer.getHealth() - localTarget.getHealth()), x + width - (length) - 4, y + 15, Color.WHITE);
+                CFonts.getFont("T-Regular", 14).drawStringWithShadow(String.format("%.1f", mc.thePlayer.getHealth() - localTarget.getHealth()), x + width - (length) - 2, y + 15, Color.WHITE);
                 break;
 
             case "ID-Card":
