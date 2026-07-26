@@ -127,7 +127,7 @@ public class Onomatopoeia extends Module {
         // don't add a new timestamp again for the same target until the swing resets (hurtTime == 0)
         if (lastTarget == entityLivingBase && attackRegistered) return;
 
-        if (entityLivingBase.hurtTime != 0) return;
+        if (entityLivingBase.hurtTime == 0) return;
 
         markers.add(new HitMarker(entityLivingBase));
         lastTarget = entityLivingBase;

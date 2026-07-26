@@ -36,7 +36,7 @@ public class Arraylist extends Module {
             animationLength = Setting.of("Animation length", 250, 0, 1000, "ms");
 
     private final StringSetting
-            font = Setting.of("Font", "SFPT", "SFPT", "Tahoma", "Minecraft", "Exhibition"),
+            font = Setting.of("Font", "SFPT", "SFPT", "Tahoma", "IBM Plex Sans", "Roboto", "Geist", "Minecraft", "Exhibition"),
             fontStyle = Setting.of("Font style", "Medium", "Light", "Medium", "Semibold", "Bold", "Heavy", "Regular").hide(() -> !font.isValue("SFPT"));
 
     private final NumberSetting fontSize = Setting.of("Font size", 24, 10, 42, "px").hide(() -> !font.isValue("SFPT") && !font.isValue("Tahoma"));
@@ -82,6 +82,15 @@ public class Arraylist extends Module {
                 break;
             case "Tahoma":
                 arraylistFontRenderer = new GlyphRenderer(CFonts.getFont("T-Regular", fontSize.getValue().intValue()));
+                break;
+            case "IBM Plex Sans":
+                arraylistFontRenderer = new GlyphRenderer(CFonts.getFont("IBMPlexSans-Regular", fontSize.getValue().intValue()));
+                break;
+            case "Roboto":
+                arraylistFontRenderer = new GlyphRenderer(CFonts.getFont("Roboto-Regular", fontSize.getValue().intValue()));
+                break;
+            case "Geist":
+                arraylistFontRenderer = new GlyphRenderer(CFonts.getFont("Geist-Regular", fontSize.getValue().intValue()));
                 break;
             default:
                 arraylistFontRenderer = new GlyphRenderer(CFonts.getFont("SFPT-" + fontStyle.getValue(), fontSize.getValue().intValue()));
