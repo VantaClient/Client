@@ -10,8 +10,10 @@ import today.vanta.client.module.impl.client.Theme;
 import today.vanta.util.client.ui.NotificationUtil;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.player.ChatUtil;
+import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.Renderable;
 import today.vanta.util.game.render.font.CFonts;
+import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 
@@ -39,6 +41,7 @@ public class Notifications extends Module {
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
         float yAddition = 5;
+        GlyphFontRenderer font = RenderUtil.getSelectedFont();
         for (int i = 0; i < NotificationUtil.notifTitle.size(); i++) {
             if (NotificationUtil.notifTime.get(i) + 3000 <= System.currentTimeMillis()) {
                 NotificationUtil.notifTitle.remove(i);
@@ -49,7 +52,7 @@ public class Notifications extends Module {
                 return;
             }
             String message = NotificationUtil.notifMessage.get(i);
-            float width = CFonts.SFPT_MEDIUM_18.getStringWidth(message) + 4;
+            float width = font.getStringWidth(message) + 4;
             float x = event.scaledResolution.getScaledWidth() - width - 5;
             float y = event.scaledResolution.getScaledHeight() - height - yAddition - 10;
             Long lifetime = NotificationUtil.notifLifetime.get(i);
@@ -63,7 +66,7 @@ public class Notifications extends Module {
             Rectangle.create( x + 2,y + height - 6f,totalBarWidth,3f).color(new Color(10,10,10,255)).push(event);
             Rectangle.create( x + 2,y + height - 6f,barWidth,3f).color(Vanta.instance.moduleStorage.getT(Theme.class).colors[0]).push(event);
 
-            CFonts.SFPT_REGULAR_18.drawStringWithShadow(message,x + 1,y + 2,Color.white);
+            font.drawStringWithShadow(message,x + 2,y + 2,Color.white);
             yAddition += height + 5;
         }
     }

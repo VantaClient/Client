@@ -14,9 +14,12 @@ import net.minecraft.item.ItemStack;
 import net.optifine.reflect.Reflector;
 import org.lwjgl.opengl.GL11;
 import today.vanta.Vanta;
+import today.vanta.client.module.Module;
+import today.vanta.client.module.impl.client.FontSettings;
 import today.vanta.client.module.impl.client.Theme;
 import today.vanta.client.module.impl.client.WindowSettings;
 import today.vanta.util.game.render.font.CFonts;
+import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 import today.vanta.util.game.render.shape.GradientMode;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.ImageRectangle;
@@ -104,6 +107,61 @@ public class RenderUtil {
         GuiInventory.drawEntityOnScreen(posX, posY, scale, mouseX, mouseY, entity);
     }
 
+
+    public static GlyphFontRenderer getSelectedFont() {
+        GlyphFontRenderer font;
+        switch(Vanta.instance.moduleStorage.getT(FontSettings.class).font.getValue()) {
+            case "SFPT":
+                font = CFonts.SFPT_REGULAR_18;
+                break;
+            case "Tahoma":
+                font = CFonts.getFont("T-Regular", 18);
+                break;
+            case "Roboto":
+                font = CFonts.getFont("Roboto-Regular", 18);
+                break;
+            case "Geist":
+                font = CFonts.getFont("Geist-Regular", 18);
+                break;
+            case "IBM Plex Sans":
+                font = CFonts.getFont("IBMPlexSans-Regular", 18);
+                break;
+            default:
+                font = CFonts.SFPT_REGULAR_18;
+                break;
+        }
+        return font;
+    }
+
+    public static GlyphFontRenderer getSelectedFont(int size) {
+        GlyphFontRenderer font;
+        switch(Vanta.instance.moduleStorage.getT(FontSettings.class).font.getValue()) {
+            case "SFPT":
+                font = CFonts.SFPT_REGULAR_18;
+                break;
+            case "Tahoma":
+                font = CFonts.getFont("T-Regular", 18);
+                break;
+            case "Roboto":
+                font = CFonts.getFont("Roboto-Regular", 18);
+                break;
+            case "Geist":
+                font = CFonts.getFont("Geist-Regular", 18);
+                break;
+            case "IBM Plex Sans":
+                font = CFonts.getFont("IBMPlexSans-Regular", 18);
+                break;
+            default:
+                font = CFonts.SFPT_REGULAR_18;
+                break;
+        }
+        return font;
+    }
+
+    public static float fontHeightDif(GlyphFontRenderer font) {
+        return CFonts.SFPT_REGULAR_18.getFontHeight() - font.getFontHeight();
+    }
+
     public static void drawWindowRectangle(Renderable renderable, String title, float x, float y, float width, float height) {
         Color WINDOWBG = new Color(20, 20, 20, 220);
         Color BACKGROUND = new Color(20, 20, 20, 190);
@@ -112,6 +170,7 @@ public class RenderUtil {
         Color outlineColor = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
         Color outlineColor2 = Vanta.instance.moduleStorage.getT(Theme.class).colors[1];
         float outlineWidth = 0.5f;
+        GlyphFontRenderer font = getSelectedFont();
 
         Rectangle
                 .create(x, y, width, windowHeight)
@@ -119,11 +178,11 @@ public class RenderUtil {
                 .push(renderable);
         switch (Vanta.instance.moduleStorage.getT(WindowSettings.class).textAlignment.getValue()) {
             case "Left":
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow(title, x + 1f, y - (textHeight / 2) + (windowHeight / 2), Color.white);
+                font.drawStringWithShadow(title, x + 1f, y - (textHeight / 2) + (windowHeight / 2), Color.white);
                 break;
             case "Center":
-                float textWidth = CFonts.SFPT_REGULAR_18.getStringWidth(title);
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow(title, x + (width / 2) - (textWidth / 2), y - (textHeight / 2) + (windowHeight / 2), Color.white);
+                float textWidth = font.getStringWidth(title);
+                font.drawStringWithShadow(title, x + (width / 2) - (textWidth / 2), y - (textHeight / 2) + (windowHeight / 2), Color.white);
                 break;
         }
 

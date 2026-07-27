@@ -1,5 +1,6 @@
 package today.vanta.client.module.impl.render;
 
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.potion.Potion;
@@ -78,10 +79,11 @@ public class Animations extends Module {
         float var9 = MathHelper.sin(MathHelper.sqrt_float(f1) * MathHelper.PI);
 
         switch (mode.getValue()) {
-            case "1.7":
-                renderer.transformFirstPersonItem(-0.1f, f1);
-                renderer.doBlockTransformations();
+            case "1.7": {
+                renderer.transformFirstPersonItem(0.0f, f1);
                 break;
+            }
+
             case "Sigma":
                 renderer.transformFirstPersonItem(f * 0.5f, 0);
                 GlStateManager.rotate(-var9 * 55 / 2.0F, -8.0F, -0.0F, 9.0F);

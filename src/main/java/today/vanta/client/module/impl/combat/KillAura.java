@@ -34,7 +34,7 @@ public class KillAura extends Module {
     public final StringSetting
             attackMode = Setting.of("Attack mode", "Single", "Single"),
             sortMode = Setting.of("Sort mode", "Range", "Range", "Health", "Armor", "Hurt-time", "Ticks", "Skin color"),
-            autoBlockMode = Setting.of("Auto-block mode", "None", "None", "Vanilla", "Packet", "Hold", "Mospixel Post", "Tick"),
+            autoBlockMode = Setting.of("Auto-block mode", "None", "None", "Vanilla", "Packet", "Hold", "Mospixel Post", "Tick", "Fake"),
             swingMode = Setting.of("Swing mode", "Legit", "Legit", "Blatant");
 
     public final NumberSetting
@@ -128,6 +128,11 @@ public class KillAura extends Module {
 
             if (blockDelay > 0) {
                 blockDelay--;
+            }
+
+            if (autoBlockMode.isValue("Fake")) {
+                if (!(mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)) return;
+                mc.thePlayer.setItemInUse(mc.thePlayer.getCurrentEquippedItem(), 1);
             }
 
             if (autoBlockMode.isValue("Tick") && TargetProcessor.getInstance().target != null) {

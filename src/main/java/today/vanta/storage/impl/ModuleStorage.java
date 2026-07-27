@@ -11,6 +11,7 @@ import today.vanta.client.module.impl.player.*;
 import today.vanta.client.module.impl.render.*;
 import today.vanta.storage.Storage;
 
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class ModuleStorage extends Storage<Module> {
         list.add(new Test());
         list.add(new ClientSounds());
         list.add(new WindowSettings());
+        list.add(new FontSettings());
 
         // Combat
         list.add(new AntiBot());

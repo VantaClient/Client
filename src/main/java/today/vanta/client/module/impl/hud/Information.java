@@ -23,6 +23,7 @@ import today.vanta.util.game.player.MovementUtil;
 import today.vanta.util.game.player.PlayerUtil;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.font.CFonts;
+import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 import today.vanta.util.game.world.EntityUtil;
 import today.vanta.util.system.math.Counter;
@@ -84,6 +85,7 @@ public class Information extends Module {
 
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
+        GlyphFontRenderer font = RenderUtil.getSelectedFont();
         Color color1 = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
 
         if (!mc.isSingleplayer() && mc.getCurrentServerData().serverIP != null) {
@@ -98,12 +100,12 @@ public class Information extends Module {
                 totalHeight = height;
                 totalWidth = width;
                 outlineWidth = 0;
-                float ydraw = event.scaledResolution.getScaledHeight() - 19;
+                float ydraw = event.scaledResolution.getScaledHeight() - (font.getFontHeight() * 2);
                 if (mc.currentScreen instanceof GuiChat) {
                     ydraw = event.scaledResolution.getScaledHeight() - 230;
                 }
-                mc.exhiFontRendererObj.drawString("Ping: " + PlayerUtil.getPing(mc.thePlayer), 2, ydraw, Color.WHITE,true);
-                mc.exhiFontRendererObj.drawString("BPS: " + MovementUtil.getBPS(), 2, ydraw + 10, Color.WHITE,true);
+                font.drawStringWithShadow("Ping: " + PlayerUtil.getPing(mc.thePlayer), 2, ydraw, Color.WHITE);
+                font.drawStringWithShadow("BPS: " + MovementUtil.getBPS(), 2, ydraw + 10, Color.WHITE);
                 break;
             case "Window":
                 width = 150;
@@ -118,18 +120,18 @@ public class Information extends Module {
 //                        .create(x.getValue().floatValue(),y.getValue().floatValue(),WIDTH,12)
 //                        .color(WINDOWBG)
 //                        .push(event);
-//                CFonts.SFPT_REGULAR_18.drawStringWithShadow("Information", x.getValue().floatValue() + 1, y.getValue().floatValue(), Color.white);
+//                font.drawStringWithShadow("Information", x.getValue().floatValue() + 1, y.getValue().floatValue(), Color.white);
 //                Rectangle
 //                        .create(x.getValue().floatValue(),y.getValue().floatValue() + 12,WIDTH,HEIGHT - 12)
 //                        .color(BACKGROUND)
 //                        .push(event);
 
                 RenderUtil.renderHead(event,mc.thePlayer,x.getValue().floatValue() + 2,y.getValue().floatValue() + 14,47);
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow(mc.thePlayer.getName(), x.getValue().floatValue() + 50, y.getValue().floatValue() + 11.6f, Color.WHITE);
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow("FPS: "+ Minecraft.getDebugFPS(), x.getValue().floatValue() + 50, y.getValue().floatValue() + 21.6f, Color.WHITE);
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow("BPS: "+ MovementUtil.getBPS(), x.getValue().floatValue() + 50, y.getValue().floatValue() + 31.6f, Color.WHITE);
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow("Ping: "+ PlayerUtil.getPing(mc.thePlayer), x.getValue().floatValue() + 50, y.getValue().floatValue() + 41.6f, Color.WHITE);
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow("Session: " + MathUtil.formatDuration(playTime.getElapsedTime()), x.getValue().floatValue() + 50, y.getValue().floatValue() + 51.6f, Color.WHITE);
+                font.drawStringWithShadow(mc.thePlayer.getName(), x.getValue().floatValue() + 50, y.getValue().floatValue() + 11.6f, Color.WHITE);
+                font.drawStringWithShadow("FPS: "+ Minecraft.getDebugFPS(), x.getValue().floatValue() + 50, y.getValue().floatValue() + 21.6f, Color.WHITE);
+                font.drawStringWithShadow("BPS: "+ MovementUtil.getBPS(), x.getValue().floatValue() + 50, y.getValue().floatValue() + 31.6f, Color.WHITE);
+                font.drawStringWithShadow("Ping: "+ PlayerUtil.getPing(mc.thePlayer), x.getValue().floatValue() + 50, y.getValue().floatValue() + 41.6f, Color.WHITE);
+                font.drawStringWithShadow("Session: " + MathUtil.formatDuration(playTime.getElapsedTime()), x.getValue().floatValue() + 50, y.getValue().floatValue() + 51.6f, Color.WHITE);
 
                 break;
 

@@ -16,6 +16,7 @@ import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.font.CFonts;
+import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 
 import java.awt.*;
@@ -68,6 +69,7 @@ public class TargetList extends Module {
 
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
+        GlyphFontRenderer font = RenderUtil.getSelectedFont();
         list.clear();
 
         mc.theWorld.getLoadedEntityList().stream()
@@ -107,8 +109,8 @@ public class TargetList extends Module {
                 for (EntityPlayer entityPlayer : list) {
                     RenderUtil.renderHead(event, entityPlayer, x.getValue().floatValue() + 1, ydraw + 2, 8);
                     String name = entityPlayer.getName();
-                    CFonts.SFPT_REGULAR_18.drawStringWithShadow(name, x.getValue().floatValue() + 10, ydraw, Color.WHITE);
-                    ydraw += 10f;
+                    font.drawStringWithShadow(name, x.getValue().floatValue() + 10, ydraw - 0.5f, Color.WHITE);
+                    ydraw += 10f + RenderUtil.fontHeightDif(font);
                 }
                 break;
         }

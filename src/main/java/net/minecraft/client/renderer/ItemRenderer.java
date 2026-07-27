@@ -327,7 +327,7 @@ public class ItemRenderer {
                             break;
 
                         case BLOCK:
-                            PerformBlockEvent event = new PerformBlockEvent(this, partialTicks, f, f1);
+                            PerformBlockEvent event = new PerformBlockEvent(this, partialTicks, f,this.prevEquippedProgress, f1);
                             event.call();
 
                             if (!event.cancelled) {

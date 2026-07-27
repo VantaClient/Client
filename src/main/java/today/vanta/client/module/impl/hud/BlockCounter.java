@@ -1,5 +1,6 @@
 package today.vanta.client.module.impl.hud;
 
+import com.sun.javafx.font.Glyph;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Mouse;
@@ -18,6 +19,7 @@ import today.vanta.util.game.player.InventoryUtil;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.Renderable;
 import today.vanta.util.game.render.font.CFonts;
+import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 import today.vanta.util.system.math.animation.Animation;
 import today.vanta.util.system.math.animation.Easing;
@@ -44,9 +46,8 @@ public class BlockCounter extends Module {
     private int blocks;
     private Animation animation;
     private float targetwidth = WIDTH - 4;
-    ;
     private float animBarWidth = WIDTH - 4;
-    ;
+    private int size = 12;
 
     public BlockCounter() {
         super("BlockCounter", "Block information.", Category.HUD);
@@ -110,10 +111,12 @@ public class BlockCounter extends Module {
     }
 
     private void draw(Renderable renderable) {
+        GlyphFontRenderer font = RenderUtil.getSelectedFont(size);
         float x = this.x.getValue().floatValue();
         float y = this.y.getValue().floatValue();
         switch (mode.getValue()) {
             case "Vanta":
+                size = 30;
                 WIDTH = 90;
                 HEIGHT = 40;
 
@@ -124,13 +127,14 @@ public class BlockCounter extends Module {
 
                 RenderUtil.renderScaledItem(InventoryUtil.getBestBlockStack(), x, y + 0.5f, 2.4f);
 
-                CFonts.SFPT_SEMIBOLD_20.drawStringWithShadow("Blocks", x + 38, y + 4, color);
-                CFonts.SFPT_SEMIBOLD_20.drawStringWithShadow(String.valueOf(blocks), x + 38, y + 15, Color.WHITE);
+                font.drawStringWithShadow("Blocks", x + 38, y + 4, color);
+                font.drawStringWithShadow(String.valueOf(blocks), x + 38, y + 15, Color.WHITE);
                 break;
 
             case "Box":
                 WIDTH = 75;
                 HEIGHT = 19;
+                size = 18;
 
                 color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
                 blocks = InventoryUtil.getHotbarBlockCount();
@@ -183,10 +187,10 @@ public class BlockCounter extends Module {
                         .push(renderable);
 
                 String block_str = String.valueOf(blocks);
-                float length = CFonts.SFPT_MEDIUM_18.getStringWidth(block_str);
+                float length = font.getStringWidth(block_str);
 
-                CFonts.SFPT_MEDIUM_18.drawStringWithShadow("Blocks", x + 2, y + 1, -1);
-                CFonts.SFPT_MEDIUM_18.drawStringWithShadow(block_str, x + WIDTH - length - 2, y + 1, -1);
+                font.drawStringWithShadow("Blocks", x + 2, y + 1, -1);
+                font.drawStringWithShadow(block_str, x + WIDTH - length - 2, y + 1, -1);
                 break;
             case "Adjust":
                 ScaledResolution res = new ScaledResolution(mc);
