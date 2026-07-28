@@ -105,7 +105,7 @@
                 </os>
             </activation>
             <properties>
-                <lwjgl.natives>natives-windows-arm64</lwjgl.natives>
+                <lwjgl.natives>natives-windows</lwjgl.natives>
                 <imgui.natives>imgui-java-natives-windows</imgui.natives>
             </properties>
         </profile>
