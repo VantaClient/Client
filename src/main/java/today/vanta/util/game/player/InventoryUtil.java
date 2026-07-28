@@ -1,6 +1,5 @@
 package today.vanta.util.game.player;
 
-import lombok.experimental.UtilityClass;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -17,15 +16,14 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.*;
 import net.minecraft.util.DamageSource;
-import today.vanta.util.game.IMinecraft;
+import today.vanta.util.game.Commons;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@UtilityClass
-public class InventoryUtil implements IMinecraft {
-    private static final Set<Block> INVALID_BLOCKS = new HashSet<>(Arrays.asList(
+public class InventoryUtil implements Commons {
+    private static final List<Object> INVALID_ITEMS = Collections.unmodifiableList(Arrays.asList(
             Blocks.sand, Blocks.gravel, Blocks.dispenser, Blocks.command_block, Blocks.noteblock, Blocks.furnace, Blocks.crafting_table, Blocks.tnt,
             Blocks.dropper, Blocks.beacon, Blocks.vine, Blocks.soul_sand, Blocks.snow, Blocks.ice, Blocks.pumpkin,
             Blocks.air, Blocks.water, Blocks.lava, Blocks.flowing_water, Blocks.flowing_lava, Blocks.command_block, Blocks.chest, Blocks.crafting_table,
@@ -34,13 +32,12 @@ public class InventoryUtil implements IMinecraft {
             Blocks.acacia_fence_gate, Blocks.birch_fence_gate, Blocks.jungle_fence_gate, Blocks.dark_oak_fence_gate, Blocks.spruce_fence_gate, Blocks.torch,
             Blocks.redstone_torch, Blocks.stone_slab, Blocks.stone_slab2, Blocks.wooden_slab, Blocks.snow_layer, Blocks.ladder, Blocks.sapling, Blocks.vine,
             Blocks.tallgrass, Blocks.waterlily, Blocks.deadbush, Blocks.redstone_wire, Blocks.chest, Blocks.ender_chest, Blocks.trapped_chest, Blocks.double_plant,
-            Blocks.flower_pot, Blocks.red_flower, Blocks.yellow_flower, Blocks.skull, Blocks.farmland, Blocks.standing_sign, Blocks.wall_sign
-    ));
-    private static final HashSet<Item> INVALID_ITEMS = new HashSet<>(Arrays.asList(
+            Blocks.flower_pot, Blocks.red_flower, Blocks.yellow_flower, Blocks.skull, Blocks.farmland, Blocks.standing_sign, Blocks.wall_sign,
+
             Items.stick, Items.flint, Items.feather, Items.string, Items.bone, Items.rotten_flesh, Items.spider_eye, Items.poisonous_potato, Items.pumpkin_seeds,
             Items.melon_seeds, Items.wheat_seeds, Items.sugar, Items.paper, Items.leather, Items.clay_ball, Items.ghast_tear, Items.glass_bottle,
             Items.carrot, Items.potato, Items.golden_horse_armor, Items.iron_horse_armor, Items.diamond_horse_armor, Items.saddle, Items.wooden_hoe, Items.stone_hoe,
-            Items.milk_bucket, Items.snowball,Items.egg
+            Items.milk_bucket, Items.snowball, Items.egg
     ));
 
     public static void stealSlot(int slot) {
@@ -48,7 +45,7 @@ public class InventoryUtil implements IMinecraft {
     }
 
     public static boolean isBlockValid(Block block) {
-        return !INVALID_BLOCKS.contains(block);
+        return !INVALID_ITEMS.contains(block);
     }
 
     public static int armorProt(ItemArmor armor, ItemStack item) {
@@ -76,7 +73,7 @@ public class InventoryUtil implements IMinecraft {
     }
 
     public static boolean isTrash(Item item) {
-        return INVALID_ITEMS.contains(item) || (item instanceof ItemBlock && INVALID_BLOCKS.contains(((ItemBlock) item).getBlock()));
+        return INVALID_ITEMS.contains(item);
     }
 
     public static void windowClick(Minecraft mc, int windowId, int slotId, int mouseButtonClicked, ClickType type) {
@@ -87,7 +84,9 @@ public class InventoryUtil implements IMinecraft {
         PICKUP, QUICK_MOVE, SWAP, CLONE, THROW, QUICK_CRAFT, PICKUP_ALL
     }
 
-    public static boolean canPlaceOnBlock(final Block block) {return Stream.of(INVALID_BLOCKS).noneMatch(block::equals);}
+    public static boolean canPlaceOnBlock(final Block block) {
+        return !INVALID_ITEMS.contains(block);
+    }
 
     public static ItemStack getHeldItem() {
         InventoryPlayer inventory = mc.thePlayer.inventory;
@@ -320,15 +319,11 @@ public class InventoryUtil implements IMinecraft {
     public static int getBlockCount(int slot) {
         ItemStack itemStack = mc.thePlayer.inventory.getStackInSlot(slot);
 
-        if (itemStack != null && itemStack.getItem() instanceof ItemBlock) {
+        if (itemStack != null && itemStack.getItem() instanceof ItemBlock && !INVALID_ITEMS.contains(((ItemBlock) itemStack.getItem()).getBlock())) {
             return itemStack.stackSize;
         }
 
         return 0;
-    }
-
-    private static boolean isBlockValid(ItemBlock block) {
-        return isBlockValid(block.getBlock());
     }
 
     public static int getHotbarBlockCount() {
@@ -336,7 +331,7 @@ public class InventoryUtil implements IMinecraft {
         for (int i = 0; i < 9; i++) {
             ItemStack stack = mc.thePlayer.inventory.getStackInSlot(i);
 
-            if (stack != null && stack.getItem() instanceof ItemBlock && isBlockValid((ItemBlock) stack.getItem())) {
+            if (stack != null && stack.getItem() instanceof ItemBlock && !INVALID_ITEMS.contains(((ItemBlock) stack.getItem()).getBlock())) {
                 total += stack.stackSize;
             }
         }

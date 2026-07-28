@@ -27,6 +27,7 @@ public class Ambience extends Module {
 
     @EventListen
     private void onReceivePacket(ReceivePacketEvent event) {
+        if (mc.theWorld == null) return;
         if (event.packet instanceof S03PacketTimeUpdate) {
             event.cancelled = true;
         }

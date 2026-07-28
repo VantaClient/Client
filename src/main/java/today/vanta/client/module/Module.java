@@ -8,14 +8,14 @@ import today.vanta.client.event.impl.client.ModuleRenamedEvent;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.StringSetting;
-import today.vanta.util.game.IMinecraft;
+import today.vanta.util.game.Commons;
 import today.vanta.util.system.math.ColorUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Module implements IMinecraft {
+public abstract class Module implements Commons {
     public String name, description;
     public Category category;
 
@@ -45,6 +45,14 @@ public abstract class Module implements IMinecraft {
         this.category = category;
         this.description = description;
         this.key = key;
+
+        if (name.contains(" ")) {
+            throw new IllegalArgumentException("Module name must not have spaces in it: " + name);
+        }
+
+        if (!description.endsWith(".")) {
+            throw new IllegalArgumentException("No description or description missing period at the end: " + name);
+        }
 
         this.displayName = name;
         this.displayNames = new String[]{displayName};
@@ -79,10 +87,6 @@ public abstract class Module implements IMinecraft {
 
     public Module(String name, String description, Category category) {
         this(name, description, category, 0);
-
-        if (!description.endsWith(".")) {
-            throw new IllegalArgumentException("No description or description missing period at the end: " + name);
-        }
     }
 
     public void onEnable() {

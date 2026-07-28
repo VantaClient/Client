@@ -48,11 +48,9 @@ public class KillAura extends Module {
             sprintReset = Setting.of("Sprint reset", true),
             keepSprint = Setting.of("Keep sprint", false).hide(sprintReset::getValue),
             swingOnHurtTime = Setting.of("Swing on hurt-time", false),
-            noBlockSwing = Setting.of("Don't swing while blocking", false);
+            noBlockSwing = Setting.of("Don't swing while blocking", false),
+            nullRot = Setting.of("No Rotations", false);
 
-    private float previousAttackRange;
-    private int tick;
-    boolean can;
 
     public KillAura() {
         super("KillAura", "Attacks entities in proximity.", Category.COMBAT);
@@ -84,7 +82,12 @@ public class KillAura extends Module {
     private int blockDelay = 0;
     private boolean isAttacking = false;
 
+    private float previousAttackRange;
+    private int tick;
+    private boolean can;
+
     private Rotation rots;
+    private Rotation applyRots;
 
     @EventListen
     private void onSprint(SprintEvent event) {
@@ -118,8 +121,6 @@ public class KillAura extends Module {
                 RotationProcessor.getInstance().setTargetRotation(rots);
             }
         }
-
-
 
         if (event.state == EventState.PRE) {
             if (mc.thePlayer.ticksExisted % 20 == 0) {
@@ -196,12 +197,6 @@ public class KillAura extends Module {
                     startPacketBlock();
                 }
             }
-        }
-    }
-
-    private void canAttack() {
-        if (swingOnHurtTime.getValue() && TargetProcessor.getInstance().target != null && TargetProcessor.getInstance().target.hurtTime < 2) {
-
         }
     }
 

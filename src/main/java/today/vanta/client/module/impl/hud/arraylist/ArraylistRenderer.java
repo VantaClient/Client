@@ -1,7 +1,8 @@
 package today.vanta.client.module.impl.hud.arraylist;
 
 import today.vanta.util.game.render.font.IRenderer;
-import java.awt.Color;
+
+import java.awt.*;
 
 public abstract class ArraylistRenderer {
     public final IRenderer renderer;

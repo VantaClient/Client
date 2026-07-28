@@ -14,7 +14,7 @@ import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.MultiStringSetting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.client.setting.impl.StringSetting;
-import today.vanta.util.client.IClient;
+import today.vanta.util.client.Strings;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.render.ImageUtil;
 import today.vanta.util.game.render.shape.GradientMode;
@@ -28,7 +28,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
-public class ImGuiClickGUIScreen extends VantaScreen implements IClient {
+public class ImGuiClickGUIScreen extends VantaScreen implements Strings {
     private Category currentCategory = Category.COMBAT;
     private final Map<Category, Module> lastModulePerCategory = new EnumMap<>(Category.class);
     private Module currentModule;

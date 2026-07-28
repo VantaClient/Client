@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.Packet;
 import today.vanta.util.game.player.ChatUtil;
 
-public interface IMinecraft {
+public interface Commons {
     Minecraft mc = Minecraft.getMinecraft();
 
     default void sendPacket(Packet<?> packet) {

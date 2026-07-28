@@ -1,5 +1,8 @@
 package today.vanta.client.module.impl.render;
 
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.module.Category;
@@ -8,9 +11,6 @@ import today.vanta.client.module.impl.client.Theme;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.render.ProjectionUtil;
 import today.vanta.util.game.render.shape.impl.Rectangle;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class ChestESP extends Module {
     private Color color = Vanta.instance.moduleStorage.getT(Theme.class).colors[1];
 
     public ChestESP() {
-        super("Chest ESP", "Shows you where chests are.", Category.PLAYER);
+        super("ChestESP", "Shows you where chests are.", Category.PLAYER);
     }
 
     @EventListen

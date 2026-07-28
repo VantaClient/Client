@@ -6,12 +6,11 @@ import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.pathfinding.PathFinder;
 import net.minecraft.pathfinding.PathPoint;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCache;
 import net.minecraft.world.pathfinder.WalkNodeProcessor;
-import today.vanta.util.game.IMinecraft;
+import today.vanta.util.game.Commons;
 
-public class PathfindingUtil implements IMinecraft {
+public class PathfindingUtil implements Commons {
 
     public static final float DEFAULT_PATH_RANGE = 128.0F;
 

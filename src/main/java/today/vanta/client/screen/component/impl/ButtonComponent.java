@@ -10,38 +10,30 @@ import today.vanta.util.game.sound.Sounds;
 import java.awt.*;
 
 public class ButtonComponent extends Component {
-    private boolean onlyText = false;
-    boolean hashovered = false;
+    private boolean didHover = false;
 
     public ButtonComponent(String text, float x, float y, float width, float height, GlyphFontRenderer font) {
         super(text, x, y, width, height, font);
     }
 
-    public ButtonComponent(String text, float x, float y, GlyphFontRenderer font) {
-        super(text, x, y, font.getStringWidth(text), font.getFontHeight(), font);
-        onlyText = true;
-    }
-
     @Override
     public void draw(RenderScreenEvent event) {
         boolean hover = RenderUtil.hovered(event.mouseX, event.mouseY, x, y, width, height);
-        if (!onlyText) {
-            Rectangle
-                    .create(x, y, width, height)
-                    .color(hover ? new Color(40, 40, 40) : new Color(35, 35, 35))
-                    .push(event);
-            font.drawYCenteredString(text, x + 3.5f, y + height / 2 - 2, Color.WHITE, false);
-        } else {
-            font.drawString(text, x, y - 2, hover ? Color.LIGHT_GRAY : Color.WHITE);
+
+        Rectangle
+                .create(x, y, width, height)
+                .color(hover ? new Color(40, 40, 40) : new Color(35, 35, 35))
+                .push(event);
+
+        font.drawYCenteredString(text, x + 3.5f, y + height / 2 - 2, Color.WHITE, false);
+
+        if (didHover && !hover) {
+            didHover = false;
         }
 
-        if (hashovered && !hover) {
-            hashovered = false;
-        }
-
-        if (hover && !hashovered) {
+        if (hover && !didHover) {
             Sounds.HOVER.play();
-            hashovered = true;
+            didHover = true;
         }
     }
 

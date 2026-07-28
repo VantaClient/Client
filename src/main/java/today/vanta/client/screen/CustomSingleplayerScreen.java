@@ -39,9 +39,9 @@ public class CustomSingleplayerScreen extends VantaScreen {
     private final GlyphFontRenderer titleFont = CFonts.SFPT_SEMIBOLD_20;
     private final GlyphFontRenderer itemFont = CFonts.SFPT_MEDIUM_18;
     private final GlyphFontRenderer buttonFont = CFonts.SFPT_MEDIUM_18;
-    private final GlyphFontRenderer smallFont = CFonts.SFPT_REGULAR_14;
+    private final GlyphFontRenderer smallFont = CFonts.SFPT_REGULAR_18;
     private final GlyphFontRenderer inputFont = CFonts.SFPT_MEDIUM_18;
-    private final GlyphFontRenderer labelFont = CFonts.SFPT_REGULAR_14;
+    private final GlyphFontRenderer labelFont = CFonts.SFPT_REGULAR_18;
 
     private final GuiScreen parentScreen;
     private final DateFormat dateFormat = new SimpleDateFormat();

@@ -4,7 +4,6 @@ import net.minecraft.client.gui.GuiScreen;
 import today.vanta.Vanta;
 
 public abstract class VantaScreen extends GuiScreen {
-
     @Override
     public final void initGui() {
         Vanta.instance.eventBus.unregister(this);

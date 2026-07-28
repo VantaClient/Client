@@ -1,7 +1,6 @@
 package today.vanta.client.event.impl.game.player;
 
 import today.vanta.client.event.Event;
-import today.vanta.util.game.events.EventState;
 
 public class MotionEvent extends Event {
     public float yaw, pitch;

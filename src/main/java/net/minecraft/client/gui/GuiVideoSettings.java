@@ -6,7 +6,7 @@ import net.minecraft.src.Config;
 import net.optifine.Lang;
 import net.optifine.gui.*;
 import net.optifine.shaders.gui.GuiShaders;
-import today.vanta.util.client.IClient;
+import today.vanta.util.client.Strings;
 
 import java.io.IOException;
 
@@ -169,7 +169,7 @@ public class GuiVideoSettings extends GuiScreenOF {
         }
 
         this.drawString(this.fontRendererObj, s, 2, this.height - 10, 8421504);
-        String s2 = IClient.CLIENT_FULL_TITLE;
+        String s2 = Strings.CLIENT_FULL_TITLE;
         int i = this.fontRendererObj.getStringWidth(s2);
         this.drawString(this.fontRendererObj, s2, this.width - i - 2, this.height - 10, 8421504);
         super.drawScreen(mouseX, mouseY, partialTicks);

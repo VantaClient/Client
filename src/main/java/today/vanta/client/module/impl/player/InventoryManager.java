@@ -93,6 +93,9 @@ public class InventoryManager extends Module {
     public void onDisable() {
         actionTimer.reset();
         lastActionSlot = -1;
+
+        if (mc.thePlayer == null) return;
+
         closeSilentInventory();
     }
 

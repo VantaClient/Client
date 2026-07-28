@@ -4,8 +4,8 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Mouse;
 import today.vanta.Vanta;
-import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
+import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
 import today.vanta.client.module.impl.client.Theme;
@@ -14,6 +14,7 @@ import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.game.events.EventListen;
+import today.vanta.util.game.player.ChatUtil;
 import today.vanta.util.game.player.InventoryUtil;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.Renderable;
@@ -39,14 +40,14 @@ public class BlockCounter extends Module {
     private boolean dragging;
     private float dragX, dragY;
     private int maxBlocks = 0;
-    private float xce;
-    private float yce;
 
     private Color color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
     private int blocks;
     private Animation animation;
-    private float targetwidth = WIDTH - 4;;
-    private float animBarWidth = WIDTH - 4;;
+    private float targetwidth = WIDTH - 4;
+    ;
+    private float animBarWidth = WIDTH - 4;
+    ;
 
     public BlockCounter() {
         super("BlockCounter", "Block information.", Category.HUD);
@@ -61,23 +62,24 @@ public class BlockCounter extends Module {
     private void onRenderOverlay(RenderOverlayEvent event) {
         color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
         float centerValueX = ((float) event.scaledResolution.getScaledWidth() / 2) - (WIDTH / 2);
-        if (x.getValue() == null) {return;}
+        if (x.getValue() == null) {
+            return;
+        }
         if (x.getValue().floatValue() == centerValueX && dragging) {
             Rectangle
-                    .create((float) event.scaledResolution.getScaledWidth() / 2 - 1, 0,2,event.scaledResolution.getScaledHeight())
-                    .color(new Color(200,200,200,180))
+                    .create((float) event.scaledResolution.getScaledWidth() / 2 - 1, 0, 2, event.scaledResolution.getScaledHeight())
+                    .color(new Color(200, 200, 200, 180))
                     .push(event);
         }
-
-        xce = (float) event.scaledResolution.getScaledWidth() / 2;
-        yce = (float) event.scaledResolution.getScaledHeight() / 2;
     }
 
     @EventListen
     private void onRenderScreen(RenderScreenEvent event) {
-        if (mc.thePlayer == null) {maxBlocks = 0; return;}
+        if (mc.thePlayer == null) {
+            maxBlocks = 0;
+            return;
+        }
         blocks = InventoryUtil.getHotbarBlockCount();
-
 
         if (maxBlocks < blocks) {
             maxBlocks = blocks;
@@ -111,7 +113,7 @@ public class BlockCounter extends Module {
     private void draw(Renderable renderable) {
         float x = this.x.getValue().floatValue();
         float y = this.y.getValue().floatValue();
-        switch(mode.getValue()) {
+        switch (mode.getValue()) {
             case "Vanta":
                 WIDTH = 90;
                 HEIGHT = 40;
@@ -143,11 +145,26 @@ public class BlockCounter extends Module {
                             animBarWidth,
                             targetwidth,
                             100,
-                            Easing.LINEAR,
+                            Easing.EASE_IN_OUT,
                             val -> animBarWidth = val
                     );
 
                     animation.start();
+                }
+
+                if (animBarWidth != targetwidth) {
+                    targetwidth = bar;
+                    if (animation.finished) {
+                        animation = Animation.create(
+                                animBarWidth,
+                                targetwidth,
+                                100,
+                                Easing.EASE_IN_OUT,
+                                val -> animBarWidth = val
+                        );
+
+                        animation.start();
+                    }
                 }
 
 

@@ -5,7 +5,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.world.storage.WorldInfo;
 import org.lwjgl.input.Mouse;
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderScreenEvent;
@@ -17,11 +16,11 @@ import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.game.events.EventListen;
-import today.vanta.util.game.player.ChatUtil;
 import today.vanta.util.game.player.PlayerUtil;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.Renderable;
 import today.vanta.util.game.render.font.CFonts;
+import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 import today.vanta.util.game.render.shape.GradientMode;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
@@ -36,6 +35,13 @@ public class TargetHUD extends Module {
     private static final Color ATDARKERBACKGROUND = new Color(20, 20, 20, 200);
     private static final Color DARKER_BACKGROUND = new Color(20, 20, 20, 255);
     private static final Color PASSBACKGROUND = new Color(182, 215, 223);
+
+    private static final GlyphFontRenderer RUSTICROADWAY_22 = CFonts.getFont("RusticRoadway", 22);
+    private static final GlyphFontRenderer OCRB_18 = CFonts.getFont("OCR-B", 18);
+    private static final GlyphFontRenderer OCRB_10 = CFonts.getFont("OCR-B", 10);
+    private static final GlyphFontRenderer OCRB_8 = CFonts.getFont("OCR-B", 8);
+    private static final GlyphFontRenderer SFPT_MEDIUM_20 = CFonts.getFont("SFPT-Medium", 20);
+    private static final GlyphFontRenderer SFPT_REGULAR_16 = CFonts.getFont("SFPT-Regular", 16);
 
     private EntityLivingBase localTarget;
     private String oldTarget;
@@ -131,7 +137,7 @@ public class TargetHUD extends Module {
             case "Vanta":
                 float headSize = 26f;
 
-                width = 128;
+                width = 138;
                 height = 30;
 
                 Rectangle
@@ -140,8 +146,8 @@ public class TargetHUD extends Module {
                         .push(renderable);
 
                 RenderUtil.renderHead(renderable, (EntityPlayer) localTarget, x + 2, y - (headSize / 2) + (height / 2), headSize);
-                CFonts.SFPT_MEDIUM_20.drawStringWithShadow(localTarget.getName(), x + 2 + headSize, y + 1, Color.WHITE);
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow(String.format("%.1f", localTarget.getHealth()), x + 2 + headSize, y + 11, Color.WHITE);
+                SFPT_MEDIUM_20.drawStringWithShadow(localTarget.getName(), x + 3 + headSize, y + 1, Color.WHITE);
+                CFonts.SFPT_REGULAR_18.drawStringWithShadow(String.format("%.1f", localTarget.getHealth()), x + 3 + headSize, y + 11, Color.WHITE);
 
                 float barrwidth = width - 26f - 6f;
                 float healthWidth = barrwidth * (localTarget.getHealth() / localTarget.getMaxHealth());
@@ -163,7 +169,7 @@ public class TargetHUD extends Module {
                             barWidth,
                             targetWidth,
                             100,
-                            Easing.LINEAR,
+                            Easing.EASE_IN_OUT,
                             val -> barWidth = val
                     );
 
@@ -185,8 +191,8 @@ public class TargetHUD extends Module {
                     ghostAnimation = Animation.create(
                             ghostBarWidth,
                             targetWidth2,
-                            300,
-                            Easing.LINEAR,
+                            450,
+                            Easing.EASE_IN_OUT,
                             val -> ghostBarWidth = val
                     );
 
@@ -374,17 +380,17 @@ public class TargetHUD extends Module {
                         .color(PASSBACKGROUND)
                         .push(renderable);
 
-                CFonts.OCRB_10.drawString("NORGE NOREG NORGA", x + 2, y + 2, Color.RED, false);
-                CFonts.OCRB_10.drawString("NORWAY", x + 2, y + 9, Color.RED, false);
-                CFonts.OCRB_10.drawString("ID-KORT ID-DUODASTUS", x + 118, y + 2, Color.RED, false);
-                CFonts.OCRB_10.drawString("IDENTITY CARD", x + 150, y + 9, Color.RED, false);
-                CFonts.OCRB_8.drawString("Etternavn/Etternamn/Sohkanamma/Surname", x + 71, y + 20, Color.RED, false);
-                CFonts.OCRB_18.drawString(entitytype.toUpperCase(), x + 71, y + 25, Color.BLACK, false);
-                CFonts.OCRB_8.drawString("Fornavn/Førenamn/Ovdanamma/Given Name", x + 71, y + 41, Color.RED, false);
-                CFonts.OCRB_18.drawString(localTarget.getName().toUpperCase(), x + 71, y + 47, Color.BLACK, false);
-                CFonts.OCRB_8.drawString("Kjønn/Sokhabeali/Sex", x + 71, y + 63, Color.RED, false);
-                CFonts.OCRB_18.drawString("MINECRAFT", x + 71, y + 69, Color.BLACK, false);
-                CFonts.RUSTICROADWAY_22.drawString(firstChar + ". " + entitytype, x + 71, y + 83, Color.BLACK, false);
+                OCRB_10.drawString("NORGE NOREG NORGA", x + 2, y + 2, Color.RED, false);
+                OCRB_10.drawString("NORWAY", x + 2, y + 9, Color.RED, false);
+                OCRB_10.drawString("ID-KORT ID-DUODASTUS", x + 118, y + 2, Color.RED, false);
+                OCRB_10.drawString("IDENTITY CARD", x + 150, y + 9, Color.RED, false);
+                OCRB_8.drawString("Etternavn/Etternamn/Sohkanamma/Surname", x + 71, y + 20, Color.RED, false);
+                OCRB_18.drawString(entitytype.toUpperCase(), x + 71, y + 25, Color.BLACK, false);
+                OCRB_8.drawString("Fornavn/Førenamn/Ovdanamma/Given Name", x + 71, y + 41, Color.RED, false);
+                OCRB_18.drawString(localTarget.getName().toUpperCase(), x + 71, y + 47, Color.BLACK, false);
+                OCRB_8.drawString("Kjønn/Sokhabeali/Sex", x + 71, y + 63, Color.RED, false);
+                OCRB_18.drawString("MINECRAFT", x + 71, y + 69, Color.BLACK, false);
+                RUSTICROADWAY_22.drawString(firstChar + ". " + entitytype, x + 71, y + 83, Color.BLACK, false);
                 RenderUtil.renderHead(renderable, (EntityPlayer) localTarget, x + 3, y + 22, 64);
                 break;
             case "Aged":
@@ -538,7 +544,7 @@ public class TargetHUD extends Module {
                 }
 
                 space = 28f;
-                length = CFonts.SFPT_REGULAR_16.getStringWidth(String.format("%.1f", mc.thePlayer.getHealth() - localTarget.getHealth()));
+                length = SFPT_REGULAR_16.getStringWidth(String.format("%.1f", mc.thePlayer.getHealth() - localTarget.getHealth()));
 
                 Rectangle
                         .create(x, y, width, height)
@@ -606,7 +612,7 @@ public class TargetHUD extends Module {
                 String winratio = "";
                 float healthper = (localTarget.getHealth() / localTarget.getMaxHealth()) * 100;
                 String healthperStr = String.format("%.1f", healthper);
-                float lengthh = CFonts.SFPT_REGULAR_16.getStringWidth(healthperStr + "%");
+                float lengthh = SFPT_REGULAR_16.getStringWidth(healthperStr + "%");
                 String ratiostr = String.format("%.1f", mc.thePlayer.getHealth() - localTarget.getHealth());
                 float ratio = Float.parseFloat(ratiostr);
                 if (ratio > 0 && ratio != 0) {
@@ -618,12 +624,12 @@ public class TargetHUD extends Module {
                 if (ratio < 0) {
                     winratio = EnumChatFormatting.GRAY+"Losing"+ EnumChatFormatting.DARK_GRAY + " ("+ratio+")";
                 }
-                float stringheight = CFonts.SFPT_REGULAR_16.getFontHeight();
-                CFonts.SFPT_REGULAR_16.drawString(winratio, x + 3, y + 34 + 6 - stringheight, Color.WHITE);
-                CFonts.SFPT_REGULAR_16.drawString(healthperStr + "%", x + width - lengthh - 4, y + 34 + 6 - stringheight, Color.WHITE);
+                float stringheight = SFPT_REGULAR_16.getFontHeight();
+                SFPT_REGULAR_16.drawString(winratio, x + 3, y + 34 + 6 - stringheight, Color.WHITE);
+                SFPT_REGULAR_16.drawString(healthperStr + "%", x + width - lengthh - 4, y + 34 + 6 - stringheight, Color.WHITE);
                 break;
             case "Atmosphere":
-                width = 125;
+                width = 130;
                 height = 34;
                 barrrrwidth = width - 36f;
                 widthoutline = width - 34f;
@@ -678,7 +684,7 @@ public class TargetHUD extends Module {
                 }
 
                 space = 28f;
-                length = CFonts.SFPT_REGULAR_16.getStringWidth(String.format("%.1f", mc.thePlayer.getHealth() - localTarget.getHealth()));
+                length = SFPT_REGULAR_16.getStringWidth(String.format("%.1f", mc.thePlayer.getHealth() - localTarget.getHealth()));
 
                 Rectangle
                         .create(x, y, width, height)
@@ -741,8 +747,8 @@ public class TargetHUD extends Module {
                 if (Float.parseFloat(healthdif) > 0) {
                     healthdif = "+"+healthdif;
                 }
-                length = CFonts.SFPT_REGULAR_16.getStringWidth(healthdif);
-                CFonts.SFPT_REGULAR_16.drawStringWithShadow(healthdif, x + width - (length) - 2, y + 17, Color.WHITE);
+                length = SFPT_REGULAR_16.getStringWidth(healthdif);
+                SFPT_REGULAR_16.drawStringWithShadow(healthdif, x + width - (length) - 2, y + 17, Color.WHITE);
                 break;
         }
 

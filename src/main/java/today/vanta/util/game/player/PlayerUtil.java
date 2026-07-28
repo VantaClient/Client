@@ -6,9 +6,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.optifine.BlockPosM;
-import today.vanta.util.game.IMinecraft;
+import today.vanta.util.game.Commons;
 
-public class PlayerUtil implements IMinecraft {
+public class PlayerUtil implements Commons {
 
     public static boolean isOverVoid() {
         BlockPosM position = new BlockPosM(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
@@ -28,6 +28,12 @@ public class PlayerUtil implements IMinecraft {
                 return false;
         }
         return true;
+    }
+
+    public static boolean isGlassUnderneath() {
+        BlockPos position = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1, mc.thePlayer.posZ);
+        IBlockState state = mc.theWorld.getBlockState(position);
+        return state.getBlock() == Blocks.glass;
     }
 
     // from Seline :sob:

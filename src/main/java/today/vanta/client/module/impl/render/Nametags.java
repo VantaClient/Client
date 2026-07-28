@@ -76,7 +76,7 @@ public class Nametags extends Module {
             float height = (float) (bounds.maxY - bounds.minY);
             if (width <= 0.0F || height <= 0.0F) continue;
 
-            GlyphFontRenderer font = CFonts.getFont("SFPT-Medium", 18);
+            GlyphFontRenderer font = CFonts.SFPT_MEDIUM_18;
 
             float distance = mc.thePlayer.getDistanceToEntity(entity);
             float health = living.getHealth();

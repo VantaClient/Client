@@ -18,12 +18,13 @@ import today.vanta.util.game.render.ImageUtil;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.font.CFonts;
 import today.vanta.util.game.render.font.Icons;
+import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 import today.vanta.util.game.render.shape.GradientMode;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.ImageRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,16 +55,18 @@ public class BoxyClickGUIScreen extends VantaScreen {
     private static final float DROPDOWN_ITEM_HEIGHT = 14;
     private static final float MULTI_CHECK_SIZE = 6;
 
-    public static final Color GRAY_20 = new Color(20, 20, 20);
-    public static final Color GRAY_30 = new Color(30, 30, 30);
-    public static final Color GRAY_3C = new Color(0x3c3c3c);
-    public static final Color GRAY_60 = new Color(0x606060);
-    public static final Color TEXT_MAIN = new Color(0xe0e0e0);
-    public static final Color TEXT_MUTED = new Color(0x888888);
-    public static final Color WHITE = Color.WHITE;
+    private static final Color GRAY_20 = new Color(20, 20, 20);
+    private static final Color GRAY_30 = new Color(30, 30, 30);
+    private static final Color GRAY_3C = new Color(0x3c3c3c);
+    private static final Color GRAY_60 = new Color(0x606060);
+    private static final Color TEXT_MAIN = new Color(0xe0e0e0);
+    private static final Color TEXT_MUTED = new Color(0x888888);
 
-    private float sWidth = 250, sHeight = 190;
-    private float x = -999, y = -999;
+    private static final GlyphFontRenderer ICONS_16 = CFonts.getFont("Icons", 16, Icons.CHARS);
+    private static final GlyphFontRenderer ICONS_12 = CFonts.getFont("Icons", 12, Icons.CHARS);
+
+    public float sWidth = 250, sHeight = 190;
+    public float x = -999, y = -999;
     private Category selectedCat = Category.COMBAT;
     private float moduleScroll;
 
@@ -123,6 +126,20 @@ public class BoxyClickGUIScreen extends VantaScreen {
             if (selectedCat != null)
                 drawModules(event);
         });
+
+        if (dragging) {
+            x = event.mouseX - dragOffsetX;
+            y = event.mouseY - dragOffsetY;
+        }
+
+        if (resizing) {
+            sWidth = Math.max(MIN_WIDTH, event.mouseX - x);
+            sHeight = Math.max(MIN_HEIGHT, event.mouseY - y);
+        }
+
+        if (draggingSlider != null) {
+            updateSliderValue(draggingSlider, event.mouseX, draggingTrackX, draggingTrackWidth);
+        }
     }
 
     @Override
@@ -143,23 +160,6 @@ public class BoxyClickGUIScreen extends VantaScreen {
 
         clickCategory(mouseX, mouseY, mouseButton);
         clickModules(mouseX, mouseY, mouseButton);
-    }
-
-    @Override
-    protected void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-        if (dragging) {
-            x = mouseX - dragOffsetX;
-            y = mouseY - dragOffsetY;
-        }
-
-        if (resizing) {
-            sWidth = Math.max(MIN_WIDTH, mouseX - x);
-            sHeight = Math.max(MIN_HEIGHT, mouseY - y);
-        }
-
-        if (draggingSlider != null) {
-            updateSliderValue(draggingSlider, mouseX, draggingTrackX, draggingTrackWidth);
-        }
     }
 
     @Override
@@ -214,7 +214,7 @@ public class BoxyClickGUIScreen extends VantaScreen {
                 .color(GRAY_3C)
                 .push(event);
 
-        CFonts.getFont("SFPT-Semibold", 12).drawString("CLICKGUI", x + 7.5f, y + 7.5f, WHITE);
+        CFonts.getFont("SFPT-Semibold", 12).drawString("CLICKGUI", x + 7.5f, y + 7.5f, Color.WHITE);
     }
 
     private void drawCategories(RenderScreenEvent event) {
@@ -247,8 +247,8 @@ public class BoxyClickGUIScreen extends VantaScreen {
 
             float textX = x + 6.5f;
 
-            CFonts.getFont("SFPT-Regular", 12).drawString(cat.name, textX + 13, yOffset + 6.5f, selected ? WHITE : over ? TEXT_MAIN : TEXT_MUTED);
-            CFonts.ICONS_16.drawString(cat.icon + "", textX, yOffset + 6.5f, selected ? WHITE : over ? TEXT_MAIN : TEXT_MUTED);
+            CFonts.getFont("SFPT-Regular", 12).drawString(cat.name, textX + 13, yOffset + 6.5f, selected ? Color.WHITE : over ? TEXT_MAIN : TEXT_MUTED);
+            ICONS_16.drawString(cat.icon + "", textX, yOffset + 6.5f, selected ? Color.WHITE : over ? TEXT_MAIN : TEXT_MUTED);
 
             yOffset += 20;
         }
@@ -291,8 +291,8 @@ public class BoxyClickGUIScreen extends VantaScreen {
                     .color(GRAY_3C)
                     .push(event);
 
-            CFonts.getFont("SFPT-Semibold", 12).drawString(mod.name.toUpperCase(), xOffset + 7.5f, yOffset + 5.5f, over ? WHITE : TEXT_MAIN);
-            CFonts.ICONS_12.drawString((mod.isExpanded() ? Icons.CARET_DOWN : Icons.CARET_UP) + "", xOffset + moduleWidth - 12, yOffset + 6, over ? WHITE : TEXT_MAIN);
+            CFonts.getFont("SFPT-Semibold", 12).drawString(mod.name.toUpperCase(), xOffset + 7.5f, yOffset + 5.5f, over ? Color.WHITE : TEXT_MAIN);
+            ICONS_12.drawString((mod.isExpanded() ? Icons.CARET_DOWN : Icons.CARET_UP) + "", xOffset + moduleWidth - 12, yOffset + 6, over ? Color.WHITE : TEXT_MAIN);
 
             float appendHeight = 0;
             if (mod.isExpanded()) {
@@ -367,7 +367,7 @@ public class BoxyClickGUIScreen extends VantaScreen {
 
             Rectangle
                     .create(controlX + (CHECKBOX_SIZE - CHECKBOX_FILL_SIZE) / 2f, boxY + (CHECKBOX_SIZE - CHECKBOX_FILL_SIZE) / 2f, CHECKBOX_FILL_SIZE, CHECKBOX_FILL_SIZE)
-                    .color(WHITE)
+                    .color(Color.WHITE)
                     .push(event);
         }
 
@@ -392,7 +392,7 @@ public class BoxyClickGUIScreen extends VantaScreen {
 
         boolean trackHover = RenderUtil.hovered(event.mouseX, event.mouseY, trackX, controlY, trackWidth, SLIDER_CONTROL_HEIGHT);
         boolean thumbHover = RenderUtil.hovered(event.mouseX, event.mouseY, thumbX, controlY, SLIDER_THUMB_WIDTH, SLIDER_CONTROL_HEIGHT);
-        Color thumbColor = (trackHover || thumbHover) ? WHITE : GRAY_60;
+        Color thumbColor = (trackHover || thumbHover) ? Color.WHITE : GRAY_60;
 
         Rectangle
                 .create(trackX, trackY, trackWidth, SLIDER_TRACK_HEIGHT)
@@ -425,7 +425,7 @@ public class BoxyClickGUIScreen extends VantaScreen {
 
         CFonts.getFont("SFPT-Regular", 12).drawString(setting.name.toUpperCase(), controlX, y + 1, TEXT_MUTED);
         CFonts.getFont("SFPT-Regular", 12).drawString(setting.getValue(), controlX + 4, headerY + 3, TEXT_MAIN);
-        CFonts.ICONS_12.drawString(Icons.CARET_DOWN + "", controlX + controlWidth - 10, headerY + 3, TEXT_MAIN);
+        ICONS_12.drawString(Icons.CARET_DOWN + "", controlX + controlWidth - 10, headerY + 3, TEXT_MAIN);
 
         if (setting.expanded) {
             float listY = headerY + DROPDOWN_HEADER_HEIGHT;
@@ -462,7 +462,7 @@ public class BoxyClickGUIScreen extends VantaScreen {
                             .push(event);
                 }
 
-                CFonts.getFont("SFPT-Regular", 12).drawString(value, controlX + 4, itemY + 3, selected || itemHover ? WHITE : TEXT_MAIN);
+                CFonts.getFont("SFPT-Regular", 12).drawString(value, controlX + 4, itemY + 3, selected || itemHover ? Color.WHITE : TEXT_MAIN);
             }
         }
     }
@@ -486,7 +486,7 @@ public class BoxyClickGUIScreen extends VantaScreen {
 
         CFonts.getFont("SFPT-Regular", 12).drawString(setting.name.toUpperCase(), controlX, y + 1, TEXT_MUTED);
         CFonts.getFont("SFPT-Regular", 12).drawString(headerText, controlX + 4, headerY + 3, TEXT_MAIN);
-        CFonts.ICONS_12.drawString(Icons.CARET_DOWN + "", controlX + controlWidth - 10, headerY + 3, TEXT_MAIN);
+        ICONS_12.drawString(Icons.CARET_DOWN + "", controlX + controlWidth - 10, headerY + 3, TEXT_MAIN);
 
         if (setting.expanded) {
             float listY = headerY + DROPDOWN_HEADER_HEIGHT;
@@ -539,7 +539,7 @@ public class BoxyClickGUIScreen extends VantaScreen {
                             .push(event);
                 }
 
-                CFonts.getFont("SFPT-Regular", 12).drawString(value, checkX + MULTI_CHECK_SIZE + 4, itemY + 3, selected || itemHover ? WHITE : TEXT_MAIN);
+                CFonts.getFont("SFPT-Regular", 12).drawString(value, checkX + MULTI_CHECK_SIZE + 4, itemY + 3, selected || itemHover ? Color.WHITE : TEXT_MAIN);
             }
         }
     }

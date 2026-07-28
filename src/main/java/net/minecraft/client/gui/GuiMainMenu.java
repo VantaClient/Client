@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -22,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
-import today.vanta.util.client.IClient;
+import today.vanta.util.client.Strings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -411,7 +410,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
         GlStateManager.scale(f, f, f);
         this.drawCenteredString(this.fontRendererObj, this.splashText, 0, -8, -256);
         GlStateManager.popMatrix();
-        String s = IClient.CLIENT_FULL_TITLE;
+        String s = Strings.CLIENT_FULL_TITLE;
 
         if (Reflector.FMLCommonHandler_getBrandings.exists()) {
             Object object = Reflector.call(Reflector.FMLCommonHandler_instance);
@@ -420,7 +419,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
             for (int l1 = 0; l1 < list.size(); ++l1) {
                 String s1 = list.get(l1);
 
-                if (!Strings.isNullOrEmpty(s1)) {
+                if (!com.google.common.base.Strings.isNullOrEmpty(s1)) {
                     this.drawString(this.fontRendererObj, s1, 2, this.height - (10 + l1 * (this.fontRendererObj.FONT_HEIGHT + 1)), 16777215);
                 }
             }

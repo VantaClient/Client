@@ -3,10 +3,10 @@ package today.vanta.storage.impl;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
 import today.vanta.client.module.impl.client.*;
+import today.vanta.client.module.impl.combat.*;
 import today.vanta.client.module.impl.hud.*;
 import today.vanta.client.module.impl.misc.*;
 import today.vanta.client.module.impl.movement.*;
-import today.vanta.client.module.impl.combat.*;
 import today.vanta.client.module.impl.player.*;
 import today.vanta.client.module.impl.render.*;
 import today.vanta.storage.Storage;
@@ -53,6 +53,7 @@ public class ModuleStorage extends Storage<Module> {
         list.add(new NoJumpDelay());
         list.add(new SaveMoveKeys());
         list.add(new ClickTeleport());
+        list.add(new NoWeb());
 
         // Player
         list.add(new Scaffold());
@@ -62,6 +63,7 @@ public class ModuleStorage extends Storage<Module> {
         list.add(new ChestStealer());
         list.add(new InventoryManager());
         list.add(new NoFall());
+        list.add(new Phase());
 
         // Render
         list.add(new ESP());
@@ -82,6 +84,7 @@ public class ModuleStorage extends Storage<Module> {
         list.add(new AntiCheat());
         list.add(new AutoRegister());
         list.add(new AutoPlay());
+        list.add(new StaffDetector());
 
         //Hud
         list.add(new Arraylist());

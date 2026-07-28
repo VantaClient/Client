@@ -68,10 +68,6 @@ public class TargetList extends Module {
 
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
-        if (mc.thePlayer == null) {
-            return;
-        }
-
         list.clear();
 
         mc.theWorld.getLoadedEntityList().stream()

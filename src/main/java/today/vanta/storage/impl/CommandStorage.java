@@ -2,8 +2,8 @@ package today.vanta.storage.impl;
 
 import today.vanta.client.command.Command;
 import today.vanta.client.command.impl.*;
+import today.vanta.client.processor.impl.ChatProcessor;
 import today.vanta.storage.Storage;
-import today.vanta.util.client.IClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,11 +40,11 @@ public class CommandStorage extends Storage<Command> {
     }
 
     public String getInlineSuggestion(String input) {
-        if (input == null || !input.startsWith(IClient.COMMAND_PREFIX)) {
+        if (input == null || !input.startsWith(ChatProcessor.COMMAND_PREFIX)) {
             return null;
         }
 
-        String withoutPrefix = input.substring(IClient.COMMAND_PREFIX.length());
+        String withoutPrefix = input.substring(ChatProcessor.COMMAND_PREFIX.length());
         String[] parts = withoutPrefix.split("\\s+");
         String typed = parts[0].toLowerCase();
 
@@ -102,11 +102,11 @@ public class CommandStorage extends Storage<Command> {
     public List<String> getMatchingCommands(String input) {
         List<String> result = new ArrayList<>();
 
-        if (input == null || !input.startsWith(IClient.COMMAND_PREFIX)) {
+        if (input == null || !input.startsWith(ChatProcessor.COMMAND_PREFIX)) {
             return result;
         }
 
-        String withoutPrefix = input.substring(IClient.COMMAND_PREFIX.length());
+        String withoutPrefix = input.substring(ChatProcessor.COMMAND_PREFIX.length());
         String[] parts = withoutPrefix.split("\\s+");
         String typed = parts[0].toLowerCase();
 
@@ -123,7 +123,7 @@ public class CommandStorage extends Storage<Command> {
                             .findFirst()
                             .orElse(cmd.aliases[0]);
                     String primary = matchedAlias.toLowerCase();
-                    String suggestion = IClient.COMMAND_PREFIX + primary;
+                    String suggestion = ChatProcessor.COMMAND_PREFIX + primary;
                     String[] args = cmd.getArgs();
                     if (args != null && args.length > 0) {
                         String usage = args[0];

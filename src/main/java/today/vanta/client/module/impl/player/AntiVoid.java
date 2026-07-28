@@ -28,6 +28,7 @@ public class AntiVoid extends Module {
     @EventListen
     private void onUpdate(UpdateEvent event) {
         if (mc.thePlayer.capabilities.isFlying || MovementUtil.movementModuleEnabled()) return;
+
         switch (setbackmode.getValue()) {
             case "Previous":
                 if (!PlayerUtil.isOverVoid()) {
@@ -48,6 +49,7 @@ public class AntiVoid extends Module {
         if (MovementUtil.movementModuleEnabled()) {
             return;
         }
+
         switch (mode.getValue()) {
             case "Flag":
                 if (PlayerUtil.isOverVoid() && !mc.thePlayer.onGround) {
@@ -83,7 +85,9 @@ public class AntiVoid extends Module {
 
     @EventListen
     private void onSendPacket(SendPacketEvent event) {
-        if (mode.isValue("Blink") && PlayerUtil.isOverVoid() && !mc.thePlayer.onGround) {
+        if (mc.thePlayer == null || mc.theWorld == null) return;
+
+        if (mode.isValue("Blink") && PlayerUtil.isOverVoid() && !mc.thePlayer.onGround && !mc.thePlayer.isSpectator() && !mc.thePlayer.capabilities.isFlying) {
             event.cancelled = true;
         }
     }

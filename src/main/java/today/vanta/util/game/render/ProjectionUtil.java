@@ -1,19 +1,14 @@
 package today.vanta.util.game.render;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
-import today.vanta.util.game.IMinecraft;
+import today.vanta.util.game.Commons;
 
-public class ProjectionUtil implements IMinecraft {
+public class ProjectionUtil implements Commons {
     public static ScreenBounds projectBoundingBox(Entity entity, float partialTicks, ScaledResolution sr) {
         double entityX = interpolate(entity.prevPosX, entity.posX, partialTicks);
         double entityY = interpolate(entity.prevPosY, entity.posY, partialTicks);

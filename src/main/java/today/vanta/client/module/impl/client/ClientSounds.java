@@ -9,7 +9,6 @@ import today.vanta.client.screen.ClickGUIScreen;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.util.game.events.EventListen;
-import today.vanta.util.game.player.ChatUtil;
 import today.vanta.util.game.sound.Sounds;
 import today.vanta.util.system.math.Counter;
 

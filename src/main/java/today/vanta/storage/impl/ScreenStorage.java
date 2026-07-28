@@ -3,10 +3,10 @@ package today.vanta.storage.impl;
 import net.minecraft.client.gui.GuiScreen;
 import today.vanta.client.screen.*;
 import today.vanta.storage.Storage;
-import today.vanta.util.game.IMinecraft;
+import today.vanta.util.game.Commons;
 import today.vanta.util.game.render.ImageUtil;
 
-public class ScreenStorage extends Storage<GuiScreen> implements IMinecraft {
+public class ScreenStorage extends Storage<GuiScreen> implements Commons {
     @Override
     public void subscribe() {
         super.subscribe();

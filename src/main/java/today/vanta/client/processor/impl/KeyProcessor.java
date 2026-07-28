@@ -6,7 +6,6 @@ import today.vanta.client.event.impl.system.KeyboardEvent;
 import today.vanta.client.module.impl.client.ClickGUI;
 import today.vanta.client.processor.Processor;
 import today.vanta.client.screen.MainMenuScreen;
-import today.vanta.util.client.IClient;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.events.EventPriority;
 import today.vanta.util.system.lwjgl.imgui.ImGuiImpl;
@@ -17,8 +16,8 @@ public class KeyProcessor extends Processor {
         ImGuiImpl.key(event.key);
 
         if (mc.currentScreen == null) {
-            if (event.key == IClient.COMMAND_PREFIX_KEY) {
-                mc.displayGuiScreen(new GuiChat(IClient.COMMAND_PREFIX));
+            if (event.key == ChatProcessor.COMMAND_PREFIX_KEY) {
+                mc.displayGuiScreen(new GuiChat(ChatProcessor.COMMAND_PREFIX));
             }
 
             Vanta.instance.moduleStorage.list.forEach(mod -> {

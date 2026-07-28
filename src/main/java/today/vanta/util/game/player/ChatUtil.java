@@ -2,11 +2,11 @@ package today.vanta.util.game.player;
 
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
-import today.vanta.util.game.IMinecraft;
+import today.vanta.util.game.Commons;
 
 import java.util.regex.Matcher;
 
-public class ChatUtil implements IMinecraft {
+public class ChatUtil implements Commons {
     private static void addChatMessage(IChatComponent component, int line) {
         mc.ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(component, line);
     }

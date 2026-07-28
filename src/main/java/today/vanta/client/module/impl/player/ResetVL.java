@@ -32,11 +32,13 @@ public class ResetVL extends Module {
     @Override
     public void onEnable() {
         counter.reset();
+        if (mc.thePlayer == null) return;
         MovementUtil.stop();
     }
 
     @Override
     public void onDisable() {
+        if (mc.thePlayer == null) return;
         MovementUtil.stop();
     }
 }

@@ -19,7 +19,6 @@ import java.io.IOException;
 
 public class AccountComponent extends Component {
     public Account account;
-    private BufferedImage bufferedImage;
     private int skinTextureId;
 
     public AccountComponent(Account account, float x, float y, float width, float height, GlyphFontRenderer font) {
@@ -61,7 +60,8 @@ public class AccountComponent extends Component {
             } catch (IOException ignored) {
             }
         }
-        this.bufferedImage = RenderUtil.base64ToBufferedImage(account.skin);
+
+        BufferedImage bufferedImage = RenderUtil.base64ToBufferedImage(account.skin);
         this.skinTextureId = TextureCache.getTexture(account.uuid, bufferedImage);
     }
 }

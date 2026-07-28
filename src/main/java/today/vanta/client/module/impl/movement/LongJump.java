@@ -1,6 +1,7 @@
 package today.vanta.client.module.impl.movement;
 
 import today.vanta.client.event.impl.game.player.MotionEvent;
+import today.vanta.client.event.impl.game.world.UpdateEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
 import today.vanta.client.setting.Setting;
@@ -26,13 +27,16 @@ public class LongJump extends Module {
     private boolean canDisable;
 
     @EventListen
-    private void onMotion(MotionEvent event) {
+    private void onUpdate(UpdateEvent event) {
         if (mc.thePlayer.onGround) {
             offGroundTicks = 0;
         } else {
             offGroundTicks++;
         }
+    }
 
+    @EventListen
+    private void onMotion(MotionEvent event) {
         if (event.state == EventState.PRE) {
             switch (mode.getValue()) {
                 case "NCP":

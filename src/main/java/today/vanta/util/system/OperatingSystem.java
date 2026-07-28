@@ -1,6 +1,5 @@
 package today.vanta.util.system;
 
-import net.minecraft.util.Util;
 import org.apache.commons.io.IOUtils;
 import today.vanta.Vanta;
 

@@ -3,26 +3,29 @@ package today.vanta.client.module.impl.misc;
 import io.netty.buffer.Unpooled;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.client.*;
+import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C17PacketCustomPayload;
+import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import today.vanta.Vanta;
+import today.vanta.client.event.impl.game.network.ReceivePacketEvent;
 import today.vanta.client.event.impl.game.network.SendPacketEvent;
 import today.vanta.client.event.impl.game.world.UpdateEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.movement.Fly;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.MultiStringSetting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.events.EventState;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Disabler extends Module {
     public static final Disabler INSTANCE = new Disabler();
-    private final MultiStringSetting disable = Setting.of("Disable", new String[]{"Miniblox"}, new String[]{"Miniblox", "Grim"});
+    private final MultiStringSetting disable = Setting.of("Disable", new String[]{"Miniblox"}, new String[]{"Miniblox", "Grim", "S08"});
     private final NumberSetting holdLength = Setting.of("Hold length", 50, 0, 1000, "ms").hide(() -> !disable.isEnabled("Grim"));
 
     public Disabler() {
@@ -90,6 +93,14 @@ public class Disabler extends Module {
                 packetQueue.add(event.packet);
                 event.cancelled = true;
             }
+        }
+    }
+
+    @EventListen
+    private void onReceivePacket(ReceivePacketEvent event) {
+        if (mc.thePlayer == null) return;
+        if (event.packet instanceof S08PacketPlayerPosLook && disable.isEnabled("S08")) {
+            event.cancelled = true;
         }
     }
 

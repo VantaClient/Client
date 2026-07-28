@@ -1,26 +1,29 @@
 package today.vanta.client.processor.impl;
 
+import org.lwjgl.input.Keyboard;
 import today.vanta.Vanta;
 import today.vanta.client.command.Command;
 import today.vanta.client.event.impl.game.network.PrintChatMessage;
 import today.vanta.client.event.impl.game.player.SendChatMessageEvent;
 import today.vanta.client.event.impl.game.render.ChatDrawScreenEvent;
 import today.vanta.client.processor.Processor;
-import today.vanta.util.client.IClient;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.player.ChatUtil;
 import today.vanta.util.game.sound.Sounds;
 
 public class ChatProcessor extends Processor {
+    public static final int COMMAND_PREFIX_KEY = Keyboard.KEY_PERIOD;
+    public static final String COMMAND_PREFIX = ".";
+
     @EventListen
     private void onSendMessage(SendChatMessageEvent event) {
         String msg = event.message;
 
-        if (!msg.startsWith(IClient.COMMAND_PREFIX)) {
+        if (!msg.startsWith(COMMAND_PREFIX)) {
             return;
         }
 
-        String withoutPrefix = msg.substring(IClient.COMMAND_PREFIX.length());
+        String withoutPrefix = msg.substring(COMMAND_PREFIX.length());
 
         String[] parts = withoutPrefix.trim().split("\\s+");
 

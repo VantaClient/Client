@@ -1,22 +1,14 @@
 package today.vanta.util.game.world;
 
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.renderer.ThreadDownloadImageData;
-import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.*;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.util.ResourceLocation;
-import today.vanta.Vanta;
 import today.vanta.client.processor.impl.TargetProcessor;
 import today.vanta.client.setting.impl.MultiStringSetting;
-import today.vanta.util.game.IMinecraft;
+import today.vanta.util.game.Commons;
 import today.vanta.util.system.math.ColorUtil;
 
 import javax.imageio.ImageIO;
@@ -29,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class EntityUtil implements IMinecraft {
+public class EntityUtil implements Commons {
     private static final Map<String, Float> skinCache = new ConcurrentHashMap<>();
     private static final ExecutorService executorService = Executors.newFixedThreadPool(2);
 

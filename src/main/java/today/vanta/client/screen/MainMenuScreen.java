@@ -7,10 +7,9 @@ import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.screen.component.Component;
 import today.vanta.client.screen.component.impl.ButtonComponent;
-import today.vanta.util.client.IClient;
+import today.vanta.util.client.Strings;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.render.ImageUtil;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 import today.vanta.util.game.render.font.CFonts;
 import today.vanta.util.game.render.shape.impl.ImageRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
@@ -22,10 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainMenuScreen extends VantaScreen {
-    private final GlyphFontRenderer roundedSemibold10 = CFonts.SFPT_SEMIBOLD_20;
-    private final GlyphFontRenderer roundedMedium9 = CFonts.SFPT_MEDIUM_18;
-    private final GlyphFontRenderer smallTitle = CFonts.SFPT_SEMIBOLD_20;
-    private final GlyphFontRenderer changesFont = CFonts.SFPT_MEDIUM_18;
 
     private final List<Component> buttons = new ArrayList<>();
 
@@ -39,15 +34,15 @@ public class MainMenuScreen extends VantaScreen {
         float buttonWidth = 140;
 
         buttons.clear();
-        buttons.add(new ButtonComponent("Singleplayer", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, roundedMedium9));
+        buttons.add(new ButtonComponent("Singleplayer", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
         middleY += 14;
-        buttons.add(new ButtonComponent("Multiplayer", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, roundedMedium9));
+        buttons.add(new ButtonComponent("Multiplayer", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
         middleY += 14;
-        buttons.add(new ButtonComponent("Options", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, roundedMedium9));
+        buttons.add(new ButtonComponent("Options", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
         middleY += 14;
-        buttons.add(new ButtonComponent("Alts", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, roundedMedium9));
+        buttons.add(new ButtonComponent("Alts", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
         middleY += 14;
-        buttons.add(new ButtonComponent("Exit", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, roundedMedium9));
+        buttons.add(new ButtonComponent("Exit", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
     }
 
     @EventListen
@@ -62,32 +57,34 @@ public class MainMenuScreen extends VantaScreen {
                     .push(event);
         }
 
-        float panelWidth = 0;
-        for (String change : IClient.CHANGELOG) {
-            panelWidth = Math.max(panelWidth, changesFont.getStringWidth(change) + 10);
-        }
-
-        float boxHeight = 14 * IClient.CHANGELOG.size() + 18;
         float middleY = 5;
+        if (!Strings.CHANGELOG.isEmpty()) {
+            float panelWidth = 0;
+            for (String change : Strings.CHANGELOG) {
+                panelWidth = Math.max(panelWidth, CFonts.SFPT_MEDIUM_18.getStringWidth(change) + 10);
+            }
 
-        Rectangle
-                .create(5, middleY, panelWidth, boxHeight)
-                .color(new Color(30, 30, 30))
-                .push(event);
-        smallTitle.drawString("Changelog", 5 + 3.5f, middleY + 4.5f - 1, -1);
-
-        for (int i = 0; i < IClient.CHANGELOG.size(); i++) {
-            String change = IClient.CHANGELOG.get(i);
-            float y = middleY + 18 + i * 14 - 1.5f;
+            float boxHeight = 14 * Strings.CHANGELOG.size() + 18;
 
             Rectangle
-                    .create(5 + 1.5f, y, (panelWidth - 3), 14)
-                    .color(new Color(35, 35, 35))
+                    .create(5, middleY, panelWidth, boxHeight)
+                    .color(new Color(30, 30, 30))
                     .push(event);
+            CFonts.SFPT_SEMIBOLD_20.drawString("Changelog", 5 + 3.5f, middleY + 4.5f - 1, -1);
 
-            String formattedChange = formatChange(change);
+            for (int i = 0; i < Strings.CHANGELOG.size(); i++) {
+                String change = Strings.CHANGELOG.get(i);
+                float y = middleY + 18 + i * 14 - 1.5f;
 
-            changesFont.drawYCenteredString(formattedChange, 5 + 3.5f, y + 14 / 2f - 2, Color.WHITE, false);
+                Rectangle
+                        .create(5 + 1.5f, y, (panelWidth - 3), 14)
+                        .color(new Color(35, 35, 35))
+                        .push(event);
+
+                String formattedChange = formatChange(change);
+
+                CFonts.SFPT_MEDIUM_18.drawYCenteredString(formattedChange, 5 + 3.5f, y + 14 / 2f - 2, Color.WHITE, false);
+            }
         }
 
         float middleX = width / 2f;
@@ -97,8 +94,8 @@ public class MainMenuScreen extends VantaScreen {
                 .create(middleX - 143 / 2f, middleY - 16, 143, 14 * (buttons.size()) + 18)
                 .color(new Color(30, 30, 30))
                 .push(event);
-        roundedSemibold10.drawString(IClient.CLIENT_NAME, middleX - 143 / 2f + 3, middleY - 18 + 4.5f, -1);
-        roundedMedium9.drawString(IClient.CLIENT_VERSION + " | " + IClient.DEVELOPERS, middleX * 2 - roundedMedium9.getStringWidth(IClient.CLIENT_VERSION + " | " + IClient.DEVELOPERS) - 3, middleY * 2 - roundedMedium9.getFontHeight() - 5.5f, new Color(200, 200, 200));
+        CFonts.SFPT_SEMIBOLD_20.drawString(Strings.CLIENT_NAME, middleX - 143 / 2f + 3, middleY - 18 + 4.5f, -1);
+        CFonts.SFPT_MEDIUM_18.drawString(Strings.CLIENT_VERSION + " | " + Strings.DEVELOPERS, middleX * 2 - CFonts.SFPT_MEDIUM_18.getStringWidth(Strings.CLIENT_VERSION + " | " + Strings.DEVELOPERS) - 3, middleY * 2 - CFonts.SFPT_MEDIUM_18.getFontHeight() - 5.5f, new Color(200, 200, 200));
 
         if (rotation > 360) {
             rotation = 0;

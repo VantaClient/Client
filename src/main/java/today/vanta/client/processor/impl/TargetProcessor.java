@@ -1,6 +1,7 @@
 package today.vanta.client.processor.impl;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.ModuleDisableEvent;
 import today.vanta.client.event.impl.game.world.UpdateEvent;
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class TargetProcessor extends Processor {
     public List<EntityLivingBase> list = new ArrayList<>();
+    public List<EntityLivingBase> playerlist = new ArrayList<>();
     public List<String> friends = new ArrayList<>(), bots = new ArrayList<>();
     public EntityLivingBase target;
     public BlockCache cache;
@@ -63,6 +65,16 @@ public class TargetProcessor extends Processor {
                     .forEachOrdered(list::add);
 
             target = list.isEmpty() ? null : list.get(0);
+
+            playerlist.clear();
+
+            mc.theWorld.getLoadedEntityList().stream()
+                    .filter(e -> e instanceof EntityPlayer && mc.thePlayer.getDistanceToEntity(e) < killaura.attackRange.getValue().floatValue() && e != mc.thePlayer)
+                    .map(e -> (EntityPlayer) e)
+                    .sorted(EntityUtil.getComparatorForSorting(killaura.sortMode.getValue()))
+                    .forEachOrdered(playerlist::add);
+        } else {
+            playerlist.clear();
         }
     }
 

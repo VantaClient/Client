@@ -2,7 +2,7 @@ package today.vanta.util.game.render.font;
 
 import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 
-import java.awt.Font;
+import java.awt.*;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
@@ -13,41 +13,15 @@ public class CFonts {
     private static final Map<String, Font> FONT_CACHE = new ConcurrentHashMap<>();
     private static final Map<String, GlyphFontRenderer> RENDERER_CACHE = new ConcurrentHashMap<>();
 
-    // Helvetica Neue
-    public static GlyphFontRenderer HN_MEDIUM_24 = getFont("HN-Medium", 24);
-    public static GlyphFontRenderer HN_REGULAR_48 = getFont("HN-Regular", 48);
-
     // SF Pro Text
-    public static GlyphFontRenderer SFPT_MEDIUM_18 = getFont("SFPT-Medium", 18);
-    public static GlyphFontRenderer SFPT_MEDIUM_20 = getFont("SFPT-Medium", 20);
-    public static GlyphFontRenderer SFPT_SEMIBOLD_20 = getFont("SFPT-Semibold", 20);
-    public static GlyphFontRenderer SFPT_MEDIUM_24 = getFont("SFPT-Medium", 24);
-    public static GlyphFontRenderer SFPT_SEMIBOLD_42 = getFont("SFPT-Semibold", 42);
-    public static GlyphFontRenderer SFPT_REGULAR_18 = getFont("SFPT-Regular", 18);
-    public static GlyphFontRenderer SFPT_REGULAR_22 = getFont("SFPT-Regular", 22);
-    public static GlyphFontRenderer SFPT_REGULAR_24 = getFont("SFPT-Regular", 24);
-    public static GlyphFontRenderer SFPT_REGULAR_20 = getFont("SFPT-Regular", 20);
-    public static GlyphFontRenderer SFPT_REGULAR_16 = getFont("SFPT-Regular", 16);
-    public static GlyphFontRenderer SFPT_REGULAR_14 = getFont("SFPT-Regular", 14);
-
-    // OCR-B
-    public static GlyphFontRenderer OCRB_18 = getFont("OCR-B", 18);
-    public static GlyphFontRenderer OCRB_16 = getFont("OCR-B", 16);
-    public static GlyphFontRenderer OCRB_14 = getFont("OCR-B", 14);
-    public static GlyphFontRenderer OCRB_12 = getFont("OCR-B", 12);
-    public static GlyphFontRenderer OCRB_10 = getFont("OCR-B", 10);
-    public static GlyphFontRenderer OCRB_8 = getFont("OCR-B", 8);
-    public static GlyphFontRenderer OCRB_6 = getFont("OCR-B", 6);
-
-    // RusticRoadway
-    public static GlyphFontRenderer RUSTICROADWAY_22 = getFont("RusticRoadway", 22);
-
-    // Phosphor-Icons
-    public static GlyphFontRenderer ICONS_16 = getFont("Icons", 16, Icons.CHARS);
-    public static GlyphFontRenderer ICONS_12 = getFont("Icons", 12, Icons.CHARS);
+    public static final GlyphFontRenderer SFPT_MEDIUM_18 = getFont("SFPT-Medium", 18);
+    public static final GlyphFontRenderer SFPT_SEMIBOLD_20 = getFont("SFPT-Semibold", 20);
+    public static final GlyphFontRenderer SFPT_MEDIUM_24 = getFont("SFPT-Medium", 24);
+    public static final GlyphFontRenderer SFPT_REGULAR_18 = getFont("SFPT-Regular", 18);
+    public static final GlyphFontRenderer SFPT_REGULAR_24 = getFont("SFPT-Regular", 24);
 
     public static GlyphFontRenderer getFont(String fontName, float size) {
-        return getFont(fontName, size, (char[]) null);
+        return getFont(fontName, size, null);
     }
 
     public static GlyphFontRenderer getFont(String fontName, float size, char[] customChars) {

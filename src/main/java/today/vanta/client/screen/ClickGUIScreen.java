@@ -18,8 +18,8 @@ import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.render.ImageUtil;
 import today.vanta.util.game.render.RenderUtil;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 import today.vanta.util.game.render.font.CFonts;
+import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 import today.vanta.util.game.render.shape.GradientMode;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.ImageRectangle;
@@ -35,8 +35,6 @@ import java.util.*;
 import java.util.List;
 
 public class ClickGUIScreen extends VantaScreen {
-    private final GlyphFontRenderer medium = CFonts.getFont("SFPT-Semibold", 20);
-    private final GlyphFontRenderer regular = CFonts.getFont("SFPT-Medium", 18);
     private final GlyphFontRenderer sett = CFonts.getFont("SFPT-Medium", 16);
 
     private final Map<Object, Float> animationMap = new HashMap<>();
@@ -122,7 +120,7 @@ public class ClickGUIScreen extends VantaScreen {
                     .color(new Color(30, 30, 30))
                     .push(event);
 
-            medium.drawString(category.name, position.x + 3, position.y + 1, Color.WHITE);
+            CFonts.SFPT_SEMIBOLD_20.drawString(category.name, position.x + 3, position.y + 1, Color.WHITE);
 
             float ignoreThis = 0;
             for (Module module : Vanta.instance.moduleStorage.getModulesByCategory(category)) {
@@ -180,8 +178,8 @@ public class ClickGUIScreen extends VantaScreen {
                         .color(hoverMod ? new Color(50, 50, 50) : new Color(40, 40, 40))
                         .push(event);
 
-                regular.drawString(module.name, x + 3, y + 1, ColorUtil.interpolateColor(textColor, color1, getAnimationValue(module.name + "_enabled", module.isEnabled() ? 1f : 0f, 200, Easing.EASE_OUT_QUAD)));
-                regular.drawString(module.isExpanded() ? "-" : "+", x + PANEL_WIDTH - regular.getStringWidth(module.isExpanded() ? "-" : "+") - 7, y + 1, hoverMod ? Color.LIGHT_GRAY : Color.WHITE);
+                CFonts.SFPT_MEDIUM_18.drawString(module.name, x + 3, y + 1, ColorUtil.interpolateColor(textColor, color1, getAnimationValue(module.name + "_enabled", module.isEnabled() ? 1f : 0f, 200, Easing.EASE_OUT_QUAD)));
+                CFonts.SFPT_MEDIUM_18.drawString(module.isExpanded() ? "-" : "+", x + PANEL_WIDTH - CFonts.SFPT_MEDIUM_18.getStringWidth(module.isExpanded() ? "-" : "+") - 7, y + 1, hoverMod ? Color.LIGHT_GRAY : Color.WHITE);
 
                 y += 14;
 

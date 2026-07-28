@@ -7,6 +7,7 @@ import imgui.flag.ImGuiConfigFlags;
 import imgui.flag.ImGuiViewportFlags;
 import imgui.type.ImInt;
 import org.lwjgl.BufferUtils;
+import today.vanta.util.system.FileUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -129,6 +130,8 @@ public final class ImGuiGL3 {
         }
 
         createDeviceObjects();
+
+        ImGui.getIO().setIniFilename(FileUtil.getPath().resolve("vanta.ini").toString());
 
         if (ImGui.getIO().hasConfigFlags(ImGuiConfigFlags.ViewportsEnable)) {
             initPlatformInterface();

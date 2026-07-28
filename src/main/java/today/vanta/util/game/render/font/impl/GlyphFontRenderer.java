@@ -7,8 +7,7 @@ import today.vanta.util.game.render.font.CFont;
 import today.vanta.util.game.render.font.IRenderer;
 import today.vanta.util.system.math.ColorUtil;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 /**
  * @author <a href="https://github.com/IUDevman/gamesense-client/tree/master">GAMESENSE Client</a>

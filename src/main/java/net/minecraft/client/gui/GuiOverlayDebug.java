@@ -1,6 +1,5 @@
 package net.minecraft.client.gui;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -25,7 +24,7 @@ import net.optifine.util.MemoryMonitor;
 import net.optifine.util.NativeMemory;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-import today.vanta.util.client.IClient;
+import today.vanta.util.client.Strings;
 import today.vanta.util.game.render.font.impl.BitMapFontRenderer;
 
 import java.util.Collection;
@@ -76,7 +75,7 @@ public class GuiOverlayDebug extends Gui {
         for (int i = 0; i < list.size(); ++i) {
             String s = list.get(i);
 
-            if (!Strings.isNullOrEmpty(s)) {
+            if (!com.google.common.base.Strings.isNullOrEmpty(s)) {
                 int j = this.fontRenderer.FONT_HEIGHT;
                 int k = this.fontRenderer.getStringWidth(s);
                 int l = 2;
@@ -99,7 +98,7 @@ public class GuiOverlayDebug extends Gui {
         for (int i = 0; i < list.size(); ++i) {
             String s = list.get(i);
 
-            if (!Strings.isNullOrEmpty(s)) {
+            if (!com.google.common.base.Strings.isNullOrEmpty(s)) {
                 int j = this.fontRenderer.FONT_HEIGHT;
                 int k = this.fontRenderer.getStringWidth(s);
                 int l = scaledRes.getScaledWidth() - 2 - k;
@@ -164,7 +163,7 @@ public class GuiOverlayDebug extends Gui {
         String s1 = stringbuilder.toString();
 
         if (this.isReducedDebug()) {
-            return Lists.newArrayList(IClient.CLIENT_FULL_TITLE + " (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")", this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(), this.mc.renderGlobal.getDebugInfoEntities(), "P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities() + s1, this.mc.theWorld.getProviderName(), "", String.format("Chunk-relative: %d %d %d", Integer.valueOf(blockpos.getX() & 15), Integer.valueOf(blockpos.getY() & 15), Integer.valueOf(blockpos.getZ() & 15)));
+            return Lists.newArrayList(Strings.CLIENT_FULL_TITLE + " (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")", this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(), this.mc.renderGlobal.getDebugInfoEntities(), "P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities() + s1, this.mc.theWorld.getProviderName(), "", String.format("Chunk-relative: %d %d %d", Integer.valueOf(blockpos.getX() & 15), Integer.valueOf(blockpos.getY() & 15), Integer.valueOf(blockpos.getZ() & 15)));
         } else {
             Entity entity = this.mc.getRenderViewEntity();
             EnumFacing enumfacing = entity.getHorizontalFacing();
@@ -187,7 +186,7 @@ public class GuiOverlayDebug extends Gui {
                     s = "Towards positive X";
             }
 
-            List<String> list = Lists.newArrayList(IClient.CLIENT_FULL_TITLE + " (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")", this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(), this.mc.renderGlobal.getDebugInfoEntities(), "P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities() + s1, this.mc.theWorld.getProviderName(), "", String.format("XYZ: %.3f / %.5f / %.3f", Double.valueOf(this.mc.getRenderViewEntity().posX), Double.valueOf(this.mc.getRenderViewEntity().getEntityBoundingBox().minY), Double.valueOf(this.mc.getRenderViewEntity().posZ)), String.format("Block: %d %d %d", Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())), String.format("Chunk: %d %d %d in %d %d %d", Integer.valueOf(blockpos.getX() & 15), Integer.valueOf(blockpos.getY() & 15), Integer.valueOf(blockpos.getZ() & 15), Integer.valueOf(blockpos.getX() >> 4), Integer.valueOf(blockpos.getY() >> 4), Integer.valueOf(blockpos.getZ() >> 4)), String.format("Facing: %s (%s) (%.1f / %.1f)", enumfacing, s, Float.valueOf(MathHelper.wrapAngleTo180_float(entity.rotationYaw)), Float.valueOf(MathHelper.wrapAngleTo180_float(entity.rotationPitch))));
+            List<String> list = Lists.newArrayList(Strings.CLIENT_FULL_TITLE + " (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")", this.mc.debug, this.mc.renderGlobal.getDebugInfoRenders(), this.mc.renderGlobal.getDebugInfoEntities(), "P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities() + s1, this.mc.theWorld.getProviderName(), "", String.format("XYZ: %.3f / %.5f / %.3f", Double.valueOf(this.mc.getRenderViewEntity().posX), Double.valueOf(this.mc.getRenderViewEntity().getEntityBoundingBox().minY), Double.valueOf(this.mc.getRenderViewEntity().posZ)), String.format("Block: %d %d %d", Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ())), String.format("Chunk: %d %d %d in %d %d %d", Integer.valueOf(blockpos.getX() & 15), Integer.valueOf(blockpos.getY() & 15), Integer.valueOf(blockpos.getZ() & 15), Integer.valueOf(blockpos.getX() >> 4), Integer.valueOf(blockpos.getY() >> 4), Integer.valueOf(blockpos.getZ() >> 4)), String.format("Facing: %s (%s) (%.1f / %.1f)", enumfacing, s, Float.valueOf(MathHelper.wrapAngleTo180_float(entity.rotationYaw)), Float.valueOf(MathHelper.wrapAngleTo180_float(entity.rotationPitch))));
 
             if (this.mc.theWorld != null && this.mc.theWorld.isBlockLoaded(blockpos)) {
                 Chunk chunk = this.mc.theWorld.getChunkFromBlockCoords(blockpos);

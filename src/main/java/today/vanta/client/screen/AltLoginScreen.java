@@ -12,7 +12,6 @@ import today.vanta.client.screen.component.impl.ButtonComponent;
 import today.vanta.util.client.network.MicrosoftUtil;
 import today.vanta.util.client.network.account.Account;
 import today.vanta.util.game.events.EventListen;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
 import today.vanta.util.game.render.font.CFonts;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 import today.vanta.util.os.Enhancements;
@@ -27,9 +26,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class AltLoginScreen extends VantaScreen {
-    private final GlyphFontRenderer smallTitle = CFonts.SFPT_SEMIBOLD_20;
-    private final GlyphFontRenderer buttonText = CFonts.SFPT_MEDIUM_18;
-
     private final List<Component> components = new ArrayList<>();
 
     @Override
@@ -40,15 +36,15 @@ public class AltLoginScreen extends VantaScreen {
         float buttonWidth = 140;
 
         components.clear();
-        components.add(new ButtonComponent("Login with browser", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, buttonText));
+        components.add(new ButtonComponent("Login with browser", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
         middleY += 14;
 
         for (Account account : Vanta.instance.accountStorage.list) {
-            components.add(new AccountComponent(account, middleX - buttonWidth / 2f, middleY, buttonWidth, 14, buttonText));
+            components.add(new AccountComponent(account, middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
             middleY += 14;
         }
 
-        components.add(new ButtonComponent("Back", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, buttonText));
+        components.add(new ButtonComponent("Back", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
     }
 
     private void addOrUpdateAccount(Account account) {
@@ -102,7 +98,7 @@ public class AltLoginScreen extends VantaScreen {
                     .push(event);
         }
 
-        buttonText.drawString("(Alt accounts) Left click to login, right click to delete.", 5, 5, new Color(125, 125, 125).getRGB());
+        CFonts.SFPT_MEDIUM_18.drawString("(Alt accounts) Left click to login, right click to delete.", 5, 5, new Color(125, 125, 125).getRGB());
 
         float middleX = width / 2f;
         float middleY = height / 2f;
@@ -111,7 +107,7 @@ public class AltLoginScreen extends VantaScreen {
                 .create(middleX - 143 / 2f, middleY - 16, 143, 14 * components.size() + 18)
                 .color(new Color(30, 30, 30))
                 .push(event);
-        smallTitle.drawString(mc.session.getUsername(), middleX - 143 / 2f + 3, middleY - 18 + 4.5f, -1);
+        CFonts.SFPT_SEMIBOLD_20.drawString(mc.session.getUsername(), middleX - 143 / 2f + 3, middleY - 18 + 4.5f, -1);
 
         components.forEach(c -> c.draw(event));
     }

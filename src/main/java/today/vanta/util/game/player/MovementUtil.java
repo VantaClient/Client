@@ -6,9 +6,9 @@ import today.vanta.client.event.impl.game.player.MoveInputEvent;
 import today.vanta.client.module.impl.movement.Fly;
 import today.vanta.client.module.impl.movement.LongJump;
 import today.vanta.storage.impl.ModuleStorage;
-import today.vanta.util.game.IMinecraft;
+import today.vanta.util.game.Commons;
 
-public class MovementUtil implements IMinecraft {
+public class MovementUtil implements Commons {
     public static boolean isMoving() {
         return mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0;
     }

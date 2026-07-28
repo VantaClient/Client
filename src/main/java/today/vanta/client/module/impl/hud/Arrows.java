@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Arrows extends Module {
-    private EntityPlayer entity;
     private final List<EntityPlayer> list = new ArrayList<>();
 
     public Arrows() {
@@ -32,16 +31,18 @@ public class Arrows extends Module {
                 .map(entity -> (EntityPlayer) entity)
                 .sorted(EntityUtil.getComparatorForSorting("Range"))
                 .forEachOrdered(list::add);
-        entity = list.isEmpty() ? null : list.get(0);
-        if (entity != null) {
+
+        EntityPlayer target = list.isEmpty() ? null : list.get(0);
+
+        if (target != null) {
             if (mc.gameSettings.thirdPersonView != 0) return;
             // yes this is vibecoded, I couldn't figure it out :sob:
             float centerX = event.scaledResolution.getScaledWidth() / 2f;
             float centerY = event.scaledResolution.getScaledHeight() / 2f;
             float radius = 60f;
 
-            double dx = entity.posX - mc.thePlayer.posX;
-            double dz = entity.posZ - mc.thePlayer.posZ;
+            double dx = target.posX - mc.thePlayer.posX;
+            double dz = target.posZ - mc.thePlayer.posZ;
             double angleToEntity = Math.toDegrees(Math.atan2(dz, dx)) - 90.0;
             double relativeYaw = MathHelper.wrapAngleTo180_double(angleToEntity - mc.thePlayer.rotationYaw);
 

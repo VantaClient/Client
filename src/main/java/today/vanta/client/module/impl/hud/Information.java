@@ -125,11 +125,11 @@ public class Information extends Module {
 //                        .push(event);
 
                 RenderUtil.renderHead(event,mc.thePlayer,x.getValue().floatValue() + 2,y.getValue().floatValue() + 14,47);
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow(mc.thePlayer.getName(), x.getValue().floatValue() + 50, y.getValue().floatValue() + 11, Color.WHITE);
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow("FPS: "+ Minecraft.getDebugFPS(), x.getValue().floatValue() + 50, y.getValue().floatValue() + 21, Color.WHITE);
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow("BPS: "+ MovementUtil.getBPS(), x.getValue().floatValue() + 50, y.getValue().floatValue() + 31, Color.WHITE);
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow("Ping: "+ PlayerUtil.getPing(mc.thePlayer), x.getValue().floatValue() + 50, y.getValue().floatValue() + 41, Color.WHITE);
-                CFonts.SFPT_REGULAR_18.drawStringWithShadow("Session: " + MathUtil.formatDuration(playTime.getElapsedTime()), x.getValue().floatValue() + 50, y.getValue().floatValue() + 51, Color.WHITE);
+                CFonts.SFPT_REGULAR_18.drawStringWithShadow(mc.thePlayer.getName(), x.getValue().floatValue() + 50, y.getValue().floatValue() + 11.6f, Color.WHITE);
+                CFonts.SFPT_REGULAR_18.drawStringWithShadow("FPS: "+ Minecraft.getDebugFPS(), x.getValue().floatValue() + 50, y.getValue().floatValue() + 21.6f, Color.WHITE);
+                CFonts.SFPT_REGULAR_18.drawStringWithShadow("BPS: "+ MovementUtil.getBPS(), x.getValue().floatValue() + 50, y.getValue().floatValue() + 31.6f, Color.WHITE);
+                CFonts.SFPT_REGULAR_18.drawStringWithShadow("Ping: "+ PlayerUtil.getPing(mc.thePlayer), x.getValue().floatValue() + 50, y.getValue().floatValue() + 41.6f, Color.WHITE);
+                CFonts.SFPT_REGULAR_18.drawStringWithShadow("Session: " + MathUtil.formatDuration(playTime.getElapsedTime()), x.getValue().floatValue() + 50, y.getValue().floatValue() + 51.6f, Color.WHITE);
 
                 break;
 

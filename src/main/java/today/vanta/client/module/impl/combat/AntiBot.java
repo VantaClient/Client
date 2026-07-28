@@ -19,8 +19,7 @@ public class AntiBot extends Module {
 
     @EventListen
     private void onRunTick(RunTickEvent event) {
-        if (mc.theWorld == null)
-            return;
+        if (mc.theWorld == null) return;
 
         switch (mode.getValue()) {
             case "Basic":

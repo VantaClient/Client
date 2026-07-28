@@ -1,9 +1,6 @@
 package today.vanta.client.module.impl.player;
 
 import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
 import today.vanta.client.event.impl.game.world.UpdateEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
@@ -11,8 +8,6 @@ import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.game.events.EventListen;
-import today.vanta.util.game.player.ChatUtil;
-import today.vanta.util.game.player.PlayerUtil;
 
 public class NoFall extends Module {
     private final StringSetting mode = Setting.of("Mode", "Packet", "Packet", "Set ground", "No ground");

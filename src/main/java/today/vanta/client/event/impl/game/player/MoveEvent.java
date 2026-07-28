@@ -2,7 +2,7 @@ package today.vanta.client.event.impl.game.player;
 
 import today.vanta.client.event.Event;
 
-import static today.vanta.util.game.IMinecraft.mc;
+import static today.vanta.util.game.Commons.mc;
 
 public class MoveEvent extends Event {
     public double x, y, z;

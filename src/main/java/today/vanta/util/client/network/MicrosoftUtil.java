@@ -18,7 +18,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import today.vanta.util.client.IClient;
+import today.vanta.util.client.Strings;
 import today.vanta.util.system.OperatingSystem;
 
 import java.net.InetSocketAddress;
@@ -42,7 +42,7 @@ public final class MicrosoftUtil {
             .build();
 
     public static final String CLIENT_ID = "54fd49e4-2103-4044-9603-2b028c814ec3";
-    public static final String USER_AGENT = IClient.CLIENT_NAME + "/" + IClient.CLIENT_VERSION;
+    public static final String USER_AGENT = Strings.CLIENT_NAME + "/" + Strings.CLIENT_VERSION;
     private static final int[] TRY_BIND_PORTS = {
             59125, 59126, 59127, 59128, 59129, 59130, 59131,
             59132, 59133, 59134, 59135, 1234, 1235, 1236, 1237,

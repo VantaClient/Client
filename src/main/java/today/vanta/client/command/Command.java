@@ -1,9 +1,9 @@
 package today.vanta.client.command;
 
 import today.vanta.Vanta;
-import today.vanta.util.game.IMinecraft;
+import today.vanta.util.game.Commons;
 
-public abstract class Command implements IMinecraft {
+public abstract class Command implements Commons {
     public String name, description;
 
     public String[] aliases;
