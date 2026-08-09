@@ -4,12 +4,10 @@ import today.vanta.client.event.impl.game.world.UpdateEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
 import today.vanta.util.game.events.EventListen;
-import today.vanta.util.game.player.MovementUtil;
-import today.vanta.util.game.player.PlayerUtil;
 
-public class Phase extends Module {
-    public Phase() {
-        super("Phase", "PhaSINFGG.", Category.PLAYER);
+public class Spider extends Module {
+    public Spider() {
+        super("Spider", "Allows you to climb walls.", Category.MOVEMENT);
     }
 
     @EventListen
