@@ -4,7 +4,6 @@ import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.potion.Potion;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.event.impl.game.network.ReceivePacketEvent;
-import today.vanta.client.event.impl.game.player.MoveEvent;
 import today.vanta.client.event.impl.game.world.UpdateEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
@@ -13,7 +12,6 @@ import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.game.events.EventListen;
-import today.vanta.util.game.player.ChatUtil;
 import today.vanta.util.game.player.MovementUtil;
 
 public class Speed extends Module {
@@ -42,12 +40,8 @@ public class Speed extends Module {
     }
 
     private int offGroundTicks;
-    private int onGroundTicks;
     private int tick;
     private boolean flag;
-    private boolean a;
-    private int b;
-    private float move;
 
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
@@ -58,6 +52,8 @@ public class Speed extends Module {
 
     @EventListen
     private void onReceivePacket(ReceivePacketEvent event) {
+        if (mc.theWorld == null || mc.thePlayer == null) return;
+
         if (event.packet instanceof S08PacketPlayerPosLook) {
             flag = true;
         }
@@ -67,10 +63,8 @@ public class Speed extends Module {
     private void onUpdate(UpdateEvent event) {
         if (!mc.thePlayer.onGround) {
             offGroundTicks++;
-            onGroundTicks = 0;
         } else {
             offGroundTicks = 0;
-            onGroundTicks++;
         }
 
         if (flag) {
@@ -103,6 +97,7 @@ public class Speed extends Module {
                             break;
                     }
                     break;
+
                 case "NCP":
                     if (mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown()) {
                         mc.thePlayer.jump();
@@ -124,6 +119,7 @@ public class Speed extends Module {
                         mc.thePlayer.motionY -= 0.05f;
                     }
                     break;
+
                 case "Mospixel":
                     if (flag && tick >= 60) {
                         tick = 0;
@@ -153,6 +149,7 @@ public class Speed extends Module {
                         MovementUtil.stop();
                     }
                     break;
+
                 case "Miniblox":
 //                   switch (offGroundTicks) {
 //                       case 1:
@@ -179,14 +176,14 @@ public class Speed extends Module {
                     if (offGroundTicks == 2 && mc.thePlayer.isPotionActive(Potion.moveSpeed) && !mc.thePlayer.isCollided) {
                         MovementUtil.strafe(0.48f);
                     }
+
                     if (offGroundTicks == 2 && !mc.thePlayer.isPotionActive(Potion.moveSpeed) && !mc.thePlayer.isCollided) {
                         MovementUtil.strafe(0.3f);
-                    } else {
                     }
+
                     if (offGroundTicks > 5 && mc.thePlayer.motionY < 0.421f) {
                         mc.thePlayer.motionY = -0.5f;
                     }
-
                     break;
 
                 case "Custom":
@@ -199,6 +196,7 @@ public class Speed extends Module {
                             }
                         }
                     }
+
                     if (strafe.getValue()) {
                         if (strafeamount.getValue().floatValue() == 0) {
                             MovementUtil.strafe();
@@ -239,16 +237,12 @@ public class Speed extends Module {
         tick = 0;
         flag = false;
 
+        if (mc.theWorld == null || mc.thePlayer == null) return;
+
         mc.gameSettings.keyBindSprint.pressed = false;
         mc.gameSettings.keyBindJump.pressed = false;
 
-        if (mc.theWorld == null) return;
         mc.timer.timerSpeed = 1.0f;
-    }
-
-    @EventListen
-    private void onMove(MoveEvent event) {
-//        event.setSpeed(move);
     }
 
     @Override
