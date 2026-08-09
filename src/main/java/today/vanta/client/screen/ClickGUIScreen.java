@@ -119,7 +119,7 @@ public class ClickGUIScreen extends VantaScreen {
                     .color(new Color(30, 30, 30))
                     .push(event);
 
-            main.drawString(category.name, position.x + 3, position.y + 1, Color.WHITE);
+            main.drawString(category.name, position.x + 3, position.y + 2, Color.WHITE);
 
             float ignoreThis = 0;
             for (Module module : Vanta.instance.moduleStorage.getModulesByCategory(category)) {
@@ -177,7 +177,7 @@ public class ClickGUIScreen extends VantaScreen {
                         .color(hoverMod ? new Color(50, 50, 50) : new Color(40, 40, 40))
                         .push(event);
 
-                main.drawString(module.name, x + 3, y + 1, ColorUtil.interpolateColor(textColor, color1, getAnimationValue(module.name + "_enabled", module.isEnabled() ? 1f : 0f, 200, Easing.EASE_OUT_QUAD)));
+                main.drawString(module.name, x + 5, y + 1.5f, ColorUtil.interpolateColor(textColor, color1, getAnimationValue(module.name + "_enabled", module.isEnabled() ? 1f : 0f, 200, Easing.EASE_OUT_QUAD)));
                 main.drawString(module.isExpanded() ? "-" : "+", x + PANEL_WIDTH - main.getStringWidth(module.isExpanded() ? "-" : "+") - 7, y + 1, hoverMod ? Color.LIGHT_GRAY : Color.WHITE);
 
                 y += 14;
@@ -193,7 +193,7 @@ public class ClickGUIScreen extends VantaScreen {
                                 .push(event);
 
                         if (moduleAnim > 0.5f) {
-                            sett.drawString("Keybind", x + 3, y + 2, -1);
+                            sett.drawString("Keybind", x + 5, y + 2.5f, -1);
 
                             String keyName = Keyboard.getKeyName(module.key);
                             float kbFade = getAnimationValue(module + "_kb_fade", (listeningModule != null && listeningModule.equals(module)) ? 1f : 0f, 200, Easing.LINEAR);
@@ -204,9 +204,9 @@ public class ClickGUIScreen extends VantaScreen {
                             float targetKBWidth = sett.getStringWidth(keyName);
                             float animatedKBWidth = getAnimationValue(module + "_kb_width", targetKBWidth, 200, Easing.EASE_OUT_QUAD);
 
-                            float bXKey = x + PANEL_WIDTH - 5;
+                            float bXKey = x + PANEL_WIDTH - 4;
                             Rectangle
-                                    .create(bXKey - animatedKBWidth - 2, y + 2.5, animatedKBWidth + 4, 9)
+                                    .create(bXKey - animatedKBWidth - 2, y + 2.5, animatedKBWidth + 2, 9)
                                     .color(new Color(45, 45, 45))
                                     .push(event);
                             sett.drawString(keyName, bXKey - animatedKBWidth - 1, y + 2, ColorUtil.interpolateColor(Color.WHITE, Color.GRAY, kbFade));
@@ -243,7 +243,7 @@ public class ClickGUIScreen extends VantaScreen {
                                             .color(ColorUtil.interpolateColor(Color.WHITE, color1, toggleAnim))
                                             .push(event);
 
-                                    sett.drawString(setting.name, x + 3, y + 2, -1);
+                                    sett.drawString(setting.name, x + 5, y + 2.5f, -1);
                                 }
                                 y += 14 * moduleAnim;
                             } else if (setting instanceof NumberSetting) {
@@ -281,7 +281,7 @@ public class ClickGUIScreen extends VantaScreen {
                                             .color(Color.WHITE)
                                             .push(event);
 
-                                    sett.drawString(setting.name, x + 3, y + 2, -1);
+                                    sett.drawString(setting.name, x + 5, y + 2.5f, -1);
 
                                     String format = "%." + slider.places + "f";
                                     String formattedValue = String.format(format, value) + slider.suffix;
@@ -310,8 +310,8 @@ public class ClickGUIScreen extends VantaScreen {
                                         .push(event);
 
                                 if (moduleAnim > 0.5f) {
-                                    sett.drawString(setting.name, x + 3, y + 1, -1);
-                                    float bX = x + PANEL_WIDTH - 14;
+                                    sett.drawString(setting.name, x + 5, y + 1.5f, -1);
+                                    float bX = x + PANEL_WIDTH - 13;
 
                                     float targetW = sett.getStringWidth(selector.getValue());
                                     if (selector.expanded) {
@@ -326,7 +326,7 @@ public class ClickGUIScreen extends VantaScreen {
                                             .color(new Color(45, 45, 45))
                                             .push(event);
 
-                                    sett.drawString(selector.getValue(), bX - sett.getStringWidth(selector.getValue()) - 1, y + 1, -1);
+                                    sett.drawString(selector.getValue(), bX - sett.getStringWidth(selector.getValue()), y + 1, -1);
                                     sett.drawString(selector.expanded ? "-" : "+", bX + 3.5f, y + 0.7f, -1);
 
                                     if (settingAnim > 0.1f) {
@@ -335,7 +335,7 @@ public class ClickGUIScreen extends VantaScreen {
                                             if (yOffset + 9 > y + settingHeight) break;
                                             boolean hoverMode = RenderUtil.hovered(mouseX, mouseY, bX - animatedWidth - 2, yOffset + 2.5f, animatedWidth + 4, 9);
                                             boolean enabledMode = selector.getValue().equals(mode);
-                                            sett.drawString(mode, bX - sett.getStringWidth(mode) - 0.5f, yOffset + 1, hoverMode ? enabledMode ? color1.darker() : Color.LIGHT_GRAY : enabledMode ? color1 : Color.WHITE);
+                                            sett.drawString(mode, bX - sett.getStringWidth(mode), yOffset + 1, hoverMode ? enabledMode ? color1.darker() : Color.LIGHT_GRAY : enabledMode ? color1 : Color.WHITE);
                                             yOffset += 9;
                                         }
                                     }
@@ -353,8 +353,8 @@ public class ClickGUIScreen extends VantaScreen {
                                         .push(event);
 
                                 if (moduleAnim > 0.5f) {
-                                    sett.drawString(setting.name, x + 3, y + 1, -1);
-                                    float bX = x + PANEL_WIDTH - 14;
+                                    sett.drawString(setting.name, x + 5, y + 1.5f, -1);
+                                    float bX = x + PANEL_WIDTH - 13;
                                     String enabled = selector.getValue().length + " Enabled";
 
                                     float targetW = sett.getStringWidth(enabled);
@@ -369,7 +369,7 @@ public class ClickGUIScreen extends VantaScreen {
                                             .color(new Color(45, 45, 45))
                                             .push(event);
 
-                                    sett.drawString(enabled, bX - sett.getStringWidth(enabled) - 1, y + 1, -1);
+                                    sett.drawString(enabled, bX - sett.getStringWidth(enabled), y + 1, -1);
                                     sett.drawString(selector.expanded ? "-" : "+", bX + 3.5f, y + 0.7f, -1);
 
                                     if (settingAnim > 0.1f) {
@@ -378,7 +378,7 @@ public class ClickGUIScreen extends VantaScreen {
                                             if (yOffset + 9 > y + settingHeight) break;
                                             boolean hoverMode = RenderUtil.hovered(mouseX, mouseY, bX - animatedWidth - 2, yOffset + 2.5f, animatedWidth + 4, 9);
                                             boolean enabledMode = selector.isEnabled(mode);
-                                            sett.drawString(mode, bX - sett.getStringWidth(mode) - 0.5f, yOffset + 1, hoverMode ? enabledMode ? color1.darker() : Color.LIGHT_GRAY : enabledMode ? color1 : Color.WHITE);
+                                            sett.drawString(mode, bX - sett.getStringWidth(mode), yOffset + 1, hoverMode ? enabledMode ? color1.darker() : Color.LIGHT_GRAY : enabledMode ? color1 : Color.WHITE);
                                             yOffset += 9;
                                         }
                                     }

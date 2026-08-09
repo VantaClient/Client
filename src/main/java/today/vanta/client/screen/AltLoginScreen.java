@@ -33,15 +33,15 @@ public class AltLoginScreen extends VantaScreen {
         float buttonWidth = 140;
 
         components.clear();
-        components.add(new ButtonComponent("Login with browser", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
+        components.add(new ButtonComponent("Login with browser", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_REGULAR_18));
         middleY += 14;
 
         for (Account account : Vanta.instance.accountStorage.list) {
-            components.add(new AccountComponent(account, middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
+            components.add(new AccountComponent(account, middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_REGULAR_18));
             middleY += 14;
         }
 
-        components.add(new ButtonComponent("Back", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_MEDIUM_18));
+        components.add(new ButtonComponent("Back", middleX - buttonWidth / 2f, middleY, buttonWidth, 14, CFonts.SFPT_REGULAR_18));
     }
 
     private void addOrUpdateAccount(Account account) {
