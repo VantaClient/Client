@@ -35,8 +35,8 @@ public class TabGUI extends Module {
     private static final Comparator<Category> CATEGORY_COMPARATOR =
             Comparator.comparingInt((final Category category) -> CFonts.SFPT_REGULAR_18.getStringWidth(category.name)).reversed();
 
-    private static final GlyphFontRenderer SFPT_REGULAR_22 = CFonts.getFont("SFPT-Regular", 22);
     private static final GlyphFontRenderer SFPT_REGULAR_20 = CFonts.getFont("SFPT-Regular", 20);
+    private static final GlyphFontRenderer SFPT_REGULAR_18 = CFonts.getFont("SFPT-Regular", 18);
 
     private static final float VANTA_ROW_HEIGHT = 12.0F;
     private static final float VANTA_WIDTH = 70.0F;
@@ -162,7 +162,7 @@ public class TabGUI extends Module {
 
         final Color background = new Color(20, 20, 20, opacity.getValue().intValue());
         Rectangle
-                .create(xPosition, yPosition, VANTA_WIDTH, vantaCategories.length * VANTA_ROW_HEIGHT)
+                .create(xPosition, yPosition, VANTA_WIDTH, height)
                 .color(background)
                 .push(renderable);
         renderVantaSelection(
@@ -174,16 +174,17 @@ public class TabGUI extends Module {
 
         float categoryY = yPosition;
         for (final Category category : vantaCategories) {
-            SFPT_REGULAR_22.drawStringWithShadow(category.name, xPosition + 0.5F, categoryY - 1.0F, Color.WHITE);
+            SFPT_REGULAR_18.drawStringWithShadow(category.name, xPosition + 2, categoryY + 0.5f, Color.WHITE);
             categoryY += VANTA_ROW_HEIGHT;
         }
 
         if (vantaExpanded && !currentModules.isEmpty()) {
             final float moduleX = xPosition + VANTA_WIDTH + 2.0F;
             Rectangle
-                    .create(moduleX, yPosition, VANTA_MODULE_WIDTH, VANTA_ROW_HEIGHT * currentModules.size() + 1.0F)
+                    .create(moduleX, yPosition, VANTA_MODULE_WIDTH, VANTA_ROW_HEIGHT * currentModules.size())
                     .color(background)
                     .push(renderable);
+
             renderVantaSelection(
                     renderable,
                     moduleX,
@@ -193,10 +194,10 @@ public class TabGUI extends Module {
 
             float moduleY = yPosition;
             for (final Module module : currentModules) {
-                SFPT_REGULAR_20.drawStringWithShadow(
+                SFPT_REGULAR_18.drawStringWithShadow(
                         module.name,
-                        moduleX + 0.5F,
-                        moduleY - 1.0F,
+                        moduleX + 2,
+                        moduleY,
                         module.isEnabled() ? Vanta.instance.moduleStorage.getT(Theme.class).colors[0] : Color.WHITE
                 );
                 moduleY += VANTA_ROW_HEIGHT;
@@ -288,7 +289,7 @@ public class TabGUI extends Module {
         final float moduleWidth = ADJUST_MODULE_WIDTH * scale;
         final float settingsWidth = ADJUST_SETTINGS_WIDTH * scale;
         final float panelGap = ADJUST_PANEL_GAP * scale;
-        final GlyphFontRenderer fontRenderer = CFonts.getFont("T-Regular", 17.5F * scale);
+        final GlyphFontRenderer font = CFonts.getFont("T-Regular", 17.5F * scale);
         final Theme theme = Vanta.instance.moduleStorage.getT(Theme.class);
         final int selectedCategoryIndex = adjustCursorItems[0];
 
@@ -347,15 +348,17 @@ public class TabGUI extends Module {
         categoryAlphaStates = ensureAlphaStates(categoryAlphaStates, adjustCategories.length, 146.0F);
         for (int index = 0; index < adjustCategories.length; index++) {
             final boolean selected = index == selectedCategoryIndex;
+
             categoryAlphaStates[index] = animateAdjust(
                     categoryAlphaStates[index],
                     selected ? 255.0F : 146.0F,
                     frameScale
             );
-            fontRenderer.drawStringWithShadow(
+
+            font.drawStringWithShadow(
                     adjustCategories[index].name,
-                    startX + panelPadding,
-                    startY + index * elementHeight + 2.0F * scale,
+                    startX + panelPadding - 2,
+                    startY + index * elementHeight + 1 * scale,
                     withAlpha(
                             selected ? ADJUST_SELECTED_TEXT_COLOR : ADJUST_CATEGORY_COLOR,
                             categoryAlphaStates[index]
@@ -383,11 +386,13 @@ public class TabGUI extends Module {
             for (int index = 0; index < moduleCount; index++) {
                 final Module module = modules.get(index);
                 final boolean selected = index == selectedModuleIndex;
+
                 moduleAlphaStates[index] = animateAdjust(
                         moduleAlphaStates[index],
                         selected ? 255.0F : 128.0F,
                         frameScale
                 );
+
                 if (selected && currentModuleWidth > 1.0F)
                     drawAdjustSelection(
                             renderable,
@@ -399,10 +404,10 @@ public class TabGUI extends Module {
                     );
 
                 final Color moduleColor = module.isEnabled() ? ADJUST_ENABLED_COLOR : ADJUST_DISABLED_COLOR;
-                fontRenderer.drawStringWithShadow(
+                font.drawStringWithShadow(
                         module.name,
-                        moduleX + panelPadding,
-                        moduleY + index * elementHeight + 2.0F * scale,
+                        moduleX + panelPadding - 2,
+                        moduleY + index * elementHeight + 1 * scale,
                         withAlpha(
                                 selected && module.isEnabled() ? ADJUST_SELECTED_TEXT_COLOR : moduleColor,
                                 moduleAlphaStates[index]
@@ -451,7 +456,7 @@ public class TabGUI extends Module {
                                     theme
                             );
 
-                        fontRenderer.drawStringWithShadow(
+                        font.drawStringWithShadow(
                                 settings.get(index).name + ": " + getSettingDisplayString(settings.get(index)),
                                 settingsX + panelPadding,
                                 settingsY + index * elementHeight + 2.0F * scale,
