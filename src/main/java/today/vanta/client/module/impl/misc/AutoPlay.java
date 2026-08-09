@@ -1,10 +1,8 @@
 package today.vanta.client.module.impl.misc;
 
-import net.minecraft.network.play.client.C17PacketCustomPayload;
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.event.impl.game.network.PrintChatMessage;
-import today.vanta.client.event.impl.game.network.SendPacketEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
 import today.vanta.client.module.impl.client.Theme;
@@ -29,7 +27,7 @@ public class AutoPlay extends Module {
     private float animBarWidth = 100f;
 
     public AutoPlay() {
-        super("AutoPlay", "Auto Queues.", Category.MISC);
+        super("AutoPlay", "Auto queues for the next game.", Category.MISC);
     }
 
     @EventListen
@@ -45,15 +43,11 @@ public class AutoPlay extends Module {
     }
 
     @EventListen
-    private void onPacket(SendPacketEvent event) {
-        if (mc.isSingleplayer()) return;
-    }
-
-    @EventListen
     public void onRenderOverlay(RenderOverlayEvent event) {
         if (mc.isSingleplayer()) return;
         float x = event.scaledResolution.getScaledWidth() / 2 - (barWidth / 2);
         float y = event.scaledResolution.getScaledHeight() / 2 + 70f;
+
         if (mc.thePlayer == null || mc.theWorld == null) {
             canQueue = false;
         }
@@ -63,16 +57,20 @@ public class AutoPlay extends Module {
                 time.reset();
                 canReset = false;
             }
+
             bar = barWidth * ((float) time.getElapsedTime() / 3000);
             CFonts.SFPT_MEDIUM_24.drawStringWithShadow(String.valueOf(time.getElapsedTime()), 100, 100, Color.white);
+
             Rectangle
-                    .create(x - 1,y - 1, barWidth + 2, 5f)
-                            .color(Color.black)
-                                    .push(event);
+                    .create(x - 1, y - 1, barWidth + 2, 5f)
+                    .color(Color.black)
+                    .push(event);
+
             Rectangle
                     .create(x, y, bar, 3f)
                     .color(Vanta.instance.moduleStorage.getT(Theme.class).colors[0])
                     .push(event);
+
             if (time.getElapsedTime() > 3000) {
                 mc.thePlayer.sendChatMessage("/play skywars");
                 ChatUtil.send(ChatUtil.Prefix.INFO, "Queueing..");
