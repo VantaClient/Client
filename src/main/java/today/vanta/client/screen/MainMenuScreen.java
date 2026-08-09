@@ -64,7 +64,7 @@ public class MainMenuScreen extends VantaScreen {
                     .create(5, middleY, panelWidth, boxHeight)
                     .color(new Color(30, 30, 30))
                     .push(event);
-            CFonts.getFont("SFPT-Medium", 20).drawString("Changelog", 5 + 3.5f, middleY + 4.5f - 1, -1);
+            CFonts.getFont("SFPT-Medium", 20).drawString("Changelog", 5 + 3.5f, middleY + 3, -1);
 
             for (int i = 0; i < Strings.CHANGELOG.size(); i++) {
                 String change = Strings.CHANGELOG.get(i);
@@ -77,7 +77,7 @@ public class MainMenuScreen extends VantaScreen {
 
                 String formattedChange = formatChange(change);
 
-                CFonts.getFont("SFPT-Regular", 18).drawYCenteredString(formattedChange, 5 + 3.5f, y + 14 / 2f - 2, Color.WHITE, false);
+                CFonts.SFPT_REGULAR_18.drawYCenteredString(formattedChange, 5 + 3.5f, y + 14 / 2f - 1, Color.WHITE, false);
             }
         }
 
@@ -89,7 +89,7 @@ public class MainMenuScreen extends VantaScreen {
                 .color(new Color(30, 30, 30))
                 .push(event);
         CFonts.getFont("SFPT-Medium", 20).drawString(Strings.CLIENT_NAME, middleX - 143 / 2f + 3, middleY - 18 + 4.5f, -1);
-        CFonts.getFont("SFPT-Regular", 18).drawString(Strings.CLIENT_VERSION + " | " + Strings.DEVELOPERS, middleX * 2 - CFonts.SFPT_MEDIUM_18.getStringWidth(Strings.CLIENT_VERSION + " | " + Strings.DEVELOPERS) - 3, middleY * 2 - CFonts.SFPT_MEDIUM_18.getFontHeight() - 5.5f, new Color(200, 200, 200));
+        CFonts.SFPT_REGULAR_18.drawString(Strings.CLIENT_VERSION + " | " + Strings.DEVELOPERS, middleX * 2 - CFonts.SFPT_MEDIUM_18.getStringWidth(Strings.CLIENT_VERSION + " | " + Strings.DEVELOPERS) - 3, middleY * 2 - CFonts.SFPT_MEDIUM_18.getFontHeight() - 5.5f, new Color(200, 200, 200));
 
         if (rotation > 360) {
             rotation = 0;
