@@ -6,7 +6,7 @@ import today.vanta.client.event.impl.client.ModuleEnableEvent;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.util.client.ui.NotificationUtil;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.player.ChatUtil;
@@ -41,7 +41,7 @@ public class Notifications extends Module {
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
         float yAddition = 5;
-        GlyphFontRenderer font = RenderUtil.getSelectedFont();
+        GlyphFontRenderer font = CFonts.SFPT_REGULAR_18;
         for (int i = 0; i < NotificationUtil.notifTitle.size(); i++) {
             if (NotificationUtil.notifTime.get(i) + 3000 <= System.currentTimeMillis()) {
                 NotificationUtil.notifTitle.remove(i);
@@ -62,9 +62,9 @@ public class Notifications extends Module {
             float remainingFraction = 1f - ((float) elapsed / lifetimea);
             float barWidth = totalBarWidth * remainingFraction;
             Rectangle.create(x,y,width,height).color(new Color(10,10,10,190)).push(event);
-            GradientRectangle.create(x,y,width,1f).firstColor(Vanta.instance.moduleStorage.getT(Theme.class).colors[0]).secondColor(Vanta.instance.moduleStorage.getT(Theme.class).colors[1]).push(event);
+            GradientRectangle.create(x,y,width,1f).firstColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0]).secondColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1]).push(event);
             Rectangle.create( x + 2,y + height - 6f,totalBarWidth,3f).color(new Color(10,10,10,255)).push(event);
-            Rectangle.create( x + 2,y + height - 6f,barWidth,3f).color(Vanta.instance.moduleStorage.getT(Theme.class).colors[0]).push(event);
+            Rectangle.create( x + 2,y + height - 6f,barWidth,3f).color(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0]).push(event);
 
             font.drawStringWithShadow(message,x + 2,y + 2,Color.white);
             yAddition += height + 5;

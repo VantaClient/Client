@@ -1,6 +1,5 @@
 package today.vanta.client.module.impl.hud;
 
-import com.sun.javafx.font.Glyph;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Mouse;
@@ -9,7 +8,7 @@ import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.module.impl.player.Scaffold;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.NumberSetting;
@@ -42,12 +41,11 @@ public class BlockCounter extends Module {
     private float dragX, dragY;
     private int maxBlocks = 0;
 
-    private Color color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
+    private Color color = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
     private int blocks;
     private Animation animation;
     private float targetwidth = WIDTH - 4;
     private float animBarWidth = WIDTH - 4;
-    private int size = 12;
 
     public BlockCounter() {
         super("BlockCounter", "Block information.", Category.HUD);
@@ -60,7 +58,7 @@ public class BlockCounter extends Module {
 
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
-        color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
+        color = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
         float centerValueX = ((float) event.scaledResolution.getScaledWidth() / 2) - (WIDTH / 2);
         if (x.getValue() == null) {
             return;
@@ -111,12 +109,11 @@ public class BlockCounter extends Module {
     }
 
     private void draw(Renderable renderable) {
-        GlyphFontRenderer font = RenderUtil.getSelectedFont(size);
+        GlyphFontRenderer font = CFonts.SFPT_REGULAR_18;
         float x = this.x.getValue().floatValue();
         float y = this.y.getValue().floatValue();
         switch (mode.getValue()) {
             case "Vanta":
-                size = 30;
                 WIDTH = 90;
                 HEIGHT = 40;
 
@@ -134,9 +131,8 @@ public class BlockCounter extends Module {
             case "Box":
                 WIDTH = 75;
                 HEIGHT = 19;
-                size = 18;
 
-                color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
+                color = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
                 blocks = InventoryUtil.getHotbarBlockCount();
                 float barWidth = WIDTH - 4;
                 float bar = barWidth * ((float) blocks / maxBlocks);

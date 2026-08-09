@@ -14,9 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.optifine.reflect.Reflector;
 import org.lwjgl.opengl.GL11;
 import today.vanta.Vanta;
-import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.FontSettings;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.module.impl.client.WindowSettings;
 import today.vanta.util.game.render.font.CFonts;
 import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
@@ -107,57 +105,6 @@ public class RenderUtil {
         GuiInventory.drawEntityOnScreen(posX, posY, scale, mouseX, mouseY, entity);
     }
 
-
-    public static GlyphFontRenderer getSelectedFont() {
-        GlyphFontRenderer font;
-        switch(Vanta.instance.moduleStorage.getT(FontSettings.class).font.getValue()) {
-            case "SFPT":
-                font = CFonts.SFPT_REGULAR_18;
-                break;
-            case "Tahoma":
-                font = CFonts.getFont("T-Regular", 18);
-                break;
-            case "Roboto":
-                font = CFonts.getFont("Roboto-Regular", 18);
-                break;
-            case "Geist":
-                font = CFonts.getFont("Geist-Regular", 18);
-                break;
-            case "IBM Plex Sans":
-                font = CFonts.getFont("IBMPlexSans-Regular", 18);
-                break;
-            default:
-                font = CFonts.SFPT_REGULAR_18;
-                break;
-        }
-        return font;
-    }
-
-    public static GlyphFontRenderer getSelectedFont(int size) {
-        GlyphFontRenderer font;
-        switch(Vanta.instance.moduleStorage.getT(FontSettings.class).font.getValue()) {
-            case "SFPT":
-                font = CFonts.SFPT_REGULAR_18;
-                break;
-            case "Tahoma":
-                font = CFonts.getFont("T-Regular", 18);
-                break;
-            case "Roboto":
-                font = CFonts.getFont("Roboto-Regular", 18);
-                break;
-            case "Geist":
-                font = CFonts.getFont("Geist-Regular", 18);
-                break;
-            case "IBM Plex Sans":
-                font = CFonts.getFont("IBMPlexSans-Regular", 18);
-                break;
-            default:
-                font = CFonts.SFPT_REGULAR_18;
-                break;
-        }
-        return font;
-    }
-
     public static float fontHeightDif(GlyphFontRenderer font) {
         return CFonts.SFPT_REGULAR_18.getFontHeight() - font.getFontHeight();
     }
@@ -167,10 +114,10 @@ public class RenderUtil {
         Color BACKGROUND = new Color(20, 20, 20, 190);
         float windowHeight = 12;
         float textHeight = CFonts.SFPT_REGULAR_18.getFontHeight();
-        Color outlineColor = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
-        Color outlineColor2 = Vanta.instance.moduleStorage.getT(Theme.class).colors[1];
+        Color outlineColor = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
+        Color outlineColor2 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1];
         float outlineWidth = 0.5f;
-        GlyphFontRenderer font = getSelectedFont();
+        GlyphFontRenderer font = CFonts.SFPT_REGULAR_18;
 
         Rectangle
                 .create(x, y, width, windowHeight)

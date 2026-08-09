@@ -8,7 +8,7 @@ import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.processor.impl.TargetProcessor;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.NumberSetting;
@@ -69,7 +69,7 @@ public class TargetList extends Module {
 
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
-        GlyphFontRenderer font = RenderUtil.getSelectedFont();
+        GlyphFontRenderer font = CFonts.SFPT_REGULAR_18;
         list.clear();
 
         mc.theWorld.getLoadedEntityList().stream()
@@ -118,7 +118,7 @@ public class TargetList extends Module {
         if (dragging) {
             Rectangle
                     .create(x.getValue().floatValue() - 0.5f, y.getValue().floatValue() - 0.5f, width + 1, height + 12f)
-                    .color(Vanta.instance.moduleStorage.getT(Theme.class).colors[0])
+                    .color(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0])
                     .outline(true)
                     .push(event);
         }
