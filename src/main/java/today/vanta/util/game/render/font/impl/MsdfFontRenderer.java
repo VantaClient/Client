@@ -11,16 +11,16 @@ import today.vanta.util.system.math.ColorUtil;
 
 import java.awt.Color;
 
-public final class GlyphFontRenderer implements IRenderer {
+public final class MsdfFontRenderer implements IRenderer {
     private final MsdfFont font;
     private final float size;
     private final int[] colorCodes = new int[32];
 
-    public GlyphFontRenderer(final MsdfFont font, final float size) {
+    public MsdfFontRenderer(final MsdfFont font, final float size) {
         this(font, size, null);
     }
 
-    public GlyphFontRenderer(final MsdfFont font, final float size, final char[] requiredCharacters) {
+    public MsdfFontRenderer(final MsdfFont font, final float size, final char[] requiredCharacters) {
         this.font = font;
         this.size = size / 2.0F;
         setupMinecraftColorCodes();

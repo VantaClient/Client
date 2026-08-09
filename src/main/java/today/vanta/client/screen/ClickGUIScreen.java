@@ -19,7 +19,7 @@ import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.render.ImageUtil;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.font.CFonts;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
+import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.GradientMode;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.ImageRectangle;
@@ -35,8 +35,8 @@ import java.util.*;
 import java.util.List;
 
 public class ClickGUIScreen extends VantaScreen {
-    private final GlyphFontRenderer sett = CFonts.getFont("SFPT-Regular", 16);
-    private final GlyphFontRenderer main = CFonts.getFont("SFPT-Regular", 18);
+    private final MsdfFontRenderer sett = CFonts.getFont("SFPT-Regular", 16);
+    private final MsdfFontRenderer main = CFonts.getFont("SFPT-Regular", 18);
 
     private final Map<Object, Float> animationMap = new HashMap<>();
     private final Map<Object, Animation> activeAnimations = new HashMap<>();

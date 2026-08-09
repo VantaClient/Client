@@ -10,6 +10,14 @@ public interface Strings {
     String CLIENT_FULL_TITLE = CLIENT_NAME + " - " + CLIENT_VERSION + " - " + DEVELOPERS;
 
     List<String> CHANGELOG = Arrays.asList(
-
+            "[~] Combined Theme & ClientSounds into ClientSettings",
+            "[~] Renamed Phase to Spider",
+            "[#] Fixed error logging messages",
+            "[#] Fixed possible crashes",
+            "[#] Fixed UI offsets",
+            "[-] Removed bundled Minecraft sounds",
+            "[-] Removed FontSettings",
+            "[-] Removed unused fonts",
+            "[+] Added IceSpeedBoost"
     );
 }

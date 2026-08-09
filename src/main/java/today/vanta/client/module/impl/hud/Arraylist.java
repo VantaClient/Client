@@ -7,7 +7,7 @@ import today.vanta.client.module.Module;
 import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.module.impl.hud.arraylist.ArraylistRenderer;
 import today.vanta.client.module.impl.hud.arraylist.BitMapRenderer;
-import today.vanta.client.module.impl.hud.arraylist.GlyphRenderer;
+import today.vanta.client.module.impl.hud.arraylist.MsdfRenderer;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.NumberSetting;
@@ -36,10 +36,10 @@ public class Arraylist extends Module {
             animationLength = Setting.of("Animation length", 250, 0, 1000, "ms");
 
     private final StringSetting
-            font = Setting.of("Font", "SFPT", "SFPT", "Tahoma", "IBM Plex Sans", "Roboto", "Geist", "Minecraft", "Exhibition"),
+            font = Setting.of("Font", "SFPT", "SFPT", "Tahoma", "Roboto", "Minecraft", "Exhibition"),
             fontStyle = Setting.of("Font style", "Medium", "Light", "Medium", "Semibold", "Bold", "Heavy", "Regular").hide(() -> !font.isValue("SFPT"));
 
-    private final NumberSetting fontSize = Setting.of("Font size", 24, 10, 42, "px").hide(() -> !font.isValue("SFPT") && !font.isValue("Tahoma"));
+    private final NumberSetting fontSize = Setting.of("Font size", 24, 10, 42, "px").hide(() -> font.isValue("Minecraft") || font.isValue("Exhibition"));
 
     private final BooleanSetting
             fontShadow = Setting.of("Font shadow", true),
@@ -70,7 +70,7 @@ public class Arraylist extends Module {
         setFont();
     }
 
-    private ArraylistRenderer arraylistFontRenderer = new GlyphRenderer(CFonts.SFPT_MEDIUM_24);
+    private ArraylistRenderer arraylistFontRenderer = new MsdfRenderer(CFonts.SFPT_MEDIUM_24);
 
     private void setFont() {
         switch (font.getValue()) {
@@ -81,19 +81,13 @@ public class Arraylist extends Module {
                 arraylistFontRenderer = new BitMapRenderer(mc.fontRendererObj);
                 break;
             case "Tahoma":
-                arraylistFontRenderer = new GlyphRenderer(CFonts.getFont("T-Regular", fontSize.getValue().intValue()));
-                break;
-            case "IBM Plex Sans":
-                arraylistFontRenderer = new GlyphRenderer(CFonts.getFont("IBMPlexSans-Regular", fontSize.getValue().intValue()));
+                arraylistFontRenderer = new MsdfRenderer(CFonts.getFont("T-Regular", fontSize.getValue().intValue()));
                 break;
             case "Roboto":
-                arraylistFontRenderer = new GlyphRenderer(CFonts.getFont("Roboto-Regular", fontSize.getValue().intValue()));
-                break;
-            case "Geist":
-                arraylistFontRenderer = new GlyphRenderer(CFonts.getFont("Geist-Regular", fontSize.getValue().intValue()));
+                arraylistFontRenderer = new MsdfRenderer(CFonts.getFont("Roboto-Regular", fontSize.getValue().intValue()));
                 break;
             default:
-                arraylistFontRenderer = new GlyphRenderer(CFonts.getFont("SFPT-" + fontStyle.getValue(), fontSize.getValue().intValue()));
+                arraylistFontRenderer = new MsdfRenderer(CFonts.getFont("SFPT-" + fontStyle.getValue(), fontSize.getValue().intValue()));
                 break;
         }
     }

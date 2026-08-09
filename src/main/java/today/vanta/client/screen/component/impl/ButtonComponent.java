@@ -3,7 +3,7 @@ package today.vanta.client.screen.component.impl;
 import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.screen.component.Component;
 import today.vanta.util.game.render.RenderUtil;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
+import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 import today.vanta.util.game.sound.Sounds;
 
@@ -12,7 +12,7 @@ import java.awt.*;
 public class ButtonComponent extends Component {
     private boolean didHover = false;
 
-    public ButtonComponent(String text, float x, float y, float width, float height, GlyphFontRenderer font) {
+    public ButtonComponent(String text, float x, float y, float width, float height, MsdfFontRenderer font) {
         super(text, x, y, width, height, font);
     }
 

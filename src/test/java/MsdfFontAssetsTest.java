@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import today.vanta.Vanta;
 import today.vanta.util.game.render.font.Icons;
 import today.vanta.util.game.render.font.msdf.MsdfFontData;
 
@@ -11,16 +12,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class MsdfFontAssetsTest {
-    private static final String[] FONT_NAMES = new String[] {
-            "a-regular",
-            "cd-light",
-            "cd-medium",
-            "cd-regular",
+    private static final String[] FONT_NAMES = new String[]{
+            "badabb",
             "hn-medium",
             "hn-regular",
             "icons",
             "ocr-b",
-            "rk-regular",
+            "roboto-regular",
             "rusticroadway",
             "sfpt-bold",
             "sfpt-heavy",
@@ -38,7 +36,7 @@ public final class MsdfFontAssetsTest {
     public static void main(final String[] args) throws Exception {
         for (final String fontName : FONT_NAMES)
             validate(fontName);
-        System.out.println("Validated " + FONT_NAMES.length + " MSDF fonts.");
+        Vanta.instance.logger.info("Validated {} MSDF fonts.", FONT_NAMES.length);
     }
 
     private static void validate(final String fontName) throws Exception {

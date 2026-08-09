@@ -18,7 +18,7 @@ import today.vanta.util.game.player.InventoryUtil;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.Renderable;
 import today.vanta.util.game.render.font.CFonts;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
+import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 import today.vanta.util.system.math.animation.Animation;
 import today.vanta.util.system.math.animation.Easing;
@@ -109,7 +109,7 @@ public class BlockCounter extends Module {
     }
 
     private void draw(Renderable renderable) {
-        GlyphFontRenderer font = CFonts.SFPT_REGULAR_18;
+        MsdfFontRenderer font = CFonts.SFPT_REGULAR_18;
         float x = this.x.getValue().floatValue();
         float y = this.y.getValue().floatValue();
         switch (mode.getValue()) {

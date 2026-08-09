@@ -18,7 +18,7 @@ import today.vanta.util.game.render.ImageUtil;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.font.CFonts;
 import today.vanta.util.game.render.font.Icons;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
+import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.GradientMode;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.ImageRectangle;
@@ -62,8 +62,8 @@ public class BoxyClickGUIScreen extends VantaScreen {
     private static final Color TEXT_MAIN = new Color(0xe0e0e0);
     private static final Color TEXT_MUTED = new Color(0x888888);
 
-    private static final GlyphFontRenderer ICONS_16 = CFonts.getFont("Icons", 16, Icons.CHARS);
-    private static final GlyphFontRenderer ICONS_12 = CFonts.getFont("Icons", 12, Icons.CHARS);
+    private static final MsdfFontRenderer ICONS_16 = CFonts.getFont("Icons", 16, Icons.CHARS);
+    private static final MsdfFontRenderer ICONS_12 = CFonts.getFont("Icons", 12, Icons.CHARS);
 
     public float sWidth = 250, sHeight = 190;
     public float x = -999, y = -999;

@@ -9,11 +9,8 @@ import today.vanta.client.module.Module;
 import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.util.client.ui.NotificationUtil;
 import today.vanta.util.game.events.EventListen;
-import today.vanta.util.game.player.ChatUtil;
-import today.vanta.util.game.render.RenderUtil;
-import today.vanta.util.game.render.Renderable;
 import today.vanta.util.game.render.font.CFonts;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
+import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 
@@ -41,7 +38,7 @@ public class Notifications extends Module {
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
         float yAddition = 5;
-        GlyphFontRenderer font = CFonts.SFPT_REGULAR_18;
+        MsdfFontRenderer font = CFonts.SFPT_REGULAR_18;
         for (int i = 0; i < NotificationUtil.notifTitle.size(); i++) {
             if (NotificationUtil.notifTime.get(i) + 3000 <= System.currentTimeMillis()) {
                 NotificationUtil.notifTitle.remove(i);

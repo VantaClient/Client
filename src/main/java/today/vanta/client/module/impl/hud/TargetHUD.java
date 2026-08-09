@@ -20,7 +20,7 @@ import today.vanta.util.game.player.PlayerUtil;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.Renderable;
 import today.vanta.util.game.render.font.CFonts;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
+import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.GradientMode;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
@@ -37,12 +37,12 @@ public class TargetHUD extends Module {
     private static final Color DARKER_BACKGROUND = new Color(20, 20, 20, 255);
     private static final Color PASSBACKGROUND = new Color(182, 215, 223);
 
-    private static final GlyphFontRenderer RUSTICROADWAY_22 = CFonts.getFont("RusticRoadway", 22);
-    private static final GlyphFontRenderer OCRB_18 = CFonts.getFont("OCR-B", 18);
-    private static final GlyphFontRenderer OCRB_10 = CFonts.getFont("OCR-B", 10);
-    private static final GlyphFontRenderer OCRB_8 = CFonts.getFont("OCR-B", 8);
-    private static final GlyphFontRenderer SFPT_MEDIUM_20 = CFonts.getFont("SFPT-Medium", 20);
-    private static final GlyphFontRenderer SFPT_REGULAR_16 = CFonts.getFont("SFPT-Regular", 16);
+    private static final MsdfFontRenderer RUSTICROADWAY_22 = CFonts.getFont("RusticRoadway", 22);
+    private static final MsdfFontRenderer OCRB_18 = CFonts.getFont("OCR-B", 18);
+    private static final MsdfFontRenderer OCRB_10 = CFonts.getFont("OCR-B", 10);
+    private static final MsdfFontRenderer OCRB_8 = CFonts.getFont("OCR-B", 8);
+    private static final MsdfFontRenderer SFPT_MEDIUM_20 = CFonts.getFont("SFPT-Medium", 20);
+    private static final MsdfFontRenderer SFPT_REGULAR_16 = CFonts.getFont("SFPT-Regular", 16);
 
     private EntityLivingBase localTarget;
     private String oldTarget;

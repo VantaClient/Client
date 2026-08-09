@@ -13,7 +13,7 @@ import today.vanta.util.client.Strings;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.events.EventPriority;
 import today.vanta.util.game.render.font.CFonts;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
+import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 
@@ -22,9 +22,9 @@ import java.util.Calendar;
 import java.util.Formatter;
 
 public class Watermark extends Module {
-    private static final GlyphFontRenderer HN_MEDIUM_24 = CFonts.getFont("HN-Medium", 24);
-    private static final GlyphFontRenderer HN_REGULAR_48 = CFonts.getFont("HN-Regular", 48);
-    private static final GlyphFontRenderer SFPT_SEMIBOLD_42 = CFonts.getFont("SFPT-Semibold", 42);
+    private static final MsdfFontRenderer HN_MEDIUM_24 = CFonts.getFont("HN-Medium", 24);
+    private static final MsdfFontRenderer HN_REGULAR_48 = CFonts.getFont("HN-Regular", 48);
+    private static final MsdfFontRenderer SFPT_SEMIBOLD_42 = CFonts.getFont("SFPT-Semibold", 42);
     private static final Color BACKGROUND = new Color(20, 20, 20, 190);
 
     private final StringSetting

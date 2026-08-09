@@ -38,7 +38,7 @@ public final class MsdfFont {
     }
 
     public static MsdfFont load(final String resourceName) {
-        final String resourceRoot = "/assets/vanta/msdf/" + resourceName;
+        final String resourceRoot = "/assets/vanta/fonts/" + resourceName;
         try (
                 InputStream dataStream = MsdfFont.class.getResourceAsStream(resourceRoot + ".json");
                 InputStream atlasStream = MsdfFont.class.getResourceAsStream(resourceRoot + ".png")

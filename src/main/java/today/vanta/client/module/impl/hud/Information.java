@@ -23,7 +23,7 @@ import today.vanta.util.game.player.MovementUtil;
 import today.vanta.util.game.player.PlayerUtil;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.font.CFonts;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
+import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 import today.vanta.util.game.world.EntityUtil;
 import today.vanta.util.system.math.Counter;
@@ -85,7 +85,7 @@ public class Information extends Module {
 
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
-        GlyphFontRenderer font = CFonts.SFPT_REGULAR_18;
+        MsdfFontRenderer font = CFonts.SFPT_REGULAR_18;
         Color color1 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
 
         if (!mc.isSingleplayer() && mc.getCurrentServerData().serverIP != null) {

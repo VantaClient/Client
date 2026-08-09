@@ -17,7 +17,7 @@ import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.Renderable;
 import today.vanta.util.game.render.font.CFonts;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
+import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.GradientMode;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
@@ -31,8 +31,8 @@ public class TabGUI extends Module {
     private static final Comparator<Category> CATEGORY_COMPARATOR =
             Comparator.comparingInt((final Category category) -> CFonts.SFPT_REGULAR_18.getStringWidth(category.name)).reversed();
 
-    private static final GlyphFontRenderer SFPT_REGULAR_20 = CFonts.getFont("SFPT-Regular", 20);
-    private static final GlyphFontRenderer SFPT_REGULAR_18 = CFonts.getFont("SFPT-Regular", 18);
+    private static final MsdfFontRenderer SFPT_REGULAR_20 = CFonts.getFont("SFPT-Regular", 20);
+    private static final MsdfFontRenderer SFPT_REGULAR_18 = CFonts.getFont("SFPT-Regular", 18);
 
     private static final float VANTA_ROW_HEIGHT = 12.0F;
     private static final float VANTA_WIDTH = 70.0F;
@@ -276,7 +276,7 @@ public class TabGUI extends Module {
         final float categoryWidth = ADJUST_CATEGORY_WIDTH * scale;
         final float moduleWidth = ADJUST_MODULE_WIDTH * scale;
         final float panelGap = ADJUST_PANEL_GAP * scale;
-        final GlyphFontRenderer font = CFonts.getFont("T-Regular", 17.5F * scale);
+        final MsdfFontRenderer font = CFonts.getFont("T-Regular", 17.5F * scale);
         final ClientSettings theme = Vanta.instance.moduleStorage.getT(ClientSettings.class);
         final int selectedCategoryIndex = adjustCursorItems[0];
 

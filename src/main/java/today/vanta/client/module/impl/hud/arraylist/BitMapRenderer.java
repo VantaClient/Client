@@ -11,7 +11,7 @@ public class BitMapRenderer extends ArraylistRenderer {
 
     @Override
     public void drawString(String text, float x, float y, Color color, boolean shadow) {
-        super.drawString(text, x + 0.5f, y + 1.5f, color, shadow);
+        super.drawString(text, x - 0.5f, y + 1, color, shadow);
     }
 
     @Override

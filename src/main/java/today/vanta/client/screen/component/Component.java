@@ -1,14 +1,14 @@
 package today.vanta.client.screen.component;
 
 import today.vanta.client.event.impl.client.RenderScreenEvent;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
+import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 
 public abstract class Component {
     public String text;
     public float x, y, width, height;
-    public GlyphFontRenderer font;
+    public MsdfFontRenderer font;
 
-    public Component(String text, float x, float y, float width, float height, GlyphFontRenderer font) {
+    public Component(String text, float x, float y, float width, float height, MsdfFontRenderer font) {
         this.text = text;
         this.x = x;
         this.y = y;

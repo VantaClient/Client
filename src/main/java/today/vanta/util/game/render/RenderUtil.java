@@ -17,7 +17,7 @@ import today.vanta.Vanta;
 import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.module.impl.client.WindowSettings;
 import today.vanta.util.game.render.font.CFonts;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
+import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.GradientMode;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.ImageRectangle;
@@ -105,7 +105,7 @@ public class RenderUtil {
         GuiInventory.drawEntityOnScreen(posX, posY, scale, mouseX, mouseY, entity);
     }
 
-    public static float fontHeightDif(GlyphFontRenderer font) {
+    public static float fontHeightDif(MsdfFontRenderer font) {
         return CFonts.SFPT_REGULAR_18.getFontHeight() - font.getFontHeight();
     }
 
@@ -117,7 +117,7 @@ public class RenderUtil {
         Color outlineColor = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
         Color outlineColor2 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1];
         float outlineWidth = 0.5f;
-        GlyphFontRenderer font = CFonts.SFPT_REGULAR_18;
+        MsdfFontRenderer font = CFonts.SFPT_REGULAR_18;
 
         Rectangle
                 .create(x, y, width, windowHeight)

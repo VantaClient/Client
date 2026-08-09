@@ -22,7 +22,7 @@ import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.render.ProjectionUtil;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.font.CFonts;
-import today.vanta.util.game.render.font.impl.GlyphFontRenderer;
+import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 
@@ -76,7 +76,7 @@ public class Nametags extends Module {
             float height = (float) (bounds.maxY - bounds.minY);
             if (width <= 0.0F || height <= 0.0F) continue;
 
-            GlyphFontRenderer font = CFonts.SFPT_MEDIUM_18;
+            MsdfFontRenderer font = CFonts.SFPT_MEDIUM_18;
 
             float distance = mc.thePlayer.getDistanceToEntity(entity);
             float health = living.getHealth();

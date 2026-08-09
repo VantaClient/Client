@@ -4,8 +4,8 @@ import today.vanta.util.game.render.font.IRenderer;
 
 import java.awt.*;
 
-public class GlyphRenderer extends ArraylistRenderer {
-    public GlyphRenderer(IRenderer renderer) {
+public class MsdfRenderer extends ArraylistRenderer {
+    public MsdfRenderer(IRenderer renderer) {
         super(renderer);
     }
 
