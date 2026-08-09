@@ -11,6 +11,7 @@ import today.vanta.util.game.events.EventListen;
 
 public class FastSneak extends Module {
     private final StringSetting mode = Setting.of("Mode", "Vanilla", "Vanilla", "Packet");
+
     public FastSneak() {
         super("FastSneak","Removes sneaking slowdown.", Category.MOVEMENT);
     }
