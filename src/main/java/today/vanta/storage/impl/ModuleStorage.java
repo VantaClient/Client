@@ -55,6 +55,7 @@ public class ModuleStorage extends Storage<Module> {
         list.add(new SaveMoveKeys());
         list.add(new ClickTeleport());
         list.add(new NoWeb());
+        list.add(new IceSpeedBoost());
 
         // Player
         list.add(new Scaffold());
