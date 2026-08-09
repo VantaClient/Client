@@ -128,7 +128,7 @@ public class AltLoginScreen extends VantaScreen {
                                     scheduleInitGui();
                                 })
                                 .exceptionally(error -> {
-                                    Vanta.instance.logger.error("Failed to login due to {}", error.getMessage());
+                                    Vanta.instance.logger.error("Failed to login due to: {}", error.getMessage());
                                     return null;
                                 })
                                 .whenComplete((result, error) -> authExecutor.shutdown());
@@ -165,7 +165,7 @@ public class AltLoginScreen extends VantaScreen {
                                                         scheduleInitGui();
                                                     })
                                                     .exceptionally(error -> {
-                                                        Vanta.instance.logger.error("Failed to login due to {}", error.getMessage());
+                                                        Vanta.instance.logger.error("Failed to login due to: {}", error.getMessage());
                                                         return null;
                                                     })
                                                     .whenComplete((result, error) -> refreshExecutor.shutdown());
