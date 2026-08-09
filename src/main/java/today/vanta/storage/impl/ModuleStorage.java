@@ -11,7 +11,6 @@ import today.vanta.client.module.impl.player.*;
 import today.vanta.client.module.impl.render.*;
 import today.vanta.storage.Storage;
 
-import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,10 +25,9 @@ public class ModuleStorage extends Storage<Module> {
         // Client
         list.add(new ClickGUI());
         list.add(new ClickSettings());
-        list.add(new Theme());
+        list.add(new ClientSettings());
         list.add(new AutoDisable());
         list.add(new Test());
-        list.add(new ClientSounds());
         list.add(new WindowSettings());
 
         // Combat
@@ -64,7 +62,7 @@ public class ModuleStorage extends Storage<Module> {
         list.add(new ChestStealer());
         list.add(new InventoryManager());
         list.add(new NoFall());
-        list.add(new Phase());
+        list.add(new Spider());
 
         // Render
         list.add(new ESP());

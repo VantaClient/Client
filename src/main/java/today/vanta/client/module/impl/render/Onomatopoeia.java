@@ -12,7 +12,7 @@ import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.event.impl.game.network.SendPacketEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.processor.impl.TargetProcessor;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.MultiStringSetting;
@@ -68,7 +68,7 @@ public class Onomatopoeia extends Module {
     private void onRenderOverlay(RenderOverlayEvent event) {
         float ticks = event.partialTicks;
         ScaledResolution sr = event.scaledResolution;
-        Color color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
+        Color color = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
         if (TargetProcessor.getInstance().target != null) {
             if (validEntity(TargetProcessor.getInstance().target)) {
                 entityLivingBase = TargetProcessor.getInstance().target;

@@ -2,7 +2,7 @@ package today.vanta.client.screen.component.impl;
 
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderScreenEvent;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.screen.component.Component;
 import today.vanta.util.client.cache.TextureCache;
 import today.vanta.util.client.network.NetworkUtil;
@@ -31,7 +31,7 @@ public class AccountComponent extends Component {
     public void draw(RenderScreenEvent event) {
         boolean hover = RenderUtil.hovered(event.mouseX, event.mouseY, x, y, width, height);
         boolean currentAccount = account.equals(Vanta.instance.accountStorage.currentAccount);
-        Color color1 = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
+        Color color1 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
         Rectangle
                 .create(x, y, width, height)
                 .color(hover ? new Color(40, 40, 40) : new Color(35, 35, 35))

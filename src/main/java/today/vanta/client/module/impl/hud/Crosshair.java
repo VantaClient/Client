@@ -5,7 +5,7 @@ import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.event.impl.game.render.RenderCrosshairEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.NumberSetting;
@@ -52,7 +52,7 @@ public class Crosshair extends Module {
         Color color = Color.WHITE;
 
         if (colorMode.isValue("Theme")) {
-            color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
+            color = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
         }
         if (mode.isValue("Rect")) {
             float targetSpacing = MovementUtil.isMoving()

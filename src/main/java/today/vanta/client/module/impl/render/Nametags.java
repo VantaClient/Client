@@ -12,7 +12,7 @@ import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.event.impl.game.render.RenderNametagsEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.processor.impl.TargetProcessor;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
@@ -116,8 +116,8 @@ public class Nametags extends Module {
                 healthColor = Color.GREEN;
             }
 
-            Color gradcolor = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
-            Color gradcolor2 = Vanta.instance.moduleStorage.getT(Theme.class).colors[1];
+            Color gradcolor = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
+            Color gradcolor2 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1];
 
             float distanceWidth = font.getStringWidth(distanceText);
             float nameWidth = font.getStringWidth(nameText);

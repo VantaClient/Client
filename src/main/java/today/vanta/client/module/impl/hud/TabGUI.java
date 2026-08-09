@@ -8,7 +8,7 @@ import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.client.setting.impl.StringSetting;
@@ -186,7 +186,7 @@ public class TabGUI extends Module {
                         module.name,
                         moduleX + 2,
                         moduleY,
-                        module.isEnabled() ? Vanta.instance.moduleStorage.getT(Theme.class).colors[0] : Color.WHITE
+                        module.isEnabled() ? Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0] : Color.WHITE
                 );
                 moduleY += VANTA_ROW_HEIGHT;
             }
@@ -204,15 +204,15 @@ public class TabGUI extends Module {
         if (selectionMode.isValue("Horizontal gradient")) {
             GradientRectangle
                     .create(xPosition, yPosition, width, VANTA_ROW_HEIGHT)
-                    .firstColor(Vanta.instance.moduleStorage.getT(Theme.class).colors[1])
-                    .secondColor(Vanta.instance.moduleStorage.getT(Theme.class).colors[0])
+                    .firstColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1])
+                    .secondColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0])
                     .gradientMode(GradientMode.HORIZONTAL)
                     .push(renderable);
         } else if (selectionMode.isValue("Vertical gradient")) {
             GradientRectangle
                     .create(xPosition, yPosition, width, VANTA_ROW_HEIGHT)
-                    .firstColor(Vanta.instance.moduleStorage.getT(Theme.class).colors[1])
-                    .secondColor(Vanta.instance.moduleStorage.getT(Theme.class).colors[0])
+                    .firstColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1])
+                    .secondColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0])
                     .gradientMode(GradientMode.VERTICAL)
                     .push(renderable);
         } else
@@ -277,7 +277,7 @@ public class TabGUI extends Module {
         final float moduleWidth = ADJUST_MODULE_WIDTH * scale;
         final float panelGap = ADJUST_PANEL_GAP * scale;
         final GlyphFontRenderer font = CFonts.getFont("T-Regular", 17.5F * scale);
-        final Theme theme = Vanta.instance.moduleStorage.getT(Theme.class);
+        final ClientSettings theme = Vanta.instance.moduleStorage.getT(ClientSettings.class);
         final int selectedCategoryIndex = adjustCursorItems[0];
 
         height = getAdjustRenderHeight(scale);
@@ -401,7 +401,7 @@ public class TabGUI extends Module {
             final float yPosition,
             final float width,
             final float selectionHeight,
-            final Theme theme
+            final ClientSettings theme
     ) {
         Rectangle
                 .create(xPosition, yPosition - 0.5F, width, selectionHeight + 1.0F)

@@ -10,7 +10,7 @@ import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.processor.impl.TargetProcessor;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.NumberSetting;
@@ -131,8 +131,8 @@ public class TargetHUD extends Module {
         float x = this.x.getValue().floatValue();
         float y = this.y.getValue().floatValue();
 
-        Color color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
-        Color color2 = Vanta.instance.moduleStorage.getT(Theme.class).colors[1];
+        Color color = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
+        Color color2 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1];
 
         switch (mode.getValue()) {
             case "Vanta":
@@ -433,8 +433,8 @@ public class TargetHUD extends Module {
                     animation.start();
                 }
 
-                color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
-                color2 = Vanta.instance.moduleStorage.getT(Theme.class).colors[0].darker();
+                color = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
+                color2 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0].darker();
 
                 health_str = String.format("%.1f", localTarget.getHealth());
                 String distance_str = String.format("%.1f", mc.thePlayer.getDistanceToEntity(localTarget));

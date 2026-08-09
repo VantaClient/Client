@@ -4,7 +4,7 @@ import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.module.impl.hud.arraylist.ArraylistRenderer;
 import today.vanta.client.module.impl.hud.arraylist.BitMapRenderer;
 import today.vanta.client.module.impl.hud.arraylist.GlyphRenderer;
@@ -153,8 +153,8 @@ public class Arraylist extends Module {
             return e1.module.name.compareTo(e2.module.name);
         });
 
-        Color primaryColor = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
-        Color secondaryColor = Vanta.instance.moduleStorage.getT(Theme.class).colors[1];
+        Color primaryColor = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
+        Color secondaryColor = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1];
         Color backgroundColor = new Color(0, 0, 0, backgroundAlpha.getValue().intValue());
 
         float y = yOffset.getValue().floatValue();

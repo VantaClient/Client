@@ -6,7 +6,7 @@ import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.client.Strings;
@@ -43,7 +43,7 @@ public class Watermark extends Module {
         float firstCharWidth = SFPT_SEMIBOLD_42.getStringWidth(firstChar) - 1;
         String watermarkText = Strings.CLIENT_NAME.substring(1);
 
-        Color[] colors = Vanta.instance.moduleStorage.getT(Theme.class).colors;
+        Color[] colors = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors;
 
         float x = 5;
         float y = 5;

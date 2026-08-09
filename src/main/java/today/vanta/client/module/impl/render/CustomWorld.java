@@ -10,7 +10,7 @@ import today.vanta.Vanta;
 import today.vanta.client.event.impl.game.render.WorldTintEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.util.game.events.EventListen;
@@ -29,7 +29,7 @@ public class CustomWorld extends Module {
         float a = alpha.getValue().intValue() / 255.0F;
         if (a <= 0.0F) return;
 
-        Color color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
+        Color color = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
         float r = color.getRed() / 255.0F;
         float g = color.getGreen() / 255.0F;
         float b = color.getBlue() / 255.0F;

@@ -6,7 +6,7 @@ import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.render.shape.impl.Triangle;
 import today.vanta.util.game.world.EntityUtil;
@@ -59,7 +59,7 @@ public class Arrows extends Module {
                             .rotate((float) relativeYaw)
                             .push(event);
             Triangle.create(posX - width / 2, posY - width / 2, width, height)
-                    .color(Vanta.instance.moduleStorage.getT(Theme.class).colors[0])
+                    .color(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0])
                     .rotate((float) relativeYaw) // adjust +90/-90 offset until the tip points the right way
                     .push(event);
         }

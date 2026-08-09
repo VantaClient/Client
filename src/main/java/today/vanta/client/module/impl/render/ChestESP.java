@@ -7,7 +7,7 @@ import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.render.ProjectionUtil;
 import today.vanta.util.game.render.shape.impl.Rectangle;
@@ -28,7 +28,7 @@ public class ChestESP extends Module {
 
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
-        Color color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
+        Color color = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
         boxes.clear();
 
         List<TileEntityChest> chests = new ArrayList<>();

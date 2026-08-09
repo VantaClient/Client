@@ -4,7 +4,7 @@ import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.render.font.CFonts;
 import today.vanta.util.game.render.shape.impl.Rectangle;
@@ -27,7 +27,7 @@ public class TimerDisplay extends Module {
                 .color(new Color(10,10,10,190))
                 .push(event);
         Rectangle.create(x - (width / 2) - 0.5f,y - 35f - 0.5f, width + 1,height + 1)
-                .color(Vanta.instance.moduleStorage.getT(Theme.class).colors[0])
+                .color(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0])
                 .outline(true)
                 .push(event);
         String timer = String.format("%.1f", mc.timer.timerSpeed);

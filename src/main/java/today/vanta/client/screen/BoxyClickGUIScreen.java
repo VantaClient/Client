@@ -7,7 +7,7 @@ import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
 import today.vanta.client.module.impl.client.ClickGUI;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.MultiStringSetting;
@@ -92,7 +92,7 @@ public class BoxyClickGUIScreen extends VantaScreen {
                     .push(event);
         }
 
-        Color color1 = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
+        Color color1 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
 
         if (Vanta.instance.moduleStorage.getT(ClickGUI.class).gradientBackground.getValue()) {
             GradientRectangle.create(0, 0, width, height)

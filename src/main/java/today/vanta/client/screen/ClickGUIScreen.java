@@ -9,7 +9,7 @@ import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
 import today.vanta.client.module.impl.client.ClickGUI;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.MultiStringSetting;
@@ -77,7 +77,7 @@ public class ClickGUIScreen extends VantaScreen {
                     .push(event);
         }
 
-        Color color1 = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
+        Color color1 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
 
         if (Vanta.instance.moduleStorage.getT(ClickGUI.class).gradientBackground.getValue()) {
             GradientRectangle.create(0, 0, width, height)
@@ -164,12 +164,12 @@ public class ClickGUIScreen extends VantaScreen {
 
             for (Module module : Vanta.instance.moduleStorage.getModulesByCategory(category)) {
                 boolean hoverMod = RenderUtil.hovered(mouseX, mouseY, x + 1.5f, y + 1, PANEL_WIDTH - 3, 14);
-                if (Vanta.instance.moduleStorage.getT(Theme.class).theme.isValue("Monochrome")) {
+                if (Vanta.instance.moduleStorage.getT(ClientSettings.class).theme.isValue("Monochrome")) {
                     color1 = new Color(200,200,200);
                     textColor = Color.WHITE;
                 } else {
                     textColor = Color.white;
-                    color1 = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
+                    color1 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
                 }
 
                 Rectangle

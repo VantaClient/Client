@@ -15,7 +15,7 @@ import today.vanta.client.event.impl.game.render.Render3DEvent;
 import today.vanta.client.event.impl.game.world.UpdateEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.module.impl.client.Theme;
+import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.client.setting.impl.StringSetting;
@@ -374,7 +374,7 @@ public class ClickTeleport extends Module {
             return;
         }
 
-        Color color = Vanta.instance.moduleStorage.getT(Theme.class).colors[0];
+        Color color = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
 
         double x = previewTarget.xCoord - mc.getRenderManager().viewerPosX;
         double y = previewTarget.yCoord - mc.getRenderManager().viewerPosY;
