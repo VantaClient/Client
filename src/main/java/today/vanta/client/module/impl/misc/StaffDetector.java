@@ -13,7 +13,7 @@ import java.util.List;
 
 public class StaffDetector extends Module {
     private static final List<String> MINIBLOX_STAFF = Arrays.asList(
-            "joudaalt", "MineTrumps"
+            "joudaalt", "MineTrumps", "Bob"
     );
 
     private String oldTarget;

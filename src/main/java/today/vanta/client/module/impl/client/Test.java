@@ -34,10 +34,12 @@ public class Test extends Module {
         float width = 135f;
         float height = 26f;
         float count = 0;
-        float totalWidth = width + 2 * count;
+        float xaddValue =  width + 2;
+        float totalWidth = xaddValue * count;
 
         for (int i = 0; i < targetProcessor.playerlist.size(); i++) {
             EntityPlayer entity = targetProcessor.playerlist.get(i);
+            xAddition = xaddValue * i;
             if (count == 4) {
                 return;
             } else {
@@ -65,7 +67,6 @@ public class Test extends Module {
             CFonts.getFont("SFPT-Regular", 16).drawStringWithShadow(healthperStr, xDraw + 19,yDraw + 10,Color.white);
             float length = CFonts.getFont("SFPT-Regular", 16).getStringWidth("#" + (i + 1));
             CFonts.getFont("SFPT-Regular", 16).drawStringWithShadow("#" + (i + 1), xDraw + width - length - 2,yDraw + 1,new Color(180,180,180,255));
-            xAddition += width + 2;
             yAddition = 0;
         }
     }

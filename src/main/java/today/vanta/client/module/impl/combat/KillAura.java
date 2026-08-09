@@ -34,7 +34,7 @@ public class KillAura extends Module {
     public final StringSetting
             attackMode = Setting.of("Attack mode", "Single", "Single"),
             sortMode = Setting.of("Sort mode", "Range", "Range", "Health", "Armor", "Hurt-time", "Ticks", "Skin color"),
-            autoBlockMode = Setting.of("Auto-block mode", "None", "None", "Vanilla", "Packet", "Hold", "Mospixel Post", "Tick", "Fake"),
+            autoBlockMode = Setting.of("Auto-block mode", "None", "None", "Vanilla", "Packet", "Hold", "Mospixel Post", "Tick", "Fake", "Right Click"),
             swingMode = Setting.of("Swing mode", "Legit", "Legit", "Blatant");
 
     public final NumberSetting
@@ -130,9 +130,19 @@ public class KillAura extends Module {
                 blockDelay--;
             }
 
+            if (autoBlockMode.isValue("Right Click")) {
+                if (mc.thePlayer != null && mc.thePlayer.getCurrentEquippedItem() == null || mc.thePlayer != null && !(mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword) || TargetProcessor.getInstance().target  == null) {
+                    mc.gameSettings.keyBindUseItem.pressed = false;
+                    return;
+                }
+                if (mc.thePlayer.getCurrentEquippedItem() != null && (mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)) {
+                    mc.gameSettings.keyBindUseItem.pressed = true;
+                }
+            }
+
             if (autoBlockMode.isValue("Fake")) {
                 if (!(mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword)) return;
-                mc.thePlayer.setItemInUse(mc.thePlayer.getCurrentEquippedItem(), 1);
+                mc.getItemRenderer().doBlockTransformations();
             }
 
             if (autoBlockMode.isValue("Tick") && TargetProcessor.getInstance().target != null) {
@@ -356,6 +366,9 @@ public class KillAura extends Module {
 
     @Override
     public void onDisable() {
+        if (mc.gameSettings.keyBindUseItem.pressed == true && autoBlockMode.isValue("Right Click")) {
+            mc.gameSettings.keyBindUseItem.pressed = false;
+        }
         if (isBlocking)
             performBlock(false);
 

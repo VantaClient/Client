@@ -277,7 +277,7 @@ public class Arraylist extends Module {
                     break;
             }
 
-            arraylistFontRenderer.drawString(name, x + 1f, y + 0.5f, color, fontShadow.getValue());
+            arraylistFontRenderer.drawString(name, x + 1f, y + 1f, color, fontShadow.getValue());
 
             y += (background.getValue() || !line.isValue("None")) ? arraylistFontRenderer.getBoxHeight() : arraylistFontRenderer.getFontHeight() + 2;
             counter++;

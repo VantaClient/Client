@@ -157,7 +157,7 @@ public class BlockCounter extends Module {
 
                 if (animBarWidth != targetwidth) {
                     targetwidth = bar;
-                    if (animation.finished) {
+                    if (animation.finished || !animation.started) {
                         animation = Animation.create(
                                 animBarWidth,
                                 targetwidth,

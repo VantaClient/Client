@@ -36,6 +36,12 @@ public class PlayerUtil implements Commons {
         return state.getBlock() == Blocks.glass;
     }
 
+    public static boolean isIceUnderneath() {
+        BlockPos position = new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1, mc.thePlayer.posZ);
+        IBlockState state = mc.theWorld.getBlockState(position);
+        return state.getBlock() == Blocks.ice || state.getBlock() == Blocks.packed_ice;
+    }
+
     // from Seline :sob:
     public static boolean checkIllegal(EntityLivingBase entity) {
         float length = entity.getName().length();

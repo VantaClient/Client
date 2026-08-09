@@ -108,7 +108,7 @@ public class Onomatopoeia extends Module {
             double x = bounds.minX + marker.xFraction * (bounds.maxX - bounds.minX);
             double y = bounds.minY + marker.yFraction * (bounds.maxY - bounds.minY);
 
-            CFonts.getFont("BADABB", 35).drawStringWithShadow(messages[marker.messageIndex], (float) x, (float) y, color);
+            CFonts.getFont("BADABB", 48).drawStringWithShadow(messages[marker.messageIndex], (float) x, (float) y, color);
         }
     }
 

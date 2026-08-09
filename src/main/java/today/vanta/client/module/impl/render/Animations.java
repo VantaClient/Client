@@ -18,7 +18,7 @@ import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.events.EventState;
 
 public class Animations extends Module {
-    private final StringSetting mode = Setting.of("Mode", "1.7", "1.7", "Interia", "Exhibition", "Exhibition Tilt", "Sigma", "Stella", "Smooth", "Up", "Claude");
+    private final StringSetting mode = Setting.of("Mode", "1.7", "1.7", "1.8", "Interia", "Exhibition", "Exhibition Tilt", "Sigma", "Stella", "Smooth", "Up", "Claude");
     private final NumberSetting swingSpeed = Setting.of("Swing speed", 1, 0.1, 3.0, 1);
 
     private final BooleanSetting
@@ -79,8 +79,15 @@ public class Animations extends Module {
         float var9 = MathHelper.sin(MathHelper.sqrt_float(f1) * MathHelper.PI);
 
         switch (mode.getValue()) {
+            case "1.8": {
+                renderer.transformFirstPersonItem(0, 0.0F);
+                renderer.doBlockTransformations();
+                break;
+            }
             case "1.7": {
                 renderer.transformFirstPersonItem(0.0f, f1);
+                GlStateManager.translate(0,0.167,0);
+                renderer.doBlockTransformations();
                 break;
             }
 

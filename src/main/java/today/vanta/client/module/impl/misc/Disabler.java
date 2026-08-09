@@ -5,6 +5,7 @@ import net.minecraft.item.ItemSword;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.potion.Potion;
@@ -27,7 +28,7 @@ import java.util.Objects;
 import java.util.Queue;
 
 public class Disabler extends Module {
-    private final MultiStringSetting disable = Setting.of("Disable", new String[]{"Miniblox"}, new String[]{"Miniblox", "Grim", "S08"});
+    private final MultiStringSetting disable = Setting.of("Disable", new String[]{"Miniblox"}, new String[]{"Miniblox", "Grim", "S08", "Sprint Packet"});
     private final NumberSetting holdLength = Setting.of("Hold length", 50, 0, 1000, "ms").hide(() -> !disable.isEnabled("Grim"));
 
     public Disabler() {
@@ -59,8 +60,15 @@ public class Disabler extends Module {
     @EventListen
     private void onSendPacket(SendPacketEvent event) {
         if (isProcessing || mc.thePlayer == null) return;
+        if (disable.isEnabled("Sprint Packet")) {
+            if (event.packet instanceof C0BPacketEntityAction) {
+                if (((C0BPacketEntityAction) event.packet).getAction() == C0BPacketEntityAction.Action.START_SPRINTING || ((C0BPacketEntityAction) event.packet).getAction() == C0BPacketEntityAction.Action.STOP_SPRINTING) {
+                    event.cancelled = true;
+                }
+            }
+        }
 
-        if (disable.isEnabled("Miniblox") && mc.getCurrentServerData().serverIP.equals("localhost")) {
+        if (disable.isEnabled("Miniblox") && !mc.isSingleplayer() && mc.getCurrentServerData().serverIP != null && mc.getCurrentServerData().serverIP.equals("localhost")) {
             if (event.packet instanceof C03PacketPlayer) {
                 PacketBuffer packetbuffer = new PacketBuffer(Unpooled.buffer());
                 packetbuffer.writeDouble(mc.thePlayer.lastTickPosX);

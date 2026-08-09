@@ -18,11 +18,12 @@ import today.vanta.util.game.player.MovementUtil;
 
 public class Speed extends Module {
     private final StringSetting
-            mode = Setting.of("Mode", "NCP", "OldNCP", "Mospixel", "NCP", "Custom"),
+            mode = Setting.of("Mode", "NCP", "OldNCP", "Mospixel", "NCP", "Vulcan", "Custom"),
             oncpmode = Setting.of("OldNCP mode", "Y-Port", "Y-Port", "Strafe").hide(() -> !mode.isValue("OldNCP"));
 
     private final BooleanSetting shouldjump = Setting.of("Should jump", true).hide(() -> !mode.isValue("Custom"));
-    private final NumberSetting jumpamount = Setting.of("Jump motion", 0.42f, 0.01, 2, 3).hide(() -> !shouldjump.getValue() || !mode.isValue("Custom"));
+    private final BooleanSetting regularJump = Setting.of("Regular jump", true).hide(() -> !shouldjump.getValue() || !mode.isValue("Custom"));
+    private final NumberSetting jumpamount = Setting.of("Jump motion", 0.42f, 0.01, 2, 3).hide(() -> !shouldjump.getValue() || !mode.isValue("Custom") || regularJump.getValue());
     private final BooleanSetting strafe = Setting.of("Should strafe", true).hide(() -> !mode.isValue("Custom"));
     private final NumberSetting strafeamount = Setting.of("Strafe amount", 0, 0, 2, 2).hide(() -> !strafe.getValue() || !mode.isValue("Custom"));
     private final BooleanSetting groundstrafe = Setting.of("Should ground strafe", true).hide(() -> !mode.isValue("Custom"));
@@ -170,10 +171,28 @@ public class Speed extends Module {
 
                     break;
 
+                case "Vulcan":
+                    if (mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                        mc.thePlayer.jump();
+                    }
+
+                    if (offGroundTicks == 2 && mc.thePlayer.isPotionActive(Potion.moveSpeed) && !mc.thePlayer.isCollided) {
+                        MovementUtil.strafe(0.48f);
+                    }
+                    if (offGroundTicks == 2 && !mc.thePlayer.isPotionActive(Potion.moveSpeed) && !mc.thePlayer.isCollided) {
+                        MovementUtil.strafe(0.3f);
+                    } else {
+                    }
+                    if (offGroundTicks > 5 && mc.thePlayer.motionY < 0.421f) {
+                        mc.thePlayer.motionY = -0.5f;
+                    }
+
+                    break;
+
                 case "Custom":
                     if (shouldjump.getValue()) {
                         if (mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown()) {
-                            if (jumpamount.getValue().floatValue() != 0.42f) {
+                            if (!regularJump.getValue()) {
                                 mc.thePlayer.motionY += jumpamount.getValue().floatValue();
                             } else {
                                 mc.thePlayer.jump();

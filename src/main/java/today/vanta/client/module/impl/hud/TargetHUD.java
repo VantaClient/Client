@@ -267,7 +267,10 @@ public class TargetHUD extends Module {
                 if (adhealthWidth != adtargetWidth) {
                     adtargetWidth = adhealthWidth;
                     if (oldTarget != localTarget.getName()) {
-                        adbarWidth = adtargetWidth;
+                        if (animation != null) {
+                            animation.stop();
+                        }
+                        adbarWidth = adhealthWidth;
                         can = true;
                         oldTarget = localTarget.getName();
                         return;
@@ -287,7 +290,10 @@ public class TargetHUD extends Module {
                     adtargetWidth2 = adghostWidth;
 
                     if (can) {
-                        adghostBarWidth = adtargetWidth2;
+                        if (ghostAnimation != null) {
+                            ghostAnimation.stop();
+                        }
+                        adghostBarWidth = adghostWidth;
                         oldTarget = localTarget.getName();
                         can = false;
                         return;

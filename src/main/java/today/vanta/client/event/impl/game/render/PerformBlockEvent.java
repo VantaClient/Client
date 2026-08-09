@@ -12,6 +12,7 @@ public class PerformBlockEvent extends Event {
         this.renderer = renderer;
         this.partialTicks = partialTicks;
         this.equippedProgress = equippedProgress;
+        this.prevEquippedProgress = equippedProgress;
         this.swingProgress = swingProgress;
     }
 }

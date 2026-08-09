@@ -109,7 +109,7 @@ public class TargetList extends Module {
                 for (EntityPlayer entityPlayer : list) {
                     RenderUtil.renderHead(event, entityPlayer, x.getValue().floatValue() + 1, ydraw + 2, 8);
                     String name = entityPlayer.getName();
-                    font.drawStringWithShadow(name, x.getValue().floatValue() + 10, ydraw - 0.5f, Color.WHITE);
+                    font.drawStringWithShadow(name, x.getValue().floatValue() + 10, ydraw - 0.25f, Color.WHITE);
                     ydraw += 10f + RenderUtil.fontHeightDif(font);
                 }
                 break;
