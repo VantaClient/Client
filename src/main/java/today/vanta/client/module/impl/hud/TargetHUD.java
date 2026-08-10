@@ -1,6 +1,7 @@
 package today.vanta.client.module.impl.hud;
 
 import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -221,7 +222,7 @@ public class TargetHUD extends Module {
                 width = 150f;
                 height = 55f;
 
-                float healthbarwidth = 100f;
+                float healthbarwidth = width - 45f;
                 float whatever = (localTarget.getHealth() / localTarget.getMaxHealth());
                 float healthbar = healthbarwidth * whatever;
 
@@ -252,8 +253,13 @@ public class TargetHUD extends Module {
                         .create(x + 37, y - (10f / 2) + (height / 2) + 10, healthbar, 10f)
                         .color(healthbarcol)
                         .push(renderable);
+                float scale = 1.5f; // try 1.5-2.0 for noticeably bigger text
 
-                mc.fontRendererObj.drawStringWithShadow(health_str + " ❤", x + 37, y + 16, Color.WHITE);
+                GlStateManager.pushMatrix();
+                GlStateManager.translate(x + 37, y + 16, 0);
+                GlStateManager.scale(scale, scale, 1.0f);
+                mc.fontRendererObj.drawStringWithShadow(health_str + " ❤", 0, 0, Color.WHITE.getRGB());
+                GlStateManager.popMatrix();
                 mc.fontRendererObj.drawStringWithShadow(localTarget.getName(), x + 37, y + 2, Color.WHITE);
                 break;
             case "Adjust":

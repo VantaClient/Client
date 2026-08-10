@@ -141,9 +141,9 @@ public class Speed extends Module {
                     } else {
                         MovementUtil.strafe();
                     }
-                    if (offGroundTicks > 5 && mc.thePlayer.motionY < 0.421f) {
-                        mc.thePlayer.motionY -= 0.07f;
-                    }
+//                    if (offGroundTicks > 7 && mc.thePlayer.motionY < 0.421f) {
+//                        mc.thePlayer.motionY -= 0.05f;
+//                    }
 
                     if (!MovementUtil.isMoving()) {
                         MovementUtil.stop();
