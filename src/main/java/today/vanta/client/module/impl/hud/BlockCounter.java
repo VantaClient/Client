@@ -196,7 +196,9 @@ public class BlockCounter extends Module {
                 float suffixLength = CFonts.getFont("T-Regular", 18).getStringWidth(suffixStr);
                 float totalLength = CFonts.getFont("T-Bold", 18).getStringWidth(numberStr) + suffixLength;
                 float numberLength = CFonts.getFont("T-Bold", 18).getStringWidth(numberStr);
-                float spaceLength = CFonts.getFont("T-Regular", 18).getStringWidth(" ");
+                float spaceLength1 = CFonts.getFont("T-Bold", 18).getStringWidth(" ");
+                float spaceLength2 = CFonts.getFont("T-Regular", 18).getStringWidth(" ");
+                float spaceLength = CFonts.getFont("T-Regular", 18).getStringWidth(" ") + (spaceLength1 - spaceLength2);
 
                 float adjustX = res.getScaledWidth() / 2f - totalLength / 2f;
                 float adjustY = res.getScaledHeight() / 2f + 15;
