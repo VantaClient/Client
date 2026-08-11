@@ -18,8 +18,11 @@ import today.vanta.util.game.player.MovementUtil;
 import today.vanta.util.system.math.Counter;
 
 public class Fly extends Module {
-    private final StringSetting mode = Setting.of("Mode", "Vanilla", "Vanilla", "Miniblox", "Teleport", "Jump", "AirPlace");
+    private final StringSetting mode = Setting.of("Mode", "Vanilla", "Vanilla", "Miniblox", "Mospixel Blinkless", "Teleport", "Jump", "AirPlace");
+    // pasted from fan xd!
     private final NumberSetting speed = Setting.of("Speed", 2f, 0.1f,10f,1).hide(() -> !mode.isValue("Vanilla"));
+    //
+    private final NumberSetting blinklessSpeed = Setting.of("Speed", 0.63, 0.01, 1.3, 2).hide(() -> !mode.isValue("Mospixel Blinkless"));
 
     private final NumberSetting distance = Setting.of("TP distance", 3, 0, 10, "m").hide(() -> !mode.isValue("Teleport"));
     private final NumberSetting ticks = Setting.of("TP ticks", 10, 1, 20).hide(() -> !mode.isValue("Teleport"));
@@ -28,6 +31,9 @@ public class Fly extends Module {
     private final Counter jumpCounter = new Counter();
 
     private double prevposY;
+
+    private double blinklessMoveSpeed, blinklessLastDist;
+    private int blinklessStage;
 
     public Fly() {
         super("Fly", "Allows you to fly like a pelican.", Category.MOVEMENT);
@@ -85,6 +91,11 @@ public class Fly extends Module {
                     ));
                 }
                 break;
+            case "Mospixel Blinkless":
+                double xDif = mc.thePlayer.posX - mc.thePlayer.prevPosX;
+                double zDif = mc.thePlayer.posZ - mc.thePlayer.prevPosZ;
+                blinklessLastDist = Math.sqrt(xDif * xDif + zDif * zDif);
+                break;
         }
     }
 
@@ -114,6 +125,33 @@ public class Fly extends Module {
                         mc.thePlayer.jump();
                     }
                     break;
+
+                case "Mospixel Blinkless":
+                    switch (blinklessStage) {
+                        case 0:
+                            mc.thePlayer.motionY = 0.42F;
+                            blinklessMoveSpeed = 0.55 * blinklessSpeed.getValue().doubleValue();
+
+                            if (!mc.thePlayer.onGround) {
+                                blinklessStage++;
+                            }
+                            break;
+
+                        case 1:
+                            mc.thePlayer.motionY = 0;
+
+                            blinklessMoveSpeed -= blinklessLastDist / 159.9999;
+
+                            MovementUtil.setSpeed(Math.max(blinklessMoveSpeed, MovementUtil.getBaseMoveSpeed()));
+
+                            if (mc.thePlayer.ticksExisted % 2 == 0) {
+                                event.y += 0.0001;
+                            } else if (mc.thePlayer.ticksExisted % 3 == 0) {
+                                event.y -= 0.0003;
+                            }
+                            break;
+                    }
+                    break;
             }
         }
     }
@@ -130,6 +168,7 @@ public class Fly extends Module {
         if (mc.thePlayer == null) return;
 
         prevposY = mc.thePlayer.posY;
+        blinklessStage = 0;
     }
 
     @Override
