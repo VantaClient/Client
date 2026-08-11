@@ -4,8 +4,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
-$fontDirectory = Join-Path $projectRoot 'src\main\resources\assets\vanta\fonts'
-$outputDirectory = Join-Path $projectRoot 'src\main\resources\assets\vanta\msdf'
+$fontDirectory = Join-Path $projectRoot 'src\main\resources\assets\vanta\conversion'
+$outputDirectory = Join-Path $projectRoot 'src\main\resources\assets\vanta\fonts'
 
 if (-not $GeneratorPath) {
     $toolDirectory = Join-Path $env:TEMP 'vanta-msdf-atlas-gen-1.4'
