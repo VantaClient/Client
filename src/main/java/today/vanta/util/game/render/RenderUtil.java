@@ -11,6 +11,7 @@ import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MathHelper;
 import net.optifine.reflect.Reflector;
 import org.lwjgl.opengl.GL11;
 import today.vanta.Vanta;
@@ -103,6 +104,24 @@ public class RenderUtil {
 
     public static void renderEntity(int posX, int posY, int scale, float mouseX, float mouseY, EntityLivingBase entity) {
         GuiInventory.drawEntityOnScreen(posX, posY, scale, mouseX, mouseY, entity);
+    }
+
+    public static void renderEntity(int posX, int posY, int scale, float mouseX, float mouseY, EntityLivingBase entity, float alpha) {
+        alpha = MathHelper.clamp_float(alpha, 0.0f, 1.0f);
+
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(
+                GL11.GL_SRC_ALPHA,
+                GL11.GL_ONE_MINUS_SRC_ALPHA,
+                GL11.GL_ONE,
+                GL11.GL_ZERO
+        );
+        GlStateManager.color(1.0f, 1.0f, 1.0f, alpha);
+
+        GuiInventory.drawEntityOnScreen(posX, posY, scale, mouseX, mouseY, entity);
+
+        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+        GlStateManager.disableBlend();
     }
 
     public static float fontHeightDif(MsdfFontRenderer font) {
@@ -200,21 +219,15 @@ public class RenderUtil {
         }
     }
 
-    public static void renderHead(Renderable renderable, EntityPlayer target, float x, float y, float headSize) throws NullPointerException {
-        renderHeadLayer(renderable, target, x, y, headSize, 8, Color.WHITE);
-        renderHeadLayer(renderable, target, x, y, headSize, 40, Color.WHITE);
+    public static void renderHead(Renderable renderable, EntityPlayer target, float x, float y, float headSize, Color color) throws NullPointerException {
+        // Use Color.White for normal thing!
+        renderHeadLayer(renderable, target, x, y, headSize, 8, color);
+        renderHeadLayer(renderable, target, x, y, headSize, 40, color);
     }
 
-    public static void renderTintedHead(
-            final Renderable renderable,
-            final EntityPlayer target,
-            final float x,
-            final float y,
-            final float headSize,
-            final Color tint
-    ) throws NullPointerException {
-        renderHeadLayer(renderable, target, x, y, headSize, 8, tint);
-        renderHeadLayer(renderable, target, x, y, headSize, 40, tint);
+    public static void renderHead(Renderable renderable, EntityPlayer target, float x, float y, float headSize) throws NullPointerException {
+        renderHeadLayer(renderable, target, x, y, headSize, 8, Color.white);
+        renderHeadLayer(renderable, target, x, y, headSize, 40, Color.white);
     }
 
     private static void renderHeadLayer(

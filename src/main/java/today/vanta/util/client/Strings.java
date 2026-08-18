@@ -18,6 +18,7 @@ public interface Strings {
             "[-] Removed bundled Minecraft sounds",
             "[-] Removed FontSettings",
             "[-] Removed unused fonts",
-            "[+] Added IceSpeedBoost"
+            "[+] Added IceSpeedBoost",
+            "[+] Added HighJump"
     );
 }

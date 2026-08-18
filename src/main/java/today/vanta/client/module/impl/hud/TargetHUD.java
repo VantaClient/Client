@@ -55,7 +55,7 @@ public class TargetHUD extends Module {
     private boolean dragging;
     private float dragX, dragY;
 
-    private final StringSetting mode = Setting.of("Mode", "Vanta", "Classic", "Vanta", "Adjust", "ID-Card", "Aged", "Novoline", "Old Atmosphere", "Atmosphere");
+    private final StringSetting mode = Setting.of("Mode", "Vanta", "Classic", "Vanta", "Adjust", "ID-Card", "Aged", "Novoline", "Old Atmosphere", "Atmosphere", "NanoVG Design");
     private final NumberSetting
             x = Setting.of("X position", 20, 0, 2000),
             y = Setting.of("Y position", 20, 0, 2000);
@@ -324,7 +324,7 @@ public class TargetHUD extends Module {
                         .color(BACKGROUND)
                         .push(renderable);
 
-                RenderUtil.renderTintedHead(
+                RenderUtil.renderHead(
                         renderable,
                         (EntityPlayer) localTarget,
                         x + 2,
@@ -708,7 +708,7 @@ public class TargetHUD extends Module {
                         .color(ATBACKGROUND)
                         .push(renderable);
 
-                RenderUtil.renderTintedHead(
+                RenderUtil.renderHead(
                         renderable,
                         (EntityPlayer) localTarget,
                         x + 2,
@@ -774,10 +774,56 @@ public class TargetHUD extends Module {
                 length = SFPT_REGULAR_16.getStringWidth(atmosphereHealthDifferenceText);
                 SFPT_REGULAR_16.drawStringWithShadow(atmosphereHealthDifferenceText, x + width - (length) - 2, y + 17, Color.WHITE);
                 break;
+
+            case "NanoVG Design":
+                Color back = new Color(30,30,30,190);
+                Color backthing = new Color(20,20,20,190);
+                Color backthing2 = new Color(10,10,10,190);
+                Color thing = new Color(20,20,20,255);
+                Color thing2 = new Color(10,10,10,255);
+                width = 130;
+                height = 27;
+                float healthing = width - 4;
+                float actualHealth = healthing * (localTarget.getHealth() / localTarget.getMaxHealth());
+                float healthBarHeight = 3;
+                GradientRectangle
+                        .create(x - 0.5f, y - 0.5f, width + 1f, height + 1f)
+                                .firstColor(backthing)
+                                        .secondColor(backthing2)
+                                                .gradientMode(GradientMode.VERTICAL)
+                        .outline(true)
+                                                        .push(renderable);
+                Rectangle
+                        .create(x,y,width,height)
+                        .color(back)
+                        .push(renderable);
+
+                GradientRectangle
+                        .create(x + 2 - 0.5f, y + height - 2 - healthBarHeight - 0.5f, healthing + 1f, healthBarHeight + 1f)
+                                .firstColor(thing)
+                                        .secondColor(thing2)
+                        .gradientMode(GradientMode.VERTICAL)
+                                                .push(renderable);
+                GradientRectangle
+                        .create(x + 2, y + height - 2 - healthBarHeight, actualHealth, healthBarHeight)
+                        .firstColor(color)
+                        .secondColor(color.darker())
+                        .gradientMode(GradientMode.VERTICAL)
+                        .push(renderable);
+                if (localTarget instanceof EntityPlayer) {
+                    headSize = 20;
+                    RenderUtil.renderHead(renderable, (EntityPlayer) localTarget,x + 2, y + 2, headSize - 2, getDamageHeadTint());
+                } else {
+                    headSize = 0;
+                }
+
+                CFonts.getFont("Roboto-Regular", 17).drawStringWithShadow(localTarget.getName(),x + 1 + headSize, y + 1,Color.white);
+                CFonts.getFont("Roboto-Regular", 17).drawStringWithShadow("Distance: " + String.format("%.1f",mc.thePlayer.getDistanceToEntity(localTarget)) ,x + 1 + headSize, y + 11,Color.white);
+                break;
         }
 
         if (dragging && mc.currentScreen instanceof GuiChat) {
-            if (mode.isValue("Aged")) {
+            if (mode.isValue("Aged") || mode.isValue("NanoVG Design")) {
                 GradientRectangle
                         .create(x - 0.5, y - 0.5, width + 1, height + 1)
                         .firstColor(color)
