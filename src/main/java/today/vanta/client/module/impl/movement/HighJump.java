@@ -14,7 +14,6 @@ public class HighJump extends Module {
     private final NumberSetting motion = Setting.of("Motion", 0.85f,0.0f,2f,2);
     private final BooleanSetting onlyOnJump = Setting.of("Only on jump", true);
     private final BooleanSetting toggle = Setting.of("Toggle off after", true);
-    private int jumpKey;
     private boolean hasJumped;
     private boolean canDisable;
     public HighJump() {
@@ -22,7 +21,7 @@ public class HighJump extends Module {
     }
 
     private boolean canJump() {
-        jumpKey = mc.gameSettings.keyBindJump.getKeyCode();
+        int jumpKey = mc.gameSettings.keyBindJump.getKeyCode();
         if (onlyOnJump.getValue()) {
             if (Keyboard.isKeyDown(jumpKey)) {
                 return true;
