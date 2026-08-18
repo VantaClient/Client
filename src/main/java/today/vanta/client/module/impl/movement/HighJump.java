@@ -14,8 +14,6 @@ public class HighJump extends Module {
     private final NumberSetting motion = Setting.of("Motion", 0.85f,0.0f,2f,2);
     private final BooleanSetting onlyOnJump = Setting.of("Only on jump", true);
     private final BooleanSetting toggle = Setting.of("Toggle off after", true);
-    private boolean hasJumped;
-    private boolean canDisable;
     public HighJump() {
         super("HighJump", "Jumps high.", Category.MOVEMENT);
     }
@@ -35,25 +33,10 @@ public class HighJump extends Module {
     @EventListen
     private void onUpdate(UpdateEvent event) {
         mc.gameSettings.keyBindJump.pressed = false;
-        if (!mc.thePlayer.onGround && hasJumped) {
-            canDisable = true;
-        }
-
-        if (mc.thePlayer.onGround && canDisable) {
-            hasJumped = false;
-            if (toggle.getValue()) super.setEnabled(false);
-            canDisable = false;
-        }
-        if (mc.thePlayer.onGround && canJump() && !canDisable) {
+        if (mc.thePlayer.onGround && canJump()) {
             mc.thePlayer.motionY += motion.getValue().doubleValue();
-            hasJumped = true;
+            if (toggle.getValue()) super.setEnabled(false);
         }
 
-    }
-
-    @Override
-    public void onDisable() {
-        canDisable = false;
-        hasJumped = false;
     }
 }
