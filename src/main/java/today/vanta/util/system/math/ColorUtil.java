@@ -92,6 +92,14 @@ public class ColorUtil {
         return (a << 24) | (r << 16) | (g << 8) | b;
     }
 
+    public static Color getDarker(Color color, int factor) {
+        Color colortoDark = color;
+        for (int i = 0; i < factor; i++) {
+            colortoDark = colortoDark.darker();
+        }
+        return colortoDark;
+    }
+
     public static Color interpolateColor(Color start, Color end, float progress) {
         progress = Math.min(1.0f, Math.max(0.0f, progress));
         int r = (int) (start.getRed() + (end.getRed() - start.getRed()) * progress);

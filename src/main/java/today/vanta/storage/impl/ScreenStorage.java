@@ -16,6 +16,7 @@ public class ScreenStorage extends Storage<GuiScreen> implements Commons {
         list.add(new ClickGUIScreen());
         list.add(new ImGuiClickGUIScreen());
         list.add(new BoxyClickGUIScreen());
+        list.add(new CickGIUScreen());
     }
 
     public void stop() {

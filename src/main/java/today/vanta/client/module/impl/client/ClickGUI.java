@@ -4,10 +4,7 @@ import org.lwjgl.input.Keyboard;
 import today.vanta.Vanta;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
-import today.vanta.client.screen.BoxyClickGUIScreen;
-import today.vanta.client.screen.ClickGUIScreen;
-import today.vanta.client.screen.ImGuiClickGUIScreen;
-import today.vanta.client.screen.VantaScreen;
+import today.vanta.client.screen.*;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.StringSetting;
@@ -20,7 +17,7 @@ public class ClickGUI extends Module {
             gradientBackground = Setting.of("Gradient background", true),
             image = Setting.of("Image", false);
 
-    private final StringSetting design = Setting.of("Design", "Dropdown", "Dropdown", "ImGui", "Boxy");
+    private final StringSetting design = Setting.of("Design", "Dropdown", "Dropdown", "ImGui", "Boxy", "Experimental");
     public final StringSetting mascot = Setting.of("Mascot", "longboy", "ermwhat", "silly", "cousin", "longboy", "mj", "mj2", "mj3").hide(() -> !image.getValue());
 
     public ClickGUI() {
@@ -37,6 +34,7 @@ public class ClickGUI extends Module {
     private ClickGUIScreen clickGUIScreen;
     private ImGuiClickGUIScreen imGuiClickGuiScreen;
     private BoxyClickGUIScreen boxyClickGUIScreen;
+    private CickGIUScreen cickGIUScreen;
 
     @Override
     public void onEnable() {
@@ -58,12 +56,19 @@ public class ClickGUI extends Module {
             boxyClickGUIScreen = Vanta.instance.screenStorage.getT(BoxyClickGUIScreen.class);
         }
 
+        if (cickGIUScreen == null) {
+            cickGIUScreen = Vanta.instance.screenStorage.getT(CickGIUScreen.class);
+        }
+
         switch (design.getValue()) {
             case "ImGui":
                 return imGuiClickGuiScreen;
 
             case "Boxy":
                 return boxyClickGUIScreen;
+
+            case "Experimental":
+                return cickGIUScreen;
 
             case "Dropdown":
             default:
