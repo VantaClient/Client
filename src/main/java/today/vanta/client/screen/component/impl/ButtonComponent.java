@@ -39,7 +39,7 @@ public class ButtonComponent extends Component {
     public void draw(RenderScreenEvent event) {
         boolean hover = RenderUtil.hovered(event.mouseX, event.mouseY, x, y, width, height);
         if (hover) {
-            scale = 0.99f;
+            scale = 0.975f;
         } else {
             scale = 1;
         }
