@@ -111,7 +111,8 @@ public class MainMenuScreen extends VantaScreen {
                 .create(middleX - 94 / 2f, middleY - 14, 94, 16 * (buttons.size()) + 15)
                 .color(new Color(30, 30, 30))
                 .push(event);
-        CFonts.getFont("SFPT-Medium", 20).drawString(Strings.CLIENT_NAME, middleX - ((float) CFonts.getFont("SFPT-Medium", 20).getStringWidth(Strings.CLIENT_NAME) / 2), middleY - 18 + 4.5f, -1);
+//        CFonts.getFont("SFPT-Medium", 20).drawString(Strings.CLIENT_NAME, middleX - ((float) CFonts.getFont("SFPT-Medium", 20).getStringWidth(Strings.CLIENT_NAME) / 2), middleY - 18 + 4.5f, -1);
+        CFonts.getFont("SFPT-Medium", 20).drawHorizontalGradientString(Strings.CLIENT_NAME, middleX - ((float) CFonts.getFont("SFPT-Medium", 20).getStringWidth(Strings.CLIENT_NAME) / 2), middleY - 18 + 4.5f, Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0],Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1],0.5,1);
         CFonts.SFPT_REGULAR_18.drawString(Strings.CLIENT_VERSION + " | " + Strings.DEVELOPERS, middleX * 2 - CFonts.SFPT_MEDIUM_18.getStringWidth(Strings.CLIENT_VERSION + " | " + Strings.DEVELOPERS) - 3, middleY * 2 - CFonts.SFPT_MEDIUM_18.getFontHeight() - 5.5f, new Color(200, 200, 200));
 
         if (rotation > 360) {
