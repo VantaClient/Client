@@ -13,4 +13,6 @@ public class Sounds implements Commons {
     public static final Sound OFF2 = new Sound(new ResourceLocation("vanta", "off2"));
     public static final Sound TOGGLE = new Sound(new ResourceLocation("vanta", "toggle"));
     public static final Sound OPEN = new Sound(new ResourceLocation("vanta", "open"));
+    public static final Sound DUNG = new Sound(new ResourceLocation("vanta", "dung"));
+    public static final Sound HOVER2 = new Sound(new ResourceLocation("vanta", "hover2"));
 }

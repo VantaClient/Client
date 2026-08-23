@@ -17,6 +17,7 @@ import today.vanta.util.game.render.shape.impl.Rectangle;
 import java.awt.*;
 
 public class Test extends Module {
+    private TargetProcessor targetProcessor = TargetProcessor.getInstance();
     private final NumberSetting
             x = Setting.of("X position", 20, 0, 2000),
             y = Setting.of("Y position", 20, 0, 2000);
@@ -26,9 +27,9 @@ public class Test extends Module {
         hideFromArraylist = true;
     }
 
+
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
-        TargetProcessor targetProcessor = TargetProcessor.getInstance();
         float xAddition = 0;
         float yAddition = 0;
         float width = 135f;

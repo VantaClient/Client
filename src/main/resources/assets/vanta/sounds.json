@@ -56,5 +56,17 @@
     "sounds": [
       "on2"
     ]
+  },
+  "dung": {
+    "category": "master",
+    "sounds": [
+      "dung"
+    ]
+  },
+  "hover2": {
+    "category": "master",
+    "sounds": [
+      "hover2"
+    ]
   }
 }

@@ -1,5 +1,6 @@
 package today.vanta.client.screen.component.impl;
 
+import net.minecraft.client.renderer.GlStateManager;
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.module.impl.client.ClientSettings;
@@ -9,9 +10,13 @@ import today.vanta.util.client.network.NetworkUtil;
 import today.vanta.util.client.network.account.Account;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
+import today.vanta.util.game.render.shape.GradientMode;
+import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.ImageRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 import today.vanta.util.game.sound.Sounds;
+import today.vanta.util.system.math.ColorUtil;
+import today.vanta.util.system.math.MathUtil;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -20,7 +25,11 @@ import java.io.IOException;
 public class AccountComponent extends Component {
     public Account account;
     private int skinTextureId;
-
+    private long duration = 75;
+    private long timeOfChange;
+    private float progress;
+    private boolean didHover = false;
+    private float scale;
     public AccountComponent(Account account, float x, float y, float width, float height, MsdfFontRenderer font) {
         super(account.username, x, y, width, height, font);
         this.account = account;
@@ -32,21 +41,56 @@ public class AccountComponent extends Component {
         boolean hover = RenderUtil.hovered(event.mouseX, event.mouseY, x, y, width, height);
         boolean currentAccount = account.equals(Vanta.instance.accountStorage.currentAccount);
         Color color1 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
-        Rectangle
+        if (hover) {
+            scale = 0.975f;
+        } else {
+            scale = 1;
+        }
+        if (didHover && !hover) {
+            timeOfChange = System.currentTimeMillis();
+            didHover = false;
+        }
+
+        if (hover && !didHover) {
+            timeOfChange = System.currentTimeMillis();
+            Sounds.HOVER2.play();
+            didHover = true;
+        }
+
+        long elapsed = System.currentTimeMillis() - timeOfChange;
+        progress = MathUtil.clamp(elapsed / (float) duration, 0f, 1f);
+        float centerX = x + width / 2f;
+        float centerY = y + height / 2f;
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(centerX, centerY, 0);
+        GlStateManager.scale(scale, scale, 1.0F);
+        GlStateManager.translate(-centerX, -centerY, 0);
+        GradientRectangle
                 .create(x, y, width, height)
-                .color(hover ? new Color(40, 40, 40) : new Color(35, 35, 35))
+                .firstColor(new Color(20, 20, 20))
+                .secondColor(new Color(25, 25, 25))
+                .gradientMode(GradientMode.VERTICAL)
+                .push(event);
+
+        GradientRectangle
+                .create(x + 0.5f, y + 0.5f, width - 1, height - 1)
+                .firstColor(hover ? getHoverFirst() : ColorUtil.interpolateColor(getHoverFirst(), getStandard1(), progress))
+                .secondColor(hover ? getHoverSecond() : ColorUtil.interpolateColor(getHoverSecond(), getStandard2(), progress))
+                .gradientMode(GradientMode.VERTICAL)
                 .push(event);
         font.drawYCenteredString(text, x + height - 4 + 6, y + height / 2, currentAccount ? color1 : Color.WHITE, false);
         ImageRectangle
                 .create(x + 4, y + 2, height - 4, height - 4, skinTextureId)
                 .push(event);
+        GlStateManager.popMatrix();
     }
 
     @Override
     public boolean click(float mouseX, float mouseY, int mouseButton) {
         boolean hover = RenderUtil.hovered(mouseX, mouseY, x, y, width, height);
         if (hover && mouseButton != -1) {
-            Sounds.POP.play();
+            Sounds.DUNG.play();
             refresh();
             return true;
         }

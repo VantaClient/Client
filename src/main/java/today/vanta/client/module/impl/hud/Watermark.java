@@ -6,15 +6,18 @@ import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
+import today.vanta.client.module.impl.client.ClickGUI;
 import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.setting.Setting;
 import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.client.Strings;
 import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.events.EventPriority;
+import today.vanta.util.game.render.ImageUtil;
 import today.vanta.util.game.render.font.CFonts;
 import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
+import today.vanta.util.game.render.shape.impl.ImageRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 
 import java.awt.*;
@@ -28,7 +31,7 @@ public class Watermark extends Module {
     private static final Color BACKGROUND = new Color(20, 20, 20, 190);
 
     private final StringSetting
-            style = Setting.of("Style", "Vanta", "Vanta", "Jello", "Char", "Exhi", "Adjust" , "Vestige", "Clean"),
+            style = Setting.of("Style", "Vanta", "Vanta", "Jello", "Char", "Exhi", "Adjust", "Vestige", "Clean", "Gamesense"),
             fontMode = Setting.of("Font mode", "Exhi", "Exhi", "Minecraft", "SFPT").hide(() -> !style.isValue("Exhi"));
 
     public Watermark() {
@@ -91,26 +94,47 @@ public class Watermark extends Module {
                 CFonts.getFont("T-Regular", 20).drawStringWithShadow("§r" + firstChar + "§f" + watermarkText, 2, 2, colors[0]);
                 break;
             case "Vestige":
-                float length = CFonts.SFPT_MEDIUM_24.getStringWidth(Strings.CLIENT_NAME + " v"+ Strings.CLIENT_VERSION);
+                float length = CFonts.SFPT_MEDIUM_24.getStringWidth(Strings.CLIENT_NAME + " v" + Strings.CLIENT_VERSION);
                 GradientRectangle
-                        .create(2,2,length + 2,2)
+                        .create(2, 2, length + 2, 2)
                         .firstColor(colors[0])
                         .secondColor(colors[1])
                         .push(event);
                 Rectangle
-                        .create(2,4,length + 2,14)
+                        .create(2, 4, length + 2, 14)
                         .color(BACKGROUND)
                         .push(event);
 
-                CFonts.SFPT_MEDIUM_24.drawString(Strings.CLIENT_NAME + " v"+ Strings.CLIENT_VERSION, 2,4,Color.WHITE,false);
+                CFonts.SFPT_MEDIUM_24.drawString(Strings.CLIENT_NAME + " v" + Strings.CLIENT_VERSION, 2, 4, Color.WHITE, false);
                 break;
             case "Clean":
                 Rectangle
-                        .create(2,2,63f,13f)
+                        .create(2, 2, 63f, 13f)
                         .color(BACKGROUND)
                         .push(event);
-                CFonts.getFont("SFPT-Medium", 24).drawHorizontalGradientString(firstChar, 2, 1, colors[0], colors[1],1,1);
+                CFonts.getFont("SFPT-Medium", 24).drawHorizontalGradientString(firstChar, 2, 1, colors[0], colors[1], 1, 1);
                 CFonts.getFont("SFPT-Regular", 24).drawStringWithShadow(watermarkText + EnumChatFormatting.GRAY + " v" + Strings.CLIENT_VERSION, 10, 1, Color.WHITE);
+                break;
+            case "Gamesense":
+                float firstLength = CFonts.getFont("SFPT-Regular", 24).getStringWidth(Strings.CLIENT_NAME);
+                String texture = "rainbowbar.png";
+                float width = 72f;
+                float height = 20;
+                Rectangle
+                        .create(4, 4, width, height)
+                        .color(new Color(30, 30, 30))
+                        .push(event);
+                Rectangle
+                        .create(6, 6, width - 4, height - 4)
+                        .color(new Color(10, 10, 10))
+                        .push(event);
+                ImageRectangle
+                        .create(6, 6, width - 4, 2, -1)
+                        .resource(ImageUtil.getTexture(texture))
+                        .push(event);
+                CFonts.getFont("SFPT-Regular", 24).drawStringWithShadow(Strings.CLIENT_NAME, 7, 7.5f,Color.white);
+                CFonts.getFont("SFPT-Regular", 24).drawHorizontalGradientString("sense", 7 + firstLength, 7.5f,colors[0], colors[1],0.5,1);
+
                 break;
         }
     }

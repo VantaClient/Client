@@ -20,11 +20,6 @@ import today.vanta.util.system.math.animation.Easing;
 import java.awt.*;
 
 public class ButtonComponent extends Component {
-    private Color hoverFirst = ColorUtil.getDarker(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0], 4);
-    // new Color(40, 40, 40);
-    private Color hoverSecond = new Color(37, 37, 37);
-    private Color standard1 = new Color(35, 35, 35);
-    private Color standard2 = new Color(32, 32, 32);
     private long duration = 75;
     private long timeOfChange;
     private float progress;
@@ -50,7 +45,7 @@ public class ButtonComponent extends Component {
 
         if (hover && !didHover) {
             timeOfChange = System.currentTimeMillis();
-            Sounds.HOVER.play();
+            Sounds.HOVER2.play();
             didHover = true;
         }
 
@@ -72,8 +67,8 @@ public class ButtonComponent extends Component {
 
         GradientRectangle
                 .create(x + 0.5f, y + 0.5f, width - 1, height - 1)
-                .firstColor(hover ? hoverFirst : ColorUtil.interpolateColor(hoverFirst, standard1, progress))
-                .secondColor(hover ? hoverSecond : ColorUtil.interpolateColor(hoverSecond, standard2, progress))
+                .firstColor(hover ? getHoverFirst() : ColorUtil.interpolateColor(getHoverFirst(), getStandard1(), progress))
+                .secondColor(hover ? getHoverSecond() : ColorUtil.interpolateColor(getHoverSecond(), getStandard2(), progress))
                 .gradientMode(GradientMode.VERTICAL)
                 .push(event);
 
@@ -90,7 +85,7 @@ public class ButtonComponent extends Component {
     public boolean click(float mouseX, float mouseY, int mouseButton) {
         boolean hover = RenderUtil.hovered(mouseX, mouseY, x, y, width, height);
         if (hover && mouseButton == 0) {
-            Sounds.POP.play();
+            Sounds.DUNG.play();
             return true;
         }
         return false;
