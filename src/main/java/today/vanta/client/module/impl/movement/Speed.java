@@ -17,7 +17,8 @@ import today.vanta.util.game.player.MovementUtil;
 public class Speed extends Module {
     private final StringSetting
             mode = Setting.of("Mode", "NCP", "OldNCP", "Mospixel", "NCP", "Vulcan", "Custom"),
-            oncpmode = Setting.of("OldNCP mode", "Y-Port", "Y-Port", "Strafe").hide(() -> !mode.isValue("OldNCP"));
+            oncpmode = Setting.of("OldNCP mode", "Y-Port", "Y-Port", "Strafe").hide(() -> !mode.isValue("OldNCP")),
+            vulcanMode = Setting.of("Vulcan mode", "Non-Prediction", "Prediction").hide(() -> !mode.getValue().equals("Vulcan"));
 
     private final BooleanSetting shouldjump = Setting.of("Should jump", true).hide(() -> !mode.isValue("Custom"));
     private final BooleanSetting regularJump = Setting.of("Regular jump", true).hide(() -> !shouldjump.getValue() || !mode.isValue("Custom"));
@@ -169,20 +170,42 @@ public class Speed extends Module {
                     break;
 
                 case "Vulcan":
-                    if (mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown()) {
-                        mc.thePlayer.jump();
-                    }
+                    switch (vulcanMode.getValue()) {
+                        case "Non-Prediction":
+                            if (mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                                mc.thePlayer.jump();
+                            }
 
-                    if (offGroundTicks == 2 && mc.thePlayer.isPotionActive(Potion.moveSpeed) && !mc.thePlayer.isCollided) {
-                        MovementUtil.strafe(0.48f);
-                    }
+                            if (offGroundTicks == 2 && mc.thePlayer.isPotionActive(Potion.moveSpeed) && !mc.thePlayer.isCollided) {
+                                MovementUtil.strafe(0.48f);
+                            }
 
-                    if (offGroundTicks == 2 && !mc.thePlayer.isPotionActive(Potion.moveSpeed) && !mc.thePlayer.isCollided) {
-                        MovementUtil.strafe(0.3f);
-                    }
+                            if (offGroundTicks == 2 && !mc.thePlayer.isPotionActive(Potion.moveSpeed) && !mc.thePlayer.isCollided) {
+                                MovementUtil.strafe(0.3f);
+                            }
 
-                    if (offGroundTicks > 5 && mc.thePlayer.motionY < 0.421f) {
-                        mc.thePlayer.motionY = -0.5f;
+                            if (offGroundTicks > 5 && mc.thePlayer.motionY < 0.421f) {
+                                mc.thePlayer.motionY = -0.5f;
+                            }
+                            break;
+                        case "Prediction":
+                            if (mc.thePlayer.onGround && !mc.gameSettings.keyBindJump.isKeyDown()) {
+                                mc.thePlayer.jump();
+                            }
+
+                            if (offGroundTicks == 2 && mc.thePlayer.isPotionActive(Potion.moveSpeed) && !mc.thePlayer.isCollided) {
+                                MovementUtil.strafe(0.45f);
+                            }
+
+
+                            if (offGroundTicks == 2 && !mc.thePlayer.isPotionActive(Potion.moveSpeed) && !mc.thePlayer.isCollided) {
+//                                MovementUtil.strafe(MovementUtil.getBaseMoveSpeed());
+                            }
+
+                            if (offGroundTicks == 5 && mc.thePlayer.motionY < 0.421f) {
+                                mc.thePlayer.motionY -= 0.006f;
+                            }
+                            break;
                     }
                     break;
 

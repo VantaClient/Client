@@ -219,6 +219,24 @@ public class RenderUtil {
         }
     }
 
+    public static void renderDraggingIcon(Renderable renderable,float x, float y, float width, float height, Color color) {
+//        Rectangle
+//                .create(x,y,width,height)
+//                .color(color)
+//                .push(renderable);
+//        Rectangle.create(x - 2 - width,y,width,height).color(color).push(renderable);
+//        Rectangle.create(x - (2 + width * 2), y, width,height).color(color).push(renderable);
+//        Rectangle
+//                .create(x,y + 2 + height,width,height)
+//                .color(color)
+//                .push(renderable);
+//        Rectangle.create(x - 2 - width,y + 2 + height,width,height).color(color).push(renderable);
+//        Rectangle
+//                .create(x,y + 2 + (height * 2),width,height)
+//                .color(color)
+//                .push(renderable);
+    }
+
     public static void renderHead(Renderable renderable, EntityPlayer target, float x, float y, float headSize, Color color) throws NullPointerException {
         // Use Color.White for normal thing!
         renderHeadLayer(renderable, target, x, y, headSize, 8, color);
