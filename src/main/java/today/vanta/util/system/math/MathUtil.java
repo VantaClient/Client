@@ -12,10 +12,6 @@ public class MathUtil {
         return start + pct * (end - start);
     }
 
-    public static float clamp(float value, float min, float max) {
-        return Math.max(min, Math.min(max,value));
-    }
-
     public static float interpolateRotation(float previous, float current, float partialTicks) {
         float delta = current - previous;
         while (delta < -180.0F) {

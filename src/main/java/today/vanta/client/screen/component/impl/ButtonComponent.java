@@ -1,21 +1,15 @@
 package today.vanta.client.screen.component.impl;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
-import today.vanta.Vanta;
+import net.minecraft.util.MathHelper;
 import today.vanta.client.event.impl.client.RenderScreenEvent;
-import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.client.screen.component.Component;
 import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.GradientMode;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
-import today.vanta.util.game.render.shape.impl.Rectangle;
 import today.vanta.util.game.sound.Sounds;
 import today.vanta.util.system.math.ColorUtil;
-import today.vanta.util.system.math.MathUtil;
-import today.vanta.util.system.math.animation.Animation;
-import today.vanta.util.system.math.animation.Easing;
 
 import java.awt.*;
 
@@ -50,7 +44,7 @@ public class ButtonComponent extends Component {
         }
 
         long elapsed = System.currentTimeMillis() - timeOfChange;
-        progress = MathUtil.clamp(elapsed / (float) duration, 0f, 1f);
+        progress = MathHelper.clamp_float(elapsed / (float) duration, 0f, 1f);
         float centerX = x + width / 2f;
         float centerY = y + height / 2f;
 
