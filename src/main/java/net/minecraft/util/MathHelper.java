@@ -85,6 +85,10 @@ public class MathHelper {
         return num < min ? min : (num > max ? max : num);
     }
 
+    public static long clamp_long(long num, long min, long max) {
+        return num < min ? min : (num > max ? max : num);
+    }
+
     public static float clamp_float(float num, float min, float max) {
         return num < min ? min : (num > max ? max : num);
     }

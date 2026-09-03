@@ -38,10 +38,10 @@ public class Hitmarkers extends Module {
     @EventListen
     private void onRender2D(RenderOverlayEvent event) {
         if (lastAttack == 0) return;
-        elapsed = MathHelper.clamp_float((System.currentTimeMillis() - lastAttack) / (float) duration, 0.0f, 1.0f);
-        if (elapsed != 1) {
+        elapsed = MathHelper.clamp_float(System.currentTimeMillis() - lastAttack, 0f, duration);
+        if (elapsed < duration) {
             Rectangle
-                    .create(event.scaledResolution.getScaledWidth() / 2 - width - 5,event.scaledResolution.getScaledHeight() - height - 5, width, height)
+                    .create((double) event.scaledResolution.getScaledWidth() / 2 - width - 5, (double) event.scaledResolution.getScaledHeight() - height - 5, width, height)
                     .rotate(10)
                     .color(Color.white)
                     .push(event);
