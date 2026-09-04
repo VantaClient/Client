@@ -189,9 +189,9 @@ public class CickGIUScreen extends VantaScreen {
                 float Sy = y += font.getFontHeight();
                 List<String> list = Arrays.stream(((StringSetting) setting).allValues).collect(Collectors.toList());
                 for (int i = 0; i < list.size(); i++); {
-                    count++;
                     font.drawStringWithShadow(list.get(count),x + width - 8 - font.getStringWidth(((StringSetting) setting).getValue()),Sy - 1.3f,Color.white);
                     Sy += font.getFontHeight();
+                    count++;
                 }
             }
         }
