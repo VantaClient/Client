@@ -96,7 +96,7 @@ public class CickGIUScreen extends VantaScreen {
             x = width / 2f - sWidth / 2;
             y = height / 2f - sHeight / 2;
         }
-        System.out.println("press 'H' to reset clickgui mode because this one isnt finished :)");
+        System.out.println("press 'H' to reset ClickGUI mode because this one isnt finished :)");
     }
 
     @EventListen
