@@ -188,6 +188,7 @@ public class CickGIUScreen extends VantaScreen {
     }
 
     private void renderSetting(Setting setting, float mouseX, float mouseY, float x, float y, float width, Renderable renderable) {
+        MsdfFontRenderer font = CFonts.getFont("SFPT-Regular", 16);
         float textOffset = 2.3f;
         if (setting instanceof BooleanSetting) {
             int booleanSize = 7;
@@ -199,7 +200,7 @@ public class CickGIUScreen extends VantaScreen {
                     hasLeftClicked = true;
                 }
             }
-            CFonts.getFont("SFPT-Regular", 16).drawStringWithShadow(setting.name,x,y - textOffset,Color.white);
+            font.drawStringWithShadow(setting.name,x,y - textOffset,Color.white);
             Rectangle.create(x + width - 8 - booleanSize - outlineMinusThing,y - outlineMinusThing,booleanSize,booleanSize).color(new Color(50,50,50,255)).push(renderable);
             Rectangle
                     .create(x + width - 8 - booleanSize,y,booleanSize - 1,booleanSize - 1).color(setting.getValue().equals(true) ? color1 : Color.black).push(renderable);
@@ -211,11 +212,29 @@ public class CickGIUScreen extends VantaScreen {
             float sliderProgress = sliderWidth * (((NumberSetting) setting).getValue().floatValue() / ((NumberSetting) setting).max.floatValue());
             float sliderPointerHeight = 4;
             float sliderPointerWidth = 3;
-            CFonts.getFont("SFPT-Regular", 16).drawStringWithShadow(setting.name,x,y,Color.white);
-            CFonts.getFont("SFPT-Regular", 16).drawStringWithShadow(String.valueOf(setting.getValue()),x + sliderWidth - CFonts.getFont("SFPT-Regular", 16).getStringWidth(String.valueOf(((NumberSetting) setting).getValue().doubleValue())),y,Color.white);
+            font.drawStringWithShadow(setting.name,x,y,Color.white);
+            font.drawStringWithShadow(String.valueOf(setting.getValue()),x + sliderWidth - font.getStringWidth(String.valueOf(((NumberSetting) setting).getValue().doubleValue())),y,Color.white);
             Rectangle.create(x,y + 12,sliderWidth,sliderHeight).color(new Color(50,50,50,255)).push(renderable);
-            Rectangle.create(x,y + 12,sliderProgress,sliderHeight).color(color1).push(renderable);
+            GradientRectangle.create(x,y + 12,sliderProgress,sliderHeight).firstColor(color1).secondColor(color1.darker()).gradientMode(GradientMode.VERTICAL).push(renderable);
             Rectangle.create(x + sliderProgress,y + 11f,sliderPointerWidth,sliderPointerHeight).color(Color.white).push(renderable);
+        }
+
+        if (setting instanceof StringSetting) {
+            float aaa = 1.3f;
+            int padding = 1;
+            // WHY DO I HAVE TO DO IT LIKE THIS FUCKSAKE
+            int count = 0;
+            font.drawStringWithShadow(setting.name,x,y - textOffset, Color.white);
+            font.drawStringWithShadow(((StringSetting) setting).getValue(),x + width - 8 - font.getStringWidth(((StringSetting) setting).getValue()),y - 1.3f,Color.white);
+            if (((StringSetting) setting).expanded) {
+                float Sy = y += font.getFontHeight();
+                List<String> list = Arrays.stream(((StringSetting) setting).allValues).collect(Collectors.toList());
+                for (int i = 0; i < list.size(); i++); {
+                    count++;
+                    font.drawStringWithShadow(list.get(count),x + width - 8 - font.getStringWidth(((StringSetting) setting).getValue()),Sy - 1.3f,Color.white);
+                    Sy += font.getFontHeight();
+                }
+            }
         }
     }
 
