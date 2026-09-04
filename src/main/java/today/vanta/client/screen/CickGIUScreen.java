@@ -137,20 +137,22 @@ public class CickGIUScreen extends VantaScreen {
                 }
                 totalWidth = xDraw;
                 GradientRectangle.create(x, y + 16, sWidth, 1).gradientMode(GradientMode.HORIZONTAL).firstColor(color1).secondColor(color2).push(event);
-                float mY = y + 19;
-                for (Module module : Vanta.instance.moduleStorage.getModulesByCategory(currentCategory)) {
-                    boolean hover = RenderUtil.hovered(event.mouseX, event.mouseY, x + 2, mY, mButtonWidth, mButtonHeight);
-                    if (hover && !hasClicked) {
-                        if (Mouse.isButtonDown(0)) {
-                            module.setEnabled(!module.isEnabled());
-                            hasClicked = true;
+                RenderUtil.scissor(x, y + 17, sWidth, sHeight - 17, () -> {
+                    float mY = y + 19;
+                    for (Module module : Vanta.instance.moduleStorage.getModulesByCategory(currentCategory)) {
+                        boolean hover = RenderUtil.hovered(event.mouseX, event.mouseY, x + 2, mY, mButtonWidth, mButtonHeight);
+                        if (hover && !hasClicked) {
+                            if (Mouse.isButtonDown(0)) {
+                                module.setEnabled(!module.isEnabled());
+                                hasClicked = true;
+                            }
                         }
+                        Rectangle.create(x + 2, mY, mButtonWidth, mButtonHeight).color(hover ? new Color(40, 40, 40, 190) : new Color(20, 20, 20, 190)).push(event);
+                        CFonts.getFont("SFPT-Regular", 18).drawStringWithShadow(module.name, x + 3, mY + 1, module.isEnabled() ? color1 : Color.white);
+                        CFonts.getFont("SFPT-Regular", 16).drawStringWithShadow(EnumChatFormatting.GRAY + module.description, x + 3, mY + 11, Color.white);
+                        mY += mButtonHeight + 2;
                     }
-                    Rectangle.create(x + 2, mY, mButtonWidth, mButtonHeight).color(hover ? new Color(40, 40, 40, 190) : new Color(20, 20, 20, 190)).push(event);
-                    CFonts.getFont("SFPT-Regular", 18).drawStringWithShadow(module.name, x + 3, mY + 1, module.isEnabled() ? color1 : Color.white);
-                    CFonts.getFont("SFPT-Regular", 16).drawStringWithShadow(EnumChatFormatting.GRAY + module.description, x + 3, mY + 11, Color.white);
-                    mY += mButtonHeight + 2;
-                }
+                });
             });
     }
 
