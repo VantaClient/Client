@@ -177,9 +177,9 @@ public class CickGIUScreen extends VantaScreen {
                                 totalSettingHeight += getSettingHeight(setting);
                             }
                             Rectangle.create(x + 2,mY + 22,mButtonWidth,totalSettingHeight).color(new Color(20, 20, 20, 190)).push(event);
-                            float sY = mY + 14;
+                            float sY = mY + 15;
                             for (Setting setting : module.settings) {
-                                renderSetting(setting,x + 4,sY,sWidth,event);
+                                renderSetting(setting,event.mouseX,event.mouseY,x + 4,sY,sWidth,event);
                                 sY += getSettingHeight(setting);
                             }
                         }
@@ -190,11 +190,18 @@ public class CickGIUScreen extends VantaScreen {
             });
     }
 
-    private void renderSetting(Setting setting, float x, float y, float width, Renderable renderable) {
+    private void renderSetting(Setting setting, float mouseX, float mouseY, float x, float y, float width, Renderable renderable) {
         int booleanSize = 7;
         float outlineMinusThing = 0.5f;
-        float textOffset = 1.25f;
+        float textOffset = 2.3f;
         if (setting instanceof BooleanSetting) {
+            boolean hover = RenderUtil.hovered(mouseX,mouseY,x + width - 8 - booleanSize - outlineMinusThing,y - outlineMinusThing,booleanSize,booleanSize);
+            if (hover && !hasLeftClicked) {
+                if (Mouse.isButtonDown(0)) {
+                    setting.setValue(!((BooleanSetting) setting).getValue().booleanValue());
+                    hasLeftClicked = true;
+                }
+            }
             CFonts.getFont("SFPT-Regular", 16).drawStringWithShadow(setting.name,x,y - textOffset,Color.white);
             Rectangle.create(x + width - 8 - booleanSize - outlineMinusThing,y - outlineMinusThing,booleanSize,booleanSize).color(new Color(50,50,50,255)).push(renderable);
             Rectangle
