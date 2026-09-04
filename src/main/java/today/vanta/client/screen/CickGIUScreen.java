@@ -179,17 +179,16 @@ public class CickGIUScreen extends VantaScreen {
         }
 
         if (setting instanceof StringSetting) {
-            float aaa = 1.3f;
             int padding = 1;
             // WHY DO I HAVE TO DO IT LIKE THIS FUCKSAKE
             int count = 0;
             font.drawStringWithShadow(setting.name,x,y - textOffset, Color.white);
-            font.drawStringWithShadow(((StringSetting) setting).getValue(),x + width - 8 - font.getStringWidth(((StringSetting) setting).getValue()),y - 1.3f,Color.white);
+            font.drawStringWithShadow(((StringSetting) setting).getValue(),x + width - 8 - font.getStringWidth(((StringSetting) setting).getValue()),y - textOffset,Color.white);
             if (((StringSetting) setting).expanded) {
                 float Sy = y += font.getFontHeight();
                 List<String> list = Arrays.stream(((StringSetting) setting).allValues).collect(Collectors.toList());
                 for (int i = 0; i < list.size(); i++); {
-                    font.drawStringWithShadow(list.get(count),x + width - 8 - font.getStringWidth(((StringSetting) setting).getValue()),Sy - 1.3f,Color.white);
+                    font.drawStringWithShadow(list.get(count),x + width - 8 - font.getStringWidth(((StringSetting) setting).getValue()),Sy - textOffset,Color.white);
                     Sy += font.getFontHeight();
                     count++;
                 }
