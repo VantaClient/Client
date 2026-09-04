@@ -81,7 +81,9 @@ public class CickGIUScreen extends VantaScreen {
     private Category selectedCat = Category.COMBAT;
     private float moduleScroll;
 
-    private boolean hasClicked = false;
+    private boolean hasLeftClicked = false;
+
+    private float scrollValue;
 
     private boolean dragging, resizing;
     private float dragOffsetX, dragOffsetY;
@@ -104,7 +106,7 @@ public class CickGIUScreen extends VantaScreen {
         color1 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
         color2 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1];
         if (!Mouse.isButtonDown(0)) {
-            hasClicked = false;
+            hasLeftClicked = false;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
             Vanta.instance.moduleStorage.getT(ClickGUI.class).design.setValue("Dropdown");
@@ -126,11 +128,11 @@ public class CickGIUScreen extends VantaScreen {
                         GradientRectangle.create(xDraw,y + 2 + cButtonHeight,cButtonWidth,1).firstColor(color1.darker()).secondColor(color1).push(event);
                     }
                     CFonts.SFPT_REGULAR_18.drawStringWithShadow(category.name, xDraw + (cButtonWidth / 2) - (cTextLength / 2), y + 2 + (cButtonHeight / 2) - (cTextHeight / 2), Color.white);
-                    if (hover && !hasClicked) {
+                    if (hover && !hasLeftClicked) {
                         if (Mouse.isButtonDown(0)) {
                             currentCategory = category;
                             ChatUtil.send(ChatUtil.Prefix.INFO, category.name);
-                            hasClicked = true;
+                            hasLeftClicked = true;
                         }
                     }
                     xDraw += cButtonWidth + 2;
@@ -140,11 +142,12 @@ public class CickGIUScreen extends VantaScreen {
                 RenderUtil.scissor(x, y + 17, sWidth, sHeight - 17, () -> {
                     float mY = y + 19;
                     for (Module module : Vanta.instance.moduleStorage.getModulesByCategory(currentCategory)) {
-                        boolean hover = RenderUtil.hovered(event.mouseX, event.mouseY, x + 2, mY, mButtonWidth, mButtonHeight);
-                        if (hover && !hasClicked) {
+                        float hoverHeight = mY + mButtonHeight > y + sHeight ? mY + mButtonHeight - (y + sHeight) : mButtonHeight;
+                        boolean hover = RenderUtil.hovered(event.mouseX, event.mouseY, x + 2, mY, mButtonWidth, hoverHeight);
+                        if (hover && !hasLeftClicked) {
                             if (Mouse.isButtonDown(0)) {
                                 module.setEnabled(!module.isEnabled());
-                                hasClicked = true;
+                                hasLeftClicked = true;
                             }
                         }
                         Rectangle.create(x + 2, mY, mButtonWidth, mButtonHeight).color(hover ? new Color(40, 40, 40, 190) : new Color(20, 20, 20, 190)).push(event);
