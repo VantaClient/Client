@@ -17,7 +17,7 @@ public class ClickGUI extends Module {
             gradientBackground = Setting.of("Gradient background", true),
             image = Setting.of("Image", false);
 
-    private final StringSetting design = Setting.of("Design", "Dropdown", "Dropdown", "ImGui", "Boxy", "Experimental");
+    public final StringSetting design = Setting.of("Design", "Dropdown", "Dropdown", "ImGui", "Boxy", "Experimental");
     public final StringSetting mascot = Setting.of("Mascot", "longboy", "ermwhat", "silly", "cousin", "longboy", "mj", "mj2", "mj3").hide(() -> !image.getValue());
 
     public ClickGUI() {
