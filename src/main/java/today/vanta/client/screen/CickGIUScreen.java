@@ -22,6 +22,7 @@ import today.vanta.util.game.events.EventListen;
 import today.vanta.util.game.player.ChatUtil;
 import today.vanta.util.game.render.ImageUtil;
 import today.vanta.util.game.render.RenderUtil;
+import today.vanta.util.game.render.Renderable;
 import today.vanta.util.game.render.font.CFonts;
 import today.vanta.util.game.render.font.Icons;
 import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
@@ -33,6 +34,7 @@ import today.vanta.util.game.render.shape.impl.Rectangle;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -81,7 +83,7 @@ public class CickGIUScreen extends VantaScreen {
     private Category selectedCat = Category.COMBAT;
     private float moduleScroll;
 
-    private boolean hasLeftClicked = false;
+    private boolean hasLeftClicked = false, hasRightClicked;
 
     private float scrollValue;
 
@@ -91,6 +93,7 @@ public class CickGIUScreen extends VantaScreen {
     private NumberSetting draggingSlider;
     private float draggingTrackX, draggingTrackWidth;
     private Category currentCategory = Category.COMBAT;
+    private ArrayList<Module> expandedModules = new ArrayList<>();
 
     @Override
     protected void initScreen() {
@@ -98,7 +101,7 @@ public class CickGIUScreen extends VantaScreen {
             x = width / 2f - sWidth / 2;
             y = height / 2f - sHeight / 2;
         }
-        System.out.println("press 'H' to reset ClickGUI mode because this one isnt finished :)");
+        ChatUtil.send(ChatUtil.Prefix.INFO,"press 'H' to reset ClickGUI mode because this one isnt finished :)");
     }
 
     @EventListen
@@ -107,6 +110,9 @@ public class CickGIUScreen extends VantaScreen {
         color2 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1];
         if (!Mouse.isButtonDown(0)) {
             hasLeftClicked = false;
+        }
+        if (!Mouse.isButtonDown(1)) {
+            hasRightClicked = false;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_H)) {
             Vanta.instance.moduleStorage.getT(ClickGUI.class).design.setValue("Dropdown");
@@ -142,6 +148,7 @@ public class CickGIUScreen extends VantaScreen {
                 RenderUtil.scissor(x, y + 17, sWidth, sHeight - 17, () -> {
                     float mY = y + 19;
                     for (Module module : Vanta.instance.moduleStorage.getModulesByCategory(currentCategory)) {
+                        float totalSettingHeight = 0;
                         float hoverHeight = mY + mButtonHeight > y + sHeight ? mY + mButtonHeight - (y + sHeight) : mButtonHeight;
                         boolean hover = RenderUtil.hovered(event.mouseX, event.mouseY, x + 2, mY, mButtonWidth, hoverHeight);
                         if (hover && !hasLeftClicked) {
@@ -150,13 +157,67 @@ public class CickGIUScreen extends VantaScreen {
                                 hasLeftClicked = true;
                             }
                         }
+                        if (hover && !hasRightClicked) {
+                            if (Mouse.isButtonDown(1)) {
+                                hasRightClicked = true;
+                                if (expandedModules.contains(module)) {
+                                    expandedModules.remove(module);
+                                } else {
+                                    expandedModules.add(module);
+                                }
+                            }
+                        }
                         Rectangle.create(x + 2, mY, mButtonWidth, mButtonHeight).color(hover ? new Color(40, 40, 40, 190) : new Color(20, 20, 20, 190)).push(event);
                         CFonts.getFont("SFPT-Regular", 18).drawStringWithShadow(module.name, x + 3, mY + 1, module.isEnabled() ? color1 : Color.white);
                         CFonts.getFont("SFPT-Regular", 16).drawStringWithShadow(EnumChatFormatting.GRAY + module.description, x + 3, mY + 11, Color.white);
-                        mY += mButtonHeight + 2;
+                        if (expandedModules.contains(module)) {
+                            Rectangle
+                                    .create(x + 2,mY + 21,mButtonWidth,1).color(color1).push(event);
+                            for (Setting setting : module.settings) {
+                                totalSettingHeight += getSettingHeight(setting);
+                            }
+                            Rectangle.create(x + 2,mY + 22,mButtonWidth,totalSettingHeight).color(new Color(20, 20, 20, 190)).push(event);
+                            float sY = mY + 14;
+                            for (Setting setting : module.settings) {
+                                renderSetting(setting,x + 4,sY,sWidth,event);
+                                sY += getSettingHeight(setting);
+                            }
+                        }
+
+                        mY += mButtonHeight + 2 + totalSettingHeight;
                     }
                 });
             });
+    }
+
+    private void renderSetting(Setting setting, float x, float y, float width, Renderable renderable) {
+        int booleanSize = 7;
+        float outlineMinusThing = 0.5f;
+        float textOffset = 1.25f;
+        if (setting instanceof BooleanSetting) {
+            CFonts.getFont("SFPT-Regular", 16).drawStringWithShadow(setting.name,x,y - textOffset,Color.white);
+            Rectangle.create(x + width - 8 - booleanSize - outlineMinusThing,y - outlineMinusThing,booleanSize,booleanSize).color(new Color(50,50,50,255)).push(renderable);
+            Rectangle
+                    .create(x + width - 8 - booleanSize,y,booleanSize - 1,booleanSize - 1).color(setting.getValue().equals(true) ? color1 : Color.black).push(renderable);
+        }
+    }
+
+    private float getSettingHeight(Setting setting) {
+        float val = 0;
+        if (setting instanceof NumberSetting) {
+            val += 16;
+        }
+        if (setting instanceof BooleanSetting) {
+            val += 10;
+        }
+        if (setting instanceof StringSetting) {
+            if (((StringSetting) setting).expanded) {
+                val += 8 * Arrays.stream(((StringSetting) setting).allValues).count();
+            } else {
+                val += 10;
+            }
+        }
+        return val;
     }
 
 
@@ -542,27 +603,6 @@ public class CickGIUScreen extends VantaScreen {
         }
     }
 
-    private float getSettingHeight(Setting<?> setting) {
-        if (setting.isHidden()) return 0;
-
-        if (setting instanceof BooleanSetting) {
-            return 15;
-        } else if (setting instanceof NumberSetting) {
-            return SETTING_LABEL_HEIGHT + SETTING_LABEL_GAP + SLIDER_CONTROL_HEIGHT;
-        } else if (setting instanceof StringSetting) {
-            StringSetting s = (StringSetting) setting;
-            float h = SETTING_LABEL_HEIGHT + SETTING_LABEL_GAP + DROPDOWN_HEADER_HEIGHT;
-            if (s.expanded) h += s.allValues.length * DROPDOWN_ITEM_HEIGHT;
-            return h;
-        } else if (setting instanceof MultiStringSetting) {
-            MultiStringSetting s = (MultiStringSetting) setting;
-            float h = SETTING_LABEL_HEIGHT + SETTING_LABEL_GAP + DROPDOWN_HEADER_HEIGHT;
-            if (s.expanded) h += s.allValues.length * DROPDOWN_ITEM_HEIGHT;
-            return h;
-        }
-
-        return 0;
-    }
 
     private float getModuleAppendHeight(Module mod) {
         if (!mod.isExpanded()) return 0;
