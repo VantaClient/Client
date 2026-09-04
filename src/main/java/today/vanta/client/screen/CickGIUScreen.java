@@ -88,7 +88,7 @@ public class CickGIUScreen extends VantaScreen {
                     float cTextHeight = CFonts.SFPT_REGULAR_18.getFontHeight();
                     Rectangle.create(xDraw, y + 2, cButtonWidth, cButtonHeight).color(hover ? new Color(40, 40, 40, 190) : new Color(20, 20, 20, 190)).push(event);
                     if (category == currentCategory) {
-                        GradientRectangle.create(xDraw,y + 2 + cButtonHeight,cButtonWidth,1).firstColor(color1.darker()).secondColor(color1).push(event);
+                        GradientRectangle.create(xDraw,y + 2,cButtonWidth,1).firstColor(color1.darker()).secondColor(color1).push(event);
                     }
                     CFonts.SFPT_REGULAR_18.drawStringWithShadow(category.name, xDraw + (cButtonWidth / 2) - (cTextLength / 2), y + 2 + (cButtonHeight / 2) - (cTextHeight / 2), Color.white);
                     if (hover && !hasLeftClicked) {
