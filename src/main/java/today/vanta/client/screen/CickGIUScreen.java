@@ -39,37 +39,6 @@ public class CickGIUScreen extends VantaScreen {
     private Color color1, color2;
     private static final float cButtonHeight = 12;
     private static final float cButtonWidth = 47;
-    private float totalWidth = 375;
-    private static final float SIDEBAR_WIDTH = 70;
-    private static final float SIDEBAR_HEADER_HEIGHT = 22.5f;
-    private static final float RESIZE_HANDLE_SIZE = 10;
-    private static final float MIN_WIDTH = 250;
-    private static final float MIN_HEIGHT = 190;
-
-    private static final float SETTING_INNER_PAD = 8;
-    private static final float SETTING_SPACING = 5;
-    private static final float SETTING_LABEL_HEIGHT = 10;
-    private static final float SETTING_LABEL_GAP = 2;
-
-    private static final float CHECKBOX_SIZE = 8;
-    private static final float CHECKBOX_FILL_SIZE = 4;
-
-    private static final float SLIDER_CONTROL_HEIGHT = 12;
-    private static final float SLIDER_TRACK_HEIGHT = 4;
-    private static final float SLIDER_THUMB_WIDTH = 4;
-    private static final float SLIDER_THUMB_HEIGHT = 8;
-    private static final float SLIDER_VALUE_WIDTH = 30;
-
-    private static final float DROPDOWN_HEADER_HEIGHT = 14;
-    private static final float DROPDOWN_ITEM_HEIGHT = 14;
-    private static final float MULTI_CHECK_SIZE = 6;
-
-    private static final Color GRAY_20 = new Color(20, 20, 20);
-    private static final Color GRAY_30 = new Color(30, 30, 30);
-    private static final Color GRAY_3C = new Color(0x3c3c3c);
-    private static final Color GRAY_60 = new Color(0x606060);
-    private static final Color TEXT_MAIN = new Color(0xe0e0e0);
-    private static final Color TEXT_MUTED = new Color(0x888888);
 
     private static final MsdfFontRenderer ICONS_16 = CFonts.getFont("Icons", 16, Icons.CHARS);
     private static final MsdfFontRenderer ICONS_12 = CFonts.getFont("Icons", 12, Icons.CHARS);
@@ -77,18 +46,9 @@ public class CickGIUScreen extends VantaScreen {
     public float sWidth = 409, sHeight = 275;
     private final float mButtonWidth = sWidth - 4, mButtonHeight = 22;
     public float x = -999, y = -999;
-    private Category selectedCat = Category.COMBAT;
-    private float moduleScroll;
 
     private boolean hasLeftClicked = false, hasRightClicked;
 
-    private float scrollValue;
-
-    private boolean dragging, resizing;
-    private float dragOffsetX, dragOffsetY;
-
-    private NumberSetting draggingSlider;
-    private float draggingTrackX, draggingTrackWidth;
     private Category currentCategory = Category.COMBAT;
     private ArrayList<Module> expandedModules = new ArrayList<>();
 
@@ -140,7 +100,6 @@ public class CickGIUScreen extends VantaScreen {
                     }
                     xDraw += cButtonWidth + 2;
                 }
-                totalWidth = xDraw;
                 GradientRectangle.create(x, y + 16, sWidth, 1).gradientMode(GradientMode.HORIZONTAL).firstColor(color1).secondColor(color2).push(event);
                 RenderUtil.scissor(x, y + 17, sWidth, sHeight - 17, () -> {
                     float mY = y + 19;
@@ -259,10 +218,6 @@ public class CickGIUScreen extends VantaScreen {
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
-        dragging = false;
-        resizing = false;
-        draggingSlider = null;
-        draggingTrackX = 0;
-        draggingTrackWidth = 0;
+       // empty
     }
 }
