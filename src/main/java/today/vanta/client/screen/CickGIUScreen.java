@@ -163,21 +163,19 @@ public class CickGIUScreen extends VantaScreen {
         }
 
         if (setting instanceof NumberSetting) {
-            float sliderWidth = width - 6;
+            float sliderWidth = width - 8;
             float sliderHeight = 2;
             float sliderProgress = sliderWidth * (((NumberSetting) setting).getValue().floatValue() / ((NumberSetting) setting).max.floatValue());
-            float sliderPointerHeight = 4;
-            float sliderPointerWidth = 3;
+            float sliderPointerHeight = 3;
+            float sliderPointerWidth = 2;
             font.drawStringWithShadow(setting.name,x,y,Color.white);
             font.drawStringWithShadow(String.valueOf(setting.getValue()),x + sliderWidth - font.getStringWidth(String.valueOf(((NumberSetting) setting).getValue().doubleValue())),y,Color.white);
             Rectangle.create(x,y + 11,sliderWidth,sliderHeight).color(new Color(50,50,50,255)).push(renderable);
             GradientRectangle.create(x,y + 11,sliderProgress,sliderHeight).firstColor(color1).secondColor(color1.darker()).gradientMode(GradientMode.VERTICAL).push(renderable);
-            Rectangle.create(x + sliderProgress,y + 10f,sliderPointerWidth,sliderPointerHeight).color(Color.white).push(renderable);
+            Rectangle.create(x + sliderProgress,y + 10.5f,sliderPointerWidth,sliderPointerHeight).color(Color.white).push(renderable);
         }
 
         if (setting instanceof StringSetting) {
-            int padding = 1;
-            // WHY DO I HAVE TO DO IT LIKE THIS FUCKSAKE
             font.drawStringWithShadow(setting.name,x,y - textOffset, Color.white);
             font.drawStringWithShadow( ((StringSetting) setting).expanded ? "- " : "+ " +  ((StringSetting) setting).getValue(),x + width - 8 - font.getStringWidth(((StringSetting) setting).expanded ? "- " : "+ " +  ((StringSetting) setting).getValue()),y - textOffset,Color.white);
             boolean hover = RenderUtil.hovered(mouseX,mouseY,x,y,x + width - 8 - font.getStringWidth(((StringSetting) setting).getValue()),font.getFontHeight());
@@ -203,13 +201,54 @@ public class CickGIUScreen extends VantaScreen {
                 }
             }
         }
+
+        if (setting instanceof MultiStringSetting) {
+            font.drawStringWithShadow(setting.name,x,y - textOffset, Color.white);
+            String impression;
+            if (((MultiStringSetting) setting).allValues.length == 0) {
+                impression = "0 Enabled";
+            } else if (((MultiStringSetting) setting).allValues.length == 1) {
+                impression = ((MultiStringSetting) setting).allValues[0];
+            } else {
+                impression = ((MultiStringSetting) setting).allValues.length + " Enabled";
+            }
+            font.drawStringWithShadow( ((MultiStringSetting) setting).expanded ? "- " : "+ " +  impression,x + width - 8 - font.getStringWidth(((MultiStringSetting) setting).expanded ? "- " : "+ " +  impression),y - textOffset,Color.white);
+            boolean hover = RenderUtil.hovered(mouseX,mouseY,x,y,x + width - 8 - font.getStringWidth((impression)),font.getFontHeight());
+            if (hover && !hasRightClicked) {
+                if (Mouse.isButtonDown(1)) {
+                    ((MultiStringSetting) setting).expanded = !((MultiStringSetting) setting).expanded;
+                    hasRightClicked = true;
+                }
+            }
+            if (((MultiStringSetting) setting).expanded) {
+                float Sy = y += font.getFontHeight();
+                for (String s : ((MultiStringSetting) setting).allValues) {
+                    boolean hovered = RenderUtil.hovered(mouseX,mouseY,x + width - 8 - font.getStringWidth(s),Sy - textOffset,font.getStringWidth(s),font.getFontHeight());
+                    font.drawStringWithShadow(s,x + width - 8 - font.getStringWidth(s),Sy - textOffset,hovered ? color2 : ((MultiStringSetting) setting).isEnabled(s) ? color2 : Color.white);
+                    if (hovered && !hasLeftClicked) {
+                        if (Mouse.isButtonDown(0)) {
+                            List<String> values = new ArrayList<>(Arrays.asList(((MultiStringSetting) setting).getValue()));
+                            boolean state = ((MultiStringSetting) setting).isEnabled(s);
+                            if (state) {
+                                values.remove(s);
+                            } else {
+                                values.add(s);
+                            }
+                            ((MultiStringSetting) setting).setValue(values.toArray(new String[0])); // <-- this line was missing
+                            hasLeftClicked = true;
+                        }
+                    }
+                    Sy += font.getFontHeight();
+                }
+            }
+        }
     }
 
     private float getSettingHeight(Setting setting) {
         MsdfFontRenderer font = CFonts.getFont("SFPT-Regular", 16);
         float val = 0;
         if (setting instanceof NumberSetting) {
-            val += 17;
+            val += 16;
         }
         if (setting instanceof BooleanSetting) {
             val += 11;
@@ -217,6 +256,13 @@ public class CickGIUScreen extends VantaScreen {
         if (setting instanceof StringSetting) {
             if (((StringSetting) setting).expanded) {
                 val += font.getFontHeight() * (Arrays.stream(((StringSetting) setting).allValues).count() + 1);
+            } else {
+                val += 11;
+            }
+        }
+        if (setting instanceof MultiStringSetting) {
+            if (((MultiStringSetting) setting).expanded) {
+                val += font.getFontHeight() * (Arrays.stream(((MultiStringSetting) setting).allValues).count() + 1);
             } else {
                 val += 11;
             }
