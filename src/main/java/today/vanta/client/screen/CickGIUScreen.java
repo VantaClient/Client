@@ -205,12 +205,12 @@ public class CickGIUScreen extends VantaScreen {
         if (setting instanceof MultiStringSetting) {
             font.drawStringWithShadow(setting.name,x,y - textOffset, Color.white);
             String impression;
-            if (((MultiStringSetting) setting).allValues.length == 0) {
+            if (((MultiStringSetting) setting).getValue().length == 0) {
                 impression = "0 Enabled";
-            } else if (((MultiStringSetting) setting).allValues.length == 1) {
-                impression = ((MultiStringSetting) setting).allValues[0];
+            } else if (((MultiStringSetting) setting).getValue().length == 1) {
+                impression = ((MultiStringSetting) setting).getValue()[0];
             } else {
-                impression = ((MultiStringSetting) setting).allValues.length + " Enabled";
+                impression = ((MultiStringSetting) setting).getValue().length + " Enabled";
             }
             font.drawStringWithShadow( ((MultiStringSetting) setting).expanded ? "- " : "+ " +  impression,x + width - 8 - font.getStringWidth(((MultiStringSetting) setting).expanded ? "- " : "+ " +  impression),y - textOffset,Color.white);
             boolean hover = RenderUtil.hovered(mouseX,mouseY,x,y,x + width - 8 - font.getStringWidth((impression)),font.getFontHeight());
