@@ -40,9 +40,6 @@ public class CickGIUScreen extends VantaScreen {
     private static final float cButtonHeight = 12;
     private static final float cButtonWidth = 47;
 
-    private static final MsdfFontRenderer ICONS_16 = CFonts.getFont("Icons", 16, Icons.CHARS);
-    private static final MsdfFontRenderer ICONS_12 = CFonts.getFont("Icons", 12, Icons.CHARS);
-
     public float sWidth = 409, sHeight = 275;
     private final float mButtonWidth = sWidth - 4, mButtonHeight = 22;
     public float x = -999, y = -999;
