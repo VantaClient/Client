@@ -1,5 +1,6 @@
 package today.vanta.client.module.impl.hud;
 
+import net.minecraft.client.renderer.entity.Render;
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.ModuleDisableEvent;
 import today.vanta.client.event.impl.client.ModuleEnableEvent;
@@ -9,8 +10,10 @@ import today.vanta.client.module.Module;
 import today.vanta.client.module.impl.client.ClientSettings;
 import today.vanta.util.client.ui.NotificationUtil;
 import today.vanta.util.game.events.EventListen;
+import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.font.CFonts;
 import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
+import today.vanta.util.game.render.shape.GradientMode;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 
@@ -59,9 +62,11 @@ public class Notifications extends Module {
             float remainingFraction = 1f - ((float) elapsed / lifetimea);
             float barWidth = totalBarWidth * remainingFraction;
             Rectangle.create(x,y,width,height).color(new Color(10,10,10,190)).push(event);
-            GradientRectangle.create(x,y,width,1f).firstColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0]).secondColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1]).push(event);
+            GradientRectangle.create(x,y,width,1f).firstColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0]).secondColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1]).gradientMode(GradientMode.HORIZONTAL).push(event);
             Rectangle.create( x + 2,y + height - 6f,totalBarWidth,3f).color(new Color(10,10,10,255)).push(event);
-            Rectangle.create( x + 2,y + height - 6f,barWidth,3f).color(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0]).push(event);
+            RenderUtil.scissor(x + 2,y + height - 6f,barWidth,3f, () -> {
+                GradientRectangle.create( x + 2,y + height - 6f,totalBarWidth,3f).firstColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0]).secondColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1]).push(event);
+            });
 
             font.drawStringWithShadow(message,x + 2,y + 2,Color.white);
             yAddition += height + 5;

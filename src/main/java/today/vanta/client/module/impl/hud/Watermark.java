@@ -133,7 +133,7 @@ public class Watermark extends Module {
                         .resource(ImageUtil.getTexture(texture))
                         .push(event);
                 CFonts.getFont("SFPT-Regular", 24).drawStringWithShadow(Strings.CLIENT_NAME, 7, 7.5f,Color.white);
-                CFonts.getFont("SFPT-Regular", 24).drawHorizontalGradientString("sense", 7 + firstLength, 7.5f,colors[0], colors[1],0.5,1);
+                CFonts.getFont("SFPT-Regular", 24).drawHorizontalGradientString("sense", 7 + firstLength, 7.5f,colors[1], colors[0],0.6,0);
 
                 break;
         }

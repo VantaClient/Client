@@ -10,23 +10,26 @@ import today.vanta.util.game.player.PlayerUtil;
 
 public class IceSpeedBoost extends Module {
     private int tick = 0;
+
     public IceSpeedBoost() {
         super("IceSpeedBoost", "Boosts the vanilla speed on ice.", Category.MOVEMENT);
     }
 
     @EventListen
     private void onGameLoop(GameLoopEvent event) {
-        if (PlayerUtil.isIceUnderneath()) {
-            if (tick > 3) {
-                MovementUtil.strafe(1.05f);
+        if (mc.thePlayer != null) {
+            if (PlayerUtil.isIceUnderneath()) {
+                if (tick > 3) {
+                    MovementUtil.strafe(1.05f);
+                } else {
+                    tick++;
+                }
             } else {
-                tick ++;
+                if (tick > 3) {
+                    MovementUtil.stop();
+                }
+                tick = 0;
             }
-        } else {
-            if (tick > 3) {
-                MovementUtil.stop();
-            }
-            tick = 0;
         }
     }
 }
