@@ -173,30 +173,43 @@ public class CickGIUScreen extends VantaScreen {
             float sliderPointerWidth = 3;
             font.drawStringWithShadow(setting.name,x,y,Color.white);
             font.drawStringWithShadow(String.valueOf(setting.getValue()),x + sliderWidth - font.getStringWidth(String.valueOf(((NumberSetting) setting).getValue().doubleValue())),y,Color.white);
-            Rectangle.create(x,y + 12,sliderWidth,sliderHeight).color(new Color(50,50,50,255)).push(renderable);
-            GradientRectangle.create(x,y + 12,sliderProgress,sliderHeight).firstColor(color1).secondColor(color1.darker()).gradientMode(GradientMode.VERTICAL).push(renderable);
-            Rectangle.create(x + sliderProgress,y + 11f,sliderPointerWidth,sliderPointerHeight).color(Color.white).push(renderable);
+            Rectangle.create(x,y + 11,sliderWidth,sliderHeight).color(new Color(50,50,50,255)).push(renderable);
+            GradientRectangle.create(x,y + 11,sliderProgress,sliderHeight).firstColor(color1).secondColor(color1.darker()).gradientMode(GradientMode.VERTICAL).push(renderable);
+            Rectangle.create(x + sliderProgress,y + 10f,sliderPointerWidth,sliderPointerHeight).color(Color.white).push(renderable);
         }
 
         if (setting instanceof StringSetting) {
             int padding = 1;
             // WHY DO I HAVE TO DO IT LIKE THIS FUCKSAKE
-            int count = 0;
             font.drawStringWithShadow(setting.name,x,y - textOffset, Color.white);
-            font.drawStringWithShadow(((StringSetting) setting).getValue(),x + width - 8 - font.getStringWidth(((StringSetting) setting).getValue()),y - textOffset,Color.white);
+            font.drawStringWithShadow( ((StringSetting) setting).expanded ? "- " : "+ " +  ((StringSetting) setting).getValue(),x + width - 8 - font.getStringWidth(((StringSetting) setting).expanded ? "- " : "+ " +  ((StringSetting) setting).getValue()),y - textOffset,Color.white);
+            boolean hover = RenderUtil.hovered(mouseX,mouseY,x,y,x + width - 8 - font.getStringWidth(((StringSetting) setting).getValue()),font.getFontHeight());
+            if (hover && !hasRightClicked) {
+                if (Mouse.isButtonDown(1)) {
+                    ((StringSetting) setting).expanded = !((StringSetting) setting).expanded;
+                    hasRightClicked = true;
+                }
+            }
             if (((StringSetting) setting).expanded) {
                 float Sy = y += font.getFontHeight();
-                List<String> list = Arrays.stream(((StringSetting) setting).allValues).collect(Collectors.toList());
-                for (int i = 0; i < list.size(); i++); {
-                    font.drawStringWithShadow(list.get(count),x + width - 8 - font.getStringWidth(((StringSetting) setting).getValue()),Sy - textOffset,Color.white);
+                for (String s : Arrays.stream(((StringSetting) setting).allValues).collect(Collectors.toList())) {
+                    boolean hovered = RenderUtil.hovered(mouseX,mouseY,x + width - 8 - font.getStringWidth(s),Sy - textOffset,font.getStringWidth(s),font.getFontHeight());
+                    font.drawStringWithShadow(s,x + width - 8 - font.getStringWidth(s),Sy - textOffset,hovered ? color2 : Color.white);
+                    if (hovered && !hasLeftClicked) {
+                        if (Mouse.isButtonDown(0)) {
+                            ((StringSetting) setting).setValue(s);
+                            ((StringSetting) setting).expanded = false;
+                            hasLeftClicked = true;
+                        }
+                    }
                     Sy += font.getFontHeight();
-                    count++;
                 }
             }
         }
     }
 
     private float getSettingHeight(Setting setting) {
+        MsdfFontRenderer font = CFonts.getFont("SFPT-Regular", 16);
         float val = 0;
         if (setting instanceof NumberSetting) {
             val += 17;
@@ -206,7 +219,7 @@ public class CickGIUScreen extends VantaScreen {
         }
         if (setting instanceof StringSetting) {
             if (((StringSetting) setting).expanded) {
-                val += 11 * Arrays.stream(((StringSetting) setting).allValues).count();
+                val += font.getFontHeight() * (Arrays.stream(((StringSetting) setting).allValues).count() + 1);
             } else {
                 val += 11;
             }
