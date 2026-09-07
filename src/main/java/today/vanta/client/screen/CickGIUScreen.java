@@ -168,11 +168,11 @@ public class CickGIUScreen extends VantaScreen {
             float sliderProgress = sliderWidth * (((NumberSetting) setting).getValue().floatValue() / ((NumberSetting) setting).max.floatValue());
             float sliderPointerHeight = 3;
             float sliderPointerWidth = 2;
-            font.drawStringWithShadow(setting.name,x,y,Color.white);
-            font.drawStringWithShadow(String.valueOf(setting.getValue()),x + sliderWidth - font.getStringWidth(String.valueOf(((NumberSetting) setting).getValue().doubleValue())),y,Color.white);
-            Rectangle.create(x,y + 11,sliderWidth,sliderHeight).color(new Color(50,50,50,255)).push(renderable);
-            GradientRectangle.create(x,y + 11,sliderProgress,sliderHeight).firstColor(color1).secondColor(color1.darker()).gradientMode(GradientMode.VERTICAL).push(renderable);
-            Rectangle.create(x + sliderProgress,y + 10.5f,sliderPointerWidth,sliderPointerHeight).color(Color.white).push(renderable);
+            font.drawStringWithShadow(setting.name,x,y - textOffset,Color.white);
+            font.drawStringWithShadow(String.valueOf(setting.getValue()),x + sliderWidth - font.getStringWidth(String.valueOf(((NumberSetting) setting).getValue().doubleValue())),y - textOffset,Color.white);
+            Rectangle.create(x,y + 11 - textOffset,sliderWidth,sliderHeight).color(new Color(50,50,50,255)).push(renderable);
+            GradientRectangle.create(x,y + 11 - textOffset,sliderProgress,sliderHeight).firstColor(color1).secondColor(color1.darker()).gradientMode(GradientMode.VERTICAL).push(renderable);
+            Rectangle.create(x + sliderProgress,y + 10.5f - textOffset,sliderPointerWidth,sliderPointerHeight).color(Color.white).push(renderable);
         }
 
         if (setting instanceof StringSetting) {
@@ -248,7 +248,7 @@ public class CickGIUScreen extends VantaScreen {
         MsdfFontRenderer font = CFonts.getFont("SFPT-Regular", 16);
         float val = 0;
         if (setting instanceof NumberSetting) {
-            val += 16;
+            val += 14;
         }
         if (setting instanceof BooleanSetting) {
             val += 11;

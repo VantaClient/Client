@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.optifine.reflect.Reflector;
 import org.lwjgl.opengl.GL11;
 import today.vanta.Vanta;
@@ -243,6 +244,12 @@ public class RenderUtil {
         renderHeadLayer(renderable, target, x, y, headSize, 40, color);
     }
 
+    public static void renderHead(Renderable renderable, ResourceLocation resourceLocation, float x, float y, float headSize, Color color) throws NullPointerException {
+        // Use Color.White for normal thing!
+        renderHeadLayer(renderable, resourceLocation, x, y, headSize, 8, color);
+        renderHeadLayer(renderable, resourceLocation, x, y, headSize, 40, color);
+    }
+
     public static void renderHead(Renderable renderable, EntityPlayer target, float x, float y, float headSize) throws NullPointerException {
         renderHeadLayer(renderable, target, x, y, headSize, 8, Color.white);
         renderHeadLayer(renderable, target, x, y, headSize, 40, Color.white);
@@ -264,6 +271,25 @@ public class RenderUtil {
                 .tileSize(64, 64)
                 .color(tint)
                 .resource(((AbstractClientPlayer) target).getLocationSkin())
+                .push(renderable);
+    }
+
+    private static void renderHeadLayer(
+            final Renderable renderable,
+            final ResourceLocation resourceLocation,
+            final float x,
+            final float y,
+            final float headSize,
+            final int textureX,
+            final Color tint
+    ) {
+        ImageRectangle
+                .create(x, y, headSize, headSize, -1)
+                .uv(textureX, 8)
+                .uvSize(8, 8)
+                .tileSize(64, 64)
+                .color(tint)
+                .resource(resourceLocation)
                 .push(renderable);
     }
 

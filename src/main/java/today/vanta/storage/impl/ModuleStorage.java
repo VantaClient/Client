@@ -100,6 +100,7 @@ public class ModuleStorage extends Storage<Module> {
         list.add(new TabGUI());
         list.add(new TimerDisplay());
         list.add(new Notifications());
+        list.add(new TargetHUDRecode());
 
         for (Module mod : list) {
             this.context = mod;
