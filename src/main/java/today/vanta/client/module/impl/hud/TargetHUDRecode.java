@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
@@ -169,6 +170,7 @@ public class TargetHUDRecode extends Module {
                 animatedBarWidth = bar;
 //                can = true;
                 oldTargetName = entityName;
+                oldMode = mode.getValue();
                 return;
             }
 
@@ -197,7 +199,7 @@ public class TargetHUDRecode extends Module {
             CFonts.SFPT_MEDIUM_18.drawStringWithShadow(entityName, x + 2 + headSize, y + 1, new Color(255, 255, 255, getAlpha(255)));
             CFonts.SFPT_REGULAR_18.drawStringWithShadow("Health: " + String.format("%.1f", entityHealth), x + 2 + headSize, y + 11, new Color(255, 255, 255, getAlpha(255)));
             CFonts.SFPT_REGULAR_18.drawStringWithShadow("Distance: " + String.format("%.1f", entityDistance), x + 2 + headSize, y + 21, new Color(255, 255, 255, getAlpha(255)));
-            GradientRectangle.create(x + 2, y + height - 5, animatedBarWidth, barHeight).firstColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha()))).secondColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha())).darker()).gradientMode(GradientMode.VERTICAL).push(e);
+            GradientRectangle.create(x + 2, y + height - 5, MathHelper.clamp_float(animatedBarWidth,0,barWidth), barHeight).firstColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha()))).secondColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha())).darker()).gradientMode(GradientMode.VERTICAL).push(e);
 
         } catch (IllegalArgumentException error) {
             error.printStackTrace();
