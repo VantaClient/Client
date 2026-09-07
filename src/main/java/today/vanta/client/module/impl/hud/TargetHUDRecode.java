@@ -198,7 +198,8 @@ public class TargetHUDRecode extends Module {
             }
             CFonts.SFPT_MEDIUM_18.drawStringWithShadow(entityName, x + 2 + headSize, y + 1, new Color(255, 255, 255, getAlpha(255)));
             CFonts.SFPT_REGULAR_18.drawStringWithShadow("Health: " + String.format("%.1f", entityHealth), x + 2 + headSize, y + 11, new Color(255, 255, 255, getAlpha(255)));
-            CFonts.SFPT_REGULAR_18.drawStringWithShadow("Distance: " + String.format("%.1f", entityDistance), x + 2 + headSize, y + 21, new Color(255, 255, 255, getAlpha(255)));
+            CFonts.SFPT_REGULAR_18.drawStringWithShadow("Distance: " + String.format("%.1f", entityDistance), x + 2 + headSize, y + 21, new Color(255, 255, 255, getAlpha(150)));
+            Rectangle.create(x + 2, y + height - 5, barWidth,barHeight).color(new Color(20,20,20,getAlpha(255))).push(e);
             GradientRectangle.create(x + 2, y + height - 5, MathHelper.clamp_float(animatedBarWidth,0,barWidth), barHeight).firstColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha()))).secondColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha())).darker()).gradientMode(GradientMode.VERTICAL).push(e);
 
         } catch (IllegalArgumentException error) {
