@@ -34,11 +34,13 @@ public class TargetHUDRecode extends Module {
     private final StringSetting mode = Setting.of("Mode", "Vanta", "Vanta", "Cryptix");
     private final BooleanSetting onlyPlayers = Setting.of("Allow only players", true);
     private final NumberSetting durationVal = Setting.of("Animation duration", 250, 100, 450, 0, "ms");
+    private final NumberSetting healthDur = Setting.of("Health bar duration",100,50,400,0,"ms");
     private float x = 450;
     private float y = 500;
     private float width = 120;
     private float height = 38;
     private EntityLivingBase entity;
+    private int healthDuration = 100;
     private int state;
     private int desiredState;
     private int ANIMATE_IN = 1;
@@ -156,6 +158,7 @@ public class TargetHUDRecode extends Module {
     private void onRenderOverlay(RenderOverlayEvent e) {
         checkState();
         duration = durationVal.getValue().intValue();
+        healthDuration = healthDur.getValue().intValue();
         Color color1 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
         float centerX = x + width / 2;
         float centerY = y + height / 2;
@@ -177,7 +180,7 @@ public class TargetHUDRecode extends Module {
             barAnimation = Animation.create(
                     animatedBarWidth,
                     targetBarWidth,
-                    100,
+                    healthDuration,
                     Easing.LINEAR,
                     val -> animatedBarWidth = val
             );
@@ -189,18 +192,22 @@ public class TargetHUDRecode extends Module {
         GlStateManager.scale(animatedScale, animatedScale, 1);
         GlStateManager.translate(-centerX, -centerY, 0);
         try {
-            Rectangle.create(x, y, width, height).color(new Color(20, 20, 20, getAlpha(190))).push(e);
-            if (entityIsPlayer) {
-                headSize = height - 7;
-                RenderUtil.renderHead(e, entityLocationSkin, x + 2, y + 2, headSize - 2, new Color(255, 255, 255, getAlpha(255)));
-            } else {
-                headSize = 0;
+            switch (mode.getValue()) {
+                case "Vanta":
+                    Rectangle.create(x, y, width, height).color(new Color(20, 20, 20, getAlpha(190))).push(e);
+                    if (entityIsPlayer) {
+                        headSize = height - 7;
+                        RenderUtil.renderHead(e, entityLocationSkin, x + 2, y + 2, headSize - 2, new Color(255, 255, 255, getAlpha(255)));
+                    } else {
+                        headSize = 0;
+                    }
+                    CFonts.SFPT_MEDIUM_18.drawStringWithShadow(entityName, x + 2 + headSize, y + 1, new Color(255, 255, 255, getAlpha(255)));
+                    CFonts.SFPT_REGULAR_18.drawStringWithShadow("Health: " + String.format("%.1f", entityHealth), x + 2 + headSize, y + 11, new Color(255, 255, 255, getAlpha(255)));
+                    CFonts.SFPT_REGULAR_18.drawStringWithShadow("Distance: " + String.format("%.1f", entityDistance), x + 2 + headSize, y + 21, new Color(255, 255, 255, getAlpha(150)));
+                    Rectangle.create(x + 2, y + height - 5, barWidth,barHeight).color(new Color(20,20,20,getAlpha(255))).push(e);
+                    GradientRectangle.create(x + 2, y + height - 5, MathHelper.clamp_float(animatedBarWidth,0,barWidth), barHeight).firstColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha()))).secondColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha())).darker()).gradientMode(GradientMode.VERTICAL).push(e);
+                    break;
             }
-            CFonts.SFPT_MEDIUM_18.drawStringWithShadow(entityName, x + 2 + headSize, y + 1, new Color(255, 255, 255, getAlpha(255)));
-            CFonts.SFPT_REGULAR_18.drawStringWithShadow("Health: " + String.format("%.1f", entityHealth), x + 2 + headSize, y + 11, new Color(255, 255, 255, getAlpha(255)));
-            CFonts.SFPT_REGULAR_18.drawStringWithShadow("Distance: " + String.format("%.1f", entityDistance), x + 2 + headSize, y + 21, new Color(255, 255, 255, getAlpha(150)));
-            Rectangle.create(x + 2, y + height - 5, barWidth,barHeight).color(new Color(20,20,20,getAlpha(255))).push(e);
-            GradientRectangle.create(x + 2, y + height - 5, MathHelper.clamp_float(animatedBarWidth,0,barWidth), barHeight).firstColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha()))).secondColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha())).darker()).gradientMode(GradientMode.VERTICAL).push(e);
 
         } catch (IllegalArgumentException error) {
             error.printStackTrace();
