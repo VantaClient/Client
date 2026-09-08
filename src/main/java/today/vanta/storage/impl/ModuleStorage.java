@@ -101,6 +101,7 @@ public class ModuleStorage extends Storage<Module> {
         list.add(new TimerDisplay());
         list.add(new Notifications());
         list.add(new TargetHUDRecode());
+        list.add(new MediaInfo());
 
         for (Module mod : list) {
             this.context = mod;

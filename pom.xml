@@ -102,12 +102,6 @@
             <systemPath>${project.basedir}/release/ViaRewind-4.1.1-downgraded.jar</systemPath>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.Redstonecrafter0</groupId>
-            <artifactId>MediaPlayerInfo</artifactId>
-            <version>0.1.0</version>
-            <systemPath>${project.basedir}/release/MediaPlayerInfo-0.1.0.jar</systemPath>
-        </dependency>
 
         <dependency>
             <groupId>fr.litarvan</groupId>
