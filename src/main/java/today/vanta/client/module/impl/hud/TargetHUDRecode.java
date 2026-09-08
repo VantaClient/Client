@@ -9,8 +9,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Mouse;
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
+import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
 import today.vanta.client.module.impl.client.ClientSettings;
@@ -34,15 +36,18 @@ import java.awt.*;
 import java.util.Objects;
 
 public class TargetHUDRecode extends Module {
+    private final NumberSetting
+            x = Setting.of("X position", 20, 0, 2000),
+            y = Setting.of("Y position", 20, 0, 2000);
     private final StringSetting mode = Setting.of("Mode", "Vanta", "Vanta", "Adjust");
-    private final BooleanSetting onlyPlayers = Setting.of("Allow only players", true);
-    private final BooleanSetting useCustom = Setting.of("Use custom animation values", false);
+    private final BooleanSetting
+            onlyPlayers = Setting.of("Allow only players", true),
+            useCustom = Setting.of("Use custom animation values", false);
     private final MultiStringSetting animationProp = Setting.of("Animation", new String[]{"Opacity", "Scale"}, new String[]{"Opacity", "Scale"}).hide(() -> !useCustom.getValue());
-    private final NumberSetting durationVal = Setting.of("Animation duration", 250, 100, 450, 0, "ms").hide(() -> !useCustom.getValue());
-    private final NumberSetting healthDur = Setting.of("Health bar duration",100,50,400,0,"ms").hide(() -> !useCustom.getValue());
-    private final NumberSetting ghostDur = Setting.of("Ghost bar duration",200,100,450,0,"ms").hide(() -> !useCustom.getValue());
-    private float x = 450;
-    private float y = 500;
+    private final NumberSetting
+            durationVal = Setting.of("Animation duration", 250, 100, 450, 0, "ms").hide(() -> !useCustom.getValue()),
+            healthDur = Setting.of("Health bar duration",100,50,400,0,"ms").hide(() -> !useCustom.getValue()),
+            ghostDur = Setting.of("Ghost bar duration",200,100,450,0,"ms").hide(() -> !useCustom.getValue());
     private float width = 120;
     private float height = 38;
     private EntityLivingBase entity;
@@ -78,6 +83,11 @@ public class TargetHUDRecode extends Module {
     private float animatedGhostBar;
     private float targetBarWidth;
     private float animatedBarWidth;
+    private boolean dragging = false;
+    private float dragX;
+    private float dragY;
+    private float mouseX;
+    private float mouseY;
 
     public TargetHUDRecode() {
         super("TargetHUDRecode", "TargetHUD module but recoded.", Category.HUD);
@@ -170,20 +180,47 @@ public class TargetHUDRecode extends Module {
         }
     }
 
+    private void handleDragging(float mouseX, float mouseY) {
+        if (Mouse.isButtonDown(0)) {
+            if (!dragging && RenderUtil.hovered(mouseX, mouseY, x.getValue().floatValue(), y.getValue().floatValue(), width, height)) {
+                dragging = true;
+                dragX = mouseX - x.getValue().floatValue();
+                dragY = mouseY - y.getValue().floatValue();
+            }
+
+            if (dragging) {
+                x.setValue(mouseX - dragX);
+                y.setValue(mouseY - dragY);
+            }
+        } else {
+            dragging = false;
+        }
+    }
+
     private int getAlpha(int alpha) {
         return (int) (alpha * animatedScale);
+    }
+
+    @EventListen
+    private void onRenderScreen(RenderScreenEvent event) {
+        mouseX = event.mouseX;
+        mouseY = event.mouseY;
+        if (mc.currentScreen instanceof GuiChat) {
+            handleDragging(mouseX,mouseY);
+        }
     }
 
     private Animation barAnimation;
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent e) {
-        checkState();
+        checkState();;
+        Color white = new Color(255,255,255,getAlpha(255));
         ghostDuration = ghostDur.getValue().intValue();
         duration = durationVal.getValue().intValue();
         healthDuration = healthDur.getValue().intValue();
         Color color1 = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0];
-        float centerX = x + width / 2;
-        float centerY = y + height / 2;
+        float centerX = x.getValue().floatValue() + width / 2;
+        float centerY = y.getValue().floatValue() + height / 2;
         float headSize;
         float bar = barWidth * (entityHealth / entityMaxHealth);
         if (bar != targetBarWidth) {
@@ -196,6 +233,10 @@ public class TargetHUDRecode extends Module {
 //                can = true;
                 oldTargetName = entityName;
                 oldMode = mode.getValue();
+                return;
+            }
+            if (animatedGhostBar < animatedBarWidth) {
+                animatedGhostBar = animatedBarWidth;
                 return;
             }
 
@@ -223,15 +264,23 @@ public class TargetHUDRecode extends Module {
                 return;
             }
 
+            if (animatedGhostBar < animatedBarWidth) {
+                animatedGhostBar = animatedBarWidth;
+                return;
+            }
+
+
+
             barAnimation = Animation.create(
                     animatedGhostBar,
                     targetGhostBar,
                     ghostDuration,
                     Easing.LINEAR,
-                    val -> animatedBarWidth = val
+                    val -> animatedGhostBar = val
             );
 
             barAnimation.start();
+
         }
         GlStateManager.pushMatrix();
         if (!animationProp.isHidden() && animationProp.isEnabled("Scale")) {
@@ -239,67 +288,69 @@ public class TargetHUDRecode extends Module {
             GlStateManager.scale(animatedScale, animatedScale, 1);
             GlStateManager.translate(-centerX, -centerY, 0);
         }
-        try {
-            switch (mode.getValue()) {
-                case "Vanta":
-                    barWidth = width - 4;
-                    width = 120;
-                    height = 38;
-                    Rectangle.create(x, y, width, height).color(new Color(20, 20, 20, getAlpha(190))).push(e);
-                    if (entityIsPlayer) {
-                        headSize = height - 7;
-                        RenderUtil.renderHead(e, entityLocationSkin, x + 2, y + 2, headSize - 2, new Color(255, 255, 255, getAlpha(255)));
-                    } else {
-                        headSize = 0;
-                    }
-                    CFonts.SFPT_MEDIUM_18.drawStringWithShadow(entityName, x + 2 + headSize, y + 1, new Color(255, 255, 255, getAlpha(255)));
-                    CFonts.SFPT_REGULAR_18.drawStringWithShadow("Health: " + String.format("%.1f", entityHealth), x + 2 + headSize, y + 11, new Color(255, 255, 255, getAlpha(255)));
-                    CFonts.SFPT_REGULAR_18.drawStringWithShadow("Distance: " + String.format("%.1f", entityDistance), x + 2 + headSize, y + 21, new Color(255, 255, 255, getAlpha(150)));
-                    Rectangle.create(x + 2, y + height - 5, barWidth,barHeight).color(new Color(20,20,20,getAlpha(255))).push(e);
-                    GradientRectangle.create(x + 2, y + height - 5, MathHelper.clamp_float(animatedBarWidth,0,barWidth), barHeight).firstColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha()))).secondColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha())).darker()).gradientMode(GradientMode.VERTICAL).push(e);
-                    break;
-                case "Adjust":
-                    barWidth = width - 4;
-                    width = 100;
-                    height = 30;
-                    float space = 24.5f;
-                    float length = CFonts.getFont("T-Regular", 14).getStringWidth(String.format("%.1f", mc.thePlayer.getHealth() - entityHealth));
+        // added this check because text in vanta defaults to 255 if alpha is 0
+        if (animatedScale > 0.03f) {
+            try {
+                switch (mode.getValue()) {
+                    case "Vanta":
+                        barWidth = width - 4;
+                        width = 120;
+                        height = 38;
+                        Rectangle.create(x.getValue().floatValue(), y.getValue().floatValue(), width, height).color(new Color(20, 20, 20, getAlpha(190))).push(e);
+                        if (entityIsPlayer) {
+                            headSize = height - 7;
+                            RenderUtil.renderHead(e, entityLocationSkin, x.getValue().floatValue() + 2, y.getValue().floatValue() + 2, headSize - 2, white);
+                        } else {
+                            headSize = 0;
+                        }
+                        CFonts.SFPT_MEDIUM_18.drawStringWithShadow(entityName, x.getValue().floatValue() + 2 + headSize, y.getValue().floatValue() + 1, white);
+                        CFonts.SFPT_REGULAR_18.drawStringWithShadow("Health: " + String.format("%.1f", entityHealth), x.getValue().floatValue() + 2 + headSize, y.getValue().floatValue() + 11, white);
+                        CFonts.SFPT_REGULAR_18.drawStringWithShadow("Distance: " + String.format("%.1f", entityDistance), x.getValue().floatValue() + 2 + headSize, y.getValue().floatValue() + 21, white);
+                        Rectangle.create(x.getValue().floatValue() + 2, y.getValue().floatValue() + height - 5, barWidth, barHeight).color(new Color(20, 20, 20, getAlpha(255))).push(e);
+                        GradientRectangle.create(x.getValue().floatValue() + 2, y.getValue().floatValue() + height - 5, MathHelper.clamp_float(animatedBarWidth, 0, barWidth), barHeight).firstColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha()))).secondColor(new Color(color1.getRed(), color1.getGreen(), color1.getBlue(), getAlpha(color.getAlpha())).darker()).gradientMode(GradientMode.VERTICAL).push(e);
+                        break;
+                    case "Adjust":
+                        barWidth = width - 4;
+                        width = 100;
+                        height = 30;
+                        float space = 24.5f;
+                        float length = CFonts.getFont("T-Regular", 14).getStringWidth(String.format("%.1f", mc.thePlayer.getHealth() - entityHealth));
 
-                    Rectangle
-                            .create(x, y, width, height)
-                            .color(new Color(10,10,10,getAlpha(190)))
-                            .push(e);
+                        Rectangle
+                                .create(x.getValue().floatValue(), y.getValue().floatValue(), width, height)
+                                .color(new Color(10, 10, 10, getAlpha(190)))
+                                .push(e);
 
-                    if (entityIsPlayer) {
-                        RenderUtil.renderHead(
-                                e,
-                                entityLocationSkin,
-                                x + 2,
-                                y + 2,
-                                20.0F,
-                                getDamageHeadTint()
-                        );
-                    }
+                        if (entityIsPlayer) {
+                            RenderUtil.renderHead(
+                                    e,
+                                    entityLocationSkin,
+                                    x.getValue().floatValue() + 2,
+                                    y.getValue().floatValue() + 2,
+                                    20.0F,
+                                    getDamageHeadTint()
+                            );
+                        }
 
-                    CFonts.getFont("T-Regular", 16).drawStringWithShadow(entityName, x + 23, y + 1, new Color(255,255,255,getAlpha(255)));
+                        CFonts.getFont("T-Regular", 16).drawStringWithShadow(entityName, x.getValue().floatValue() + 23, y.getValue().floatValue() + 1, white);
 
-                    Rectangle
-                            .create(x + 1.75f, y + space - 0.25f, barWidth + 0.5f, 3.75f)
-                            .color(new Color(10,10,10, getAlpha(255)))
-                            .push(e);
+                        Rectangle
+                                .create(x.getValue().floatValue() + 1.75f, y.getValue().floatValue() + space - 0.25f, barWidth + 0.5f, 3.75f)
+                                .color(new Color(10, 10, 10, getAlpha(255)))
+                                .push(e);
 
-                    Rectangle
-                            .create(x + 2, y + space, animatedGhostBar, 3f)
-                            .color(new Color(color.getRed(),color.getBlue(),color.getGreen(),getAlpha(color.getAlpha())).darker())
-                            .push(e);
+                        Rectangle
+                                .create(x.getValue().floatValue() + 2, y.getValue().floatValue() + space, MathHelper.clamp_float(animatedGhostBar, 0, barWidth), 3f)
+                                .color(new Color(color1.getRed(), color1.getBlue(), color1.getGreen(), getAlpha(color1.getAlpha())).darker())
+                                .push(e);
 
-                    Rectangle
-                            .create(x + 2, y + space, animatedBarWidth, 3f)
-                            .color(new Color(color.getRed(),color.getBlue(),color.getGreen(),getAlpha(color.getAlpha())))
-                            .push(e);
+                        Rectangle
+                                .create(x.getValue().floatValue() + 2, y.getValue().floatValue() + space, MathHelper.clamp_float(animatedBarWidth, 0, barWidth), 3f)
+                                .color(new Color(color1.getRed(), color1.getBlue(), color1.getGreen(), getAlpha(color1.getAlpha())))
+                                .push(e);
 
-                    float itemX = x + 10 + 2;
-                    float itemY = y + 10;
+                        float itemX = x.getValue().floatValue() + 10 + 2;
+                        float itemY = y.getValue().floatValue() + 10;
 
 //                    if (entityIsPlayer) {
 //                        if (entityCurrentItem != null) {
@@ -328,12 +379,13 @@ public class TargetHUDRecode extends Module {
 //                        }
 //                    }
 
-                    CFonts.getFont("T-Regular", 14).drawStringWithShadow(String.format("%.1f", mc.thePlayer.getHealth() - entityHealth), x + width - (length) - 2, y + 15, new Color(255,255,255,getAlpha(255)));
-                    break;
-            }
+                        CFonts.getFont("T-Regular", 14).drawStringWithShadow(String.format("%.1f", mc.thePlayer.getHealth() - entityHealth), x.getValue().floatValue() + width - (length) - 2, y.getValue().floatValue() + 15, white);
+                        break;
+                }
 
-        } catch (IllegalArgumentException error) {
-            error.printStackTrace();
+            } catch (IllegalArgumentException error) {
+                error.printStackTrace();
+            }
         }
         GlStateManager.popMatrix();
 
