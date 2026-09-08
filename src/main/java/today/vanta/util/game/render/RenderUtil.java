@@ -6,6 +6,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.entity.EntityLivingBase;
@@ -36,6 +37,8 @@ import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 
 public class RenderUtil {
     private static final Minecraft mc = Minecraft.getMinecraft();
+    private static byte[] lastCoverArtBytes = null;
+    private static int coverArtTextureId = -1;
 
     public static boolean hovered(float mouseX, float mouseY, float x, float y, float width, float height) {
         return mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
@@ -319,6 +322,33 @@ public class RenderUtil {
         renderItemIntoGUIFullBright(stack, 0, 0);
 
         GlStateManager.popMatrix();
+    }
+
+    public static int getCoverArtTextureId(byte[] coverBytes) {
+        if (coverBytes == lastCoverArtBytes) {
+            return coverArtTextureId;
+        }
+        lastCoverArtBytes = coverBytes;
+
+        if (coverArtTextureId != -1) {
+            GlStateManager.deleteTexture(coverArtTextureId);
+            coverArtTextureId = -1;
+        }
+
+        if (coverBytes == null) {
+            return -1;
+        }
+
+        try {
+            BufferedImage image = ImageIO.read(new ByteArrayInputStream(coverBytes));
+            if (image != null) {
+                coverArtTextureId = new DynamicTexture(image).getGlTextureId();
+            }
+        } catch (Exception ignored) {
+            // bad/partial image data — leave coverArtTextureId at -1
+        }
+
+        return coverArtTextureId;
     }
 
     public static void renderItemIntoGUIFullBright(ItemStack stack, float x, float y) {

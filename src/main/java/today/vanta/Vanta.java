@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import today.vanta.storage.impl.*;
 import today.vanta.util.client.Strings;
+import today.vanta.util.client.music.MediaGrabber;
 import today.vanta.util.game.events.bus.EventBus;
 import today.vanta.util.system.FileUtil;
 import today.vanta.util.system.lwjgl.imgui.ImGuiImpl;
@@ -49,6 +50,7 @@ public enum Vanta {
         processorStorage.subscribe();
         fileStorage.subscribe();
         accountStorage.subscribe();
+        MediaGrabber.start();
     }
 
     public void stop() {
