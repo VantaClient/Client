@@ -1,4 +1,2 @@
-- Better font renderer?
-- Fade animation to targethud on draw and before ending render
-- Notification System
+- Notification System ( genuinely bad but kinda finished)
 - Nearest Hit Vec on Killaura option
