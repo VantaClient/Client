@@ -213,7 +213,7 @@ public class TargetHUDRecode extends Module {
     private Animation barAnimation;
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent e) {
-        checkState();;
+        checkState();
         Color white = new Color(255,255,255,getAlpha(255));
         ghostDuration = ghostDur.getValue().intValue();
         duration = durationVal.getValue().intValue();

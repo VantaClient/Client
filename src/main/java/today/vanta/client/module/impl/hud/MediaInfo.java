@@ -1,7 +1,9 @@
 package today.vanta.client.module.impl.hud;
 
+import org.lwjgl.input.Mouse;
 import today.vanta.Vanta;
 import today.vanta.client.event.impl.client.RenderOverlayEvent;
+import today.vanta.client.event.impl.client.RenderScreenEvent;
 import today.vanta.client.module.Category;
 import today.vanta.client.module.Module;
 import today.vanta.client.module.impl.client.ClientSettings;
@@ -24,16 +26,42 @@ public class MediaInfo extends Module {
     private int width = 120;
     private int height = 50;
     private int progressBarHeight = 3;
+    private boolean dragging;
+    private float dragX;
+    private float dragY;
     public MediaInfo() {
         super("MediaInfo", "Displays playing media.", Category.HUD);
     }
+    private void handleDragging(float mouseX, float mouseY) {
+        if (Mouse.isButtonDown(0)) {
+            if (!dragging && RenderUtil.hovered(mouseX, mouseY, x.getValue().floatValue(), y.getValue().floatValue(), width, height)) {
+                dragging = true;
+                dragX = mouseX - x.getValue().floatValue();
+                dragY = mouseY - y.getValue().floatValue();
+            }
+
+            if (dragging) {
+                x.setValue(mouseX - dragX);
+                y.setValue(mouseY - dragY);
+            }
+        } else {
+            dragging = false;
+        }
+    }
+
+    @EventListen
+    private void onRenderScreen(RenderScreenEvent event) {
+        handleDragging(event.mouseX,event.mouseY);
+    }
+
 
     @EventListen
     private void onRenderOverlay(RenderOverlayEvent event) {
         float x = this.x.getValue().floatValue();
         float y = this.y.getValue().floatValue();
-        float bar = (float) ((width - 4) * MediaGrabber.getMillisPosition()) / MediaGrabber.getMillisLength();
-        height = 30;
+        float bar = (float) ((width - 2 -  height) * MediaGrabber.getMillisPosition()) / MediaGrabber.getMillisLength();
+        height = 35;
+        width = 150;
         Color[] color = Vanta.instance.moduleStorage.getT(ClientSettings.class).colors;
         Rectangle
                 .create(x,y,width,height)
@@ -41,16 +69,20 @@ public class MediaInfo extends Module {
                 .push(event);
         int coverTextureId = RenderUtil.getCoverArtTextureId(MediaGrabber.getCoverBytes());
 
-        ImageRectangle.create(x, y, 32, 32, coverTextureId)
+        Rectangle
+                .create(x + 1, y + 1, height - 2,height - 2)
+                        .color(new Color(40,40,40,255))
+                                .push(event);
+        ImageRectangle.create(x + 2, y + 2, height - 4, height - 4, coverTextureId)
                 .push(event);
 
-        CFonts.SFPT_REGULAR_18.drawStringWithShadow(MediaGrabber.getTitle(),x + 2,y + 2,Color.white);
-        CFonts.getFont("SFPT-Regular", 16).drawStringWithShadow(MediaGrabber.getArtist(),x + 2,y + 11,new Color(200,200,200,255));
+        CFonts.getFont("SFPT-Regular", 20).drawStringWithShadow(MediaGrabber.getTitle(),x + 3 + height - 2,y + 2,Color.white);
+        CFonts.getFont("SFPT-Regular", 18).drawStringWithShadow(MediaGrabber.getArtist(),x + 3 + height - 2,y + 13,new Color(200,200,200,255));
 
-        Rectangle.create(x + 2,y + height - progressBarHeight - 2,width - 4,progressBarHeight)
+        Rectangle.create(x + 1 + height,y + height - progressBarHeight - 2,width - 4 - height,progressBarHeight)
                 .color(new Color(20,20,20,255))
                 .push(event);
-        Rectangle.create(x + 2,y + height - progressBarHeight - 2,bar,progressBarHeight)
+        Rectangle.create(x + 1 + height,y + height - progressBarHeight - 2,bar,progressBarHeight)
                 .color(color[0])
                 .push(event);
     }
