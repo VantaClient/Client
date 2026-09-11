@@ -49,6 +49,9 @@ public class CickGIUScreen extends VantaScreen {
     private Category currentCategory = Category.COMBAT;
     private ArrayList<Module> expandedModules = new ArrayList<>();
 
+    private NumberSetting draggingSlider;
+
+
     @Override
     protected void initScreen() {
         if (x == -999 || y == -999) {
@@ -163,18 +166,53 @@ public class CickGIUScreen extends VantaScreen {
         }
 
         if (setting instanceof NumberSetting) {
+            NumberSetting numberSetting = (NumberSetting) setting;
             float sliderWidth = width - 8;
             float sliderHeight = 2;
-            float sliderProgress = sliderWidth * (((NumberSetting) setting).getValue().floatValue() / ((NumberSetting) setting).max.floatValue());
+            float sliderY = y + 11 - textOffset;
             float sliderPointerHeight = 3;
             float sliderPointerWidth = 2;
-            font.drawStringWithShadow(setting.name,x,y - textOffset,Color.white);
-            font.drawStringWithShadow(String.valueOf(setting.getValue()),x + sliderWidth - font.getStringWidth(String.valueOf(((NumberSetting) setting).getValue().doubleValue())),y - textOffset,Color.white);
-            Rectangle.create(x,y + 11 - textOffset,sliderWidth,sliderHeight).color(new Color(50,50,50,255)).push(renderable);
-            GradientRectangle.create(x,y + 11 - textOffset,sliderProgress,sliderHeight).firstColor(color1).secondColor(color1.darker()).gradientMode(GradientMode.VERTICAL).push(renderable);
-            Rectangle.create(x + sliderProgress,y + 10.5f - textOffset,sliderPointerWidth,sliderPointerHeight).color(Color.white).push(renderable);
-        }
 
+            double min = numberSetting.min.doubleValue();
+            double max = numberSetting.max.doubleValue();
+            double range = max - min;
+
+            boolean hoverSlider = RenderUtil.hovered(mouseX, mouseY, x, sliderY - 3, sliderWidth, sliderHeight + 6);
+
+            if (hoverSlider && Mouse.isButtonDown(0) && !hasLeftClicked) {
+                draggingSlider = numberSetting;
+                hasLeftClicked = true;
+            }
+
+            if (draggingSlider == numberSetting) {
+                if (Mouse.isButtonDown(0)) {
+                    double relativeX = mouseX - x;
+                    relativeX = Math.max(0, Math.min(sliderWidth, relativeX));
+                    double percent = range == 0 ? 0 : relativeX / sliderWidth;
+                    double rawValue = min + percent * range;
+                    rawValue = Math.max(min, Math.min(max, rawValue));
+
+                    double factor = Math.pow(10, numberSetting.places);
+                    double rounded = Math.round(rawValue * factor) / factor;
+
+                    if (numberSetting.places == 0) {
+                        numberSetting.setValue((int) rounded);
+                    } else {
+                        numberSetting.setValue(rounded);
+                    }
+                } else {
+                    draggingSlider = null;
+                }
+            }
+
+            float sliderProgress = (float) (sliderWidth * ((numberSetting.getValue().doubleValue() - min) / range));
+
+            font.drawStringWithShadow(setting.name, x, y - textOffset, Color.white);
+            font.drawStringWithShadow(String.valueOf(setting.getValue()) + numberSetting.suffix, x + sliderWidth - font.getStringWidth(String.valueOf(numberSetting.getValue().doubleValue()) + numberSetting.suffix), y - textOffset, Color.white);
+            Rectangle.create(x, sliderY, sliderWidth, sliderHeight).color(new Color(50, 50, 50, 255)).push(renderable);
+            GradientRectangle.create(x, sliderY, sliderProgress, sliderHeight).firstColor(color1).secondColor(color1.darker()).gradientMode(GradientMode.VERTICAL).push(renderable);
+            Rectangle.create(x + sliderProgress, sliderY - 0.5f, sliderPointerWidth, sliderPointerHeight).color(Color.white).push(renderable);
+        }
         if (setting instanceof StringSetting) {
             font.drawStringWithShadow(setting.name,x,y - textOffset, Color.white);
             font.drawStringWithShadow( ((StringSetting) setting).expanded ? "- " : "+ " +  ((StringSetting) setting).getValue(),x + width - 8 - font.getStringWidth(((StringSetting) setting).expanded ? "- " : "+ " +  ((StringSetting) setting).getValue()),y - textOffset,Color.white);
@@ -273,6 +311,6 @@ public class CickGIUScreen extends VantaScreen {
 
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
-       // empty
+        draggingSlider = null;
     }
 }
