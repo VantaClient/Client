@@ -17,7 +17,7 @@ public class ClickGUI extends Module {
             gradientBackground = Setting.of("Gradient background", true),
             image = Setting.of("Image", false);
 
-    public final StringSetting design = Setting.of("Design", "Dropdown", "Dropdown", "ImGui", "Boxy", "Experimental");
+    public final StringSetting design = Setting.of("Design", "Dropdown", "Dropdown", "ImGui", "Boxy", "Experimental", "New DropDown");
     public final StringSetting mascot = Setting.of("Mascot", "longboy", "ermwhat", "silly", "cousin", "longboy", "mj", "mj2", "mj3").hide(() -> !image.getValue());
 
     public ClickGUI() {
@@ -35,6 +35,7 @@ public class ClickGUI extends Module {
     private ImGuiClickGUIScreen imGuiClickGuiScreen;
     private BoxyClickGUIScreen boxyClickGUIScreen;
     private CickGIUScreen cickGIUScreen;
+    private DropDownGUI dropDownGUI;
 
     @Override
     public void onEnable() {
@@ -60,6 +61,10 @@ public class ClickGUI extends Module {
             cickGIUScreen = Vanta.instance.screenStorage.getT(CickGIUScreen.class);
         }
 
+        if (dropDownGUI == null) {
+            dropDownGUI = Vanta.instance.screenStorage.getT(DropDownGUI.class);
+        }
+
         switch (design.getValue()) {
             case "ImGui":
                 return imGuiClickGuiScreen;
@@ -69,6 +74,9 @@ public class ClickGUI extends Module {
 
             case "Experimental":
                 return cickGIUScreen;
+
+            case "New DropDown":
+                return dropDownGUI;
 
             case "Dropdown":
             default:
