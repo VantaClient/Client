@@ -26,6 +26,7 @@ import today.vanta.util.game.render.font.impl.MsdfFontRenderer;
 import today.vanta.util.game.render.shape.GradientMode;
 import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
+import today.vanta.util.system.math.ColorUtil;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class DropDownGUI extends VantaScreen {
     private float categoryRectHeight = 13f;
     private float moduleRectHeight = 12f;
 
-    private int modulePadding = 1;
+    private int modulePadding = 2;
     private int spaceBetween = 5;
 
     private float x = width / 2;
@@ -109,14 +110,16 @@ public class DropDownGUI extends VantaScreen {
                     }
                 }
             }
-            Rectangle.create(drawX,y + categoryRectHeight,panelWidth,(moduleRectHeight + modulePadding) * Vanta.instance.moduleStorage.getModulesByCategory(category).size() + modulePadding + settingHeight).color(BACKGROUND).push(event);
-            float mY = y + categoryRectHeight + modulePadding;
-            float mX = drawX + modulePadding;
+            float mY = y + categoryRectHeight;
+            float mX = drawX;
             for (Module module : Vanta.instance.moduleStorage.getModulesByCategory(category)) {
-                Rectangle.create(mX,mY,panelWidth - (modulePadding * 2),moduleRectHeight)
-                        .color(BACKGROUND)
+                Rectangle.create(mX,mY + 1,panelWidth,moduleRectHeight + 2).color(BACKGROUND).push(event);
+                GradientRectangle.create(mX + modulePadding,mY + modulePadding,panelWidth - (modulePadding * 2),moduleRectHeight)
+                        .firstColor(BACKGROUND)
+                        .secondColor(module.isEnabled() ? colors[0] : ColorUtil.getDarker(BACKGROUND,2))
+                        .gradientMode(GradientMode.HORIZONTAL)
                         .push(event);
-                font.drawStringWithShadow(module.name,mX + modulePadding,mY + (moduleRectHeight / 2) - ((float) font.getFontHeight() / 2),white);
+                font.drawStringWithShadow(module.name,mX + modulePadding + 1,mY + (moduleRectHeight / 2) - ((float) font.getFontHeight() / 2) + (modulePadding / 2),white);
                 boolean mHovered = RenderUtil.hovered(event.mouseX,event.mouseY,mX,mY,panelWidth - (modulePadding * 2),moduleRectHeight);
                 if (mHovered) {
                     if (Mouse.isButtonDown(1) && !hasRightClicked) {
@@ -129,16 +132,16 @@ public class DropDownGUI extends VantaScreen {
                     } else {
                     }
                 }
-                float sY = mY + moduleRectHeight;
+                float sY = mY + moduleRectHeight + modulePadding;
                 if (module.isExpanded()) {
-                    Rectangle.create(mX,sY,panelWidth - (modulePadding * 2),settingHeight).color(BACKGROUND).push(event);
+                    Rectangle.create(mX,sY,panelWidth - (modulePadding * 2),settingHeight + 1).color(BACKGROUND).push(event);
                     for (Setting setting : module.settings) {
                         renderSetting(setting,event.mouseX,event.mouseY,mX + modulePadding,sY + 3,panelWidth - (modulePadding * 2),event);
                         sY += getSettingHeight(setting);
                     }
                     sY += 2;
                 }
-                mY += moduleRectHeight + modulePadding + (module.isExpanded() ? sY - mY - moduleRectHeight : 0);
+                mY += (moduleRectHeight) + modulePadding + (module.isExpanded() ? settingHeight + 1 : 0);
             }
             drawX += panelWidth + spaceBetween;
             renderDescription(event.mouseX,event.mouseY,event);
@@ -153,6 +156,7 @@ public class DropDownGUI extends VantaScreen {
 
     private void renderSetting(Setting setting, float mouseX, float mouseY, float x, float y, float width, Renderable renderable) {
         float textOffset = 2.3f;
+        int padding = 1;
         if (setting instanceof BooleanSetting) {
             int booleanSize = 7;
             float outlineMinusThing = 1f;
@@ -164,7 +168,7 @@ public class DropDownGUI extends VantaScreen {
                     hasLeftClicked = true;
                 }
             }
-            smallFont.drawStringWithShadow(setting.name,x,y - textOffset,Color.white);
+            smallFont.drawStringWithShadow(setting.name,x + padding,y - textOffset,Color.white);
             Rectangle.create(toggleX,y - outlineMinusThing,booleanSize,booleanSize).color(new Color(50,50,50,255)).push(renderable);
             Rectangle
                     .create(toggleX + outlineMinusThing ,y,booleanSize - (outlineMinusThing * 2),booleanSize - (outlineMinusThing * 2)).color(setting.getValue().equals(true) ? colors[0] : Color.black).push(renderable);
