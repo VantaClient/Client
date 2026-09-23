@@ -393,11 +393,11 @@ public class TargetHUDRecode extends Module {
                         String dif = "0";
 
                         if (mc.thePlayer.getHealth() > entityHealth) {
-                            dif = "+" + String.format("%.1f", mc.thePlayer.getHealth() - entityHealth);
+                            dif = EnumChatFormatting.DARK_RED + "+" + String.format("%.1f", mc.thePlayer.getHealth() - entityHealth);
                         } else if (mc.thePlayer.getHealth() == entityHealth) {
                             dif = String.format("%.1f", mc.thePlayer.getHealth() - entityHealth);
                         } else if (mc.thePlayer.getHealth() < entityHealth) {
-                            dif = "-" + String.format("%.1f", mc.thePlayer.getHealth() - entityHealth);
+                            dif = EnumChatFormatting.DARK_GREEN + "-" + String.format("%.1f", mc.thePlayer.getHealth() - entityHealth);
                         }
 
                         if (mc.thePlayer.getHealth() > entityHealth) {
