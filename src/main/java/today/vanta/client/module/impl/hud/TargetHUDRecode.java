@@ -432,12 +432,22 @@ public class TargetHUDRecode extends Module {
 
                         Rectangle
                                 .create(x.getValue().floatValue() + outlineWidth, y.getValue().floatValue() + outlineWidth, width - (outlineWidth * 2), height - (outlineWidth * 2))
-                                        .color(new Color(20,20,20,175))
+                                        .color(getColorWAlpha(new Color(20,20,20,190)))
                                                 .push(e);
 
                         mc.fontRendererObj.drawStringWithShadow(entityDisplayName,x.getValue().floatValue() + padding + outlineWidth,y.getValue().floatValue() + padding + outlineWidth, getColorWAlpha(Color.white));
                         mc.fontRendererObj.drawStringWithShadow(ratio,x.getValue().floatValue() + width - outlineWidth - padding,y.getValue().floatValue() + padding + outlineWidth, getColorWAlpha(Color.white));
 
+                        Rectangle
+                                .create(x.getValue().floatValue() + outlineWidth + 2,y.getValue().floatValue() + 13, barWidth, barHeight)
+                                .color(getColorWAlpha(new Color(20,20,20,255)))
+                                .push(e);
+                        Rectangle
+                                .create(x.getValue().floatValue() + outlineWidth + 2, y.getValue().floatValue() + height - barWidth - 2, bar, barHeight)
+                                .color(getColorWAlpha(color1))
+                                .push(e);
+
+                        mc.fontRendererObj.drawStringWithShadow(EnumChatFormatting.RED + "❤ " + EnumChatFormatting.WHITE + entityHealth,x.getValue().floatValue() + outlineWidth + 2 + padding, y.getValue().floatValue() + height - barWidth - mc.fontRendererObj.getFontHeight() - padding, getColorWAlpha(Color.white));
                         break;
                 }
 
