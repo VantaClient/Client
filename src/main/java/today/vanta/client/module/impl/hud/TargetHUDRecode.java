@@ -390,6 +390,15 @@ public class TargetHUDRecode extends Module {
                         // i made this without even launching the game
                         float nameWidth = mc.fontRendererObj.getStringWidth(entityDisplayName);
                         String ratio = "W";
+                        String dif = "0";
+
+                        if (mc.thePlayer.getHealth() > entityHealth) {
+                            dif = "+" + String.format("%.1f", mc.thePlayer.getHealth() - entityHealth);
+                        } else if (mc.thePlayer.getHealth() == entityHealth) {
+                            dif = String.format("%.1f", mc.thePlayer.getHealth() - entityHealth);
+                        } else if (mc.thePlayer.getHealth() < entityHealth) {
+                            dif = "-" + String.format("%.1f", mc.thePlayer.getHealth() - entityHealth);
+                        }
 
                         if (mc.thePlayer.getHealth() > entityHealth) {
                             ratio = EnumChatFormatting.GREEN + "W";
@@ -415,8 +424,8 @@ public class TargetHUDRecode extends Module {
                         }
 
                         if (headSize + nameWidth + (padding * 2) + mc.fontRendererObj.getStringWidth(ratio) > width) {
-                            float dif = Math.min(nameWidth + (padding * 2) + mc.fontRendererObj.getStringWidth(ratio) - width,0);
-                            width += dif;
+                            float differ = Math.min(nameWidth + (padding * 2) + mc.fontRendererObj.getStringWidth(ratio) - width,0);
+                            width += differ;
                         }
 
 
@@ -456,7 +465,9 @@ public class TargetHUDRecode extends Module {
                                 .color(getColorWAlpha(color1))
                                 .push(e);
 
-                        mc.fontRendererObj.drawStringWithShadow(EnumChatFormatting.RED + "❤ " + EnumChatFormatting.WHITE + entityHealth,x.getValue().floatValue() + outlineWidth + 2 + padding, y.getValue().floatValue() + height - barWidth - mc.fontRendererObj.getFontHeight() - padding, getColorWAlpha(Color.white));
+                        float barElementsY = y.getValue().floatValue() + height - barWidth - mc.fontRendererObj.getFontHeight() - padding;
+                        mc.fontRendererObj.drawStringWithShadow(EnumChatFormatting.RED + "❤ " + EnumChatFormatting.WHITE + entityHealth,x.getValue().floatValue() + outlineWidth + 2 + padding, barElementsY, getColorWAlpha(Color.white));
+                        mc.fontRendererObj.drawStringWithShadow(dif,x.getValue().floatValue() + outlineWidth + 2 + barWidth - padding, barElementsY, getColorWAlpha(Color.white));
                         break;
                 }
 
