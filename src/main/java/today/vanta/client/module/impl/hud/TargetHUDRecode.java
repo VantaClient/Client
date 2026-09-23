@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
@@ -97,7 +98,7 @@ public class TargetHUDRecode extends Module {
     private void checkState() {
         if (!(mc.currentScreen instanceof GuiChat)) {
             if (TargetProcessor.getInstance().target == null) {
-                if (mc.objectMouseOver.entityHit != null && mc.objectMouseOver.entityHit instanceof EntityLivingBase && !Vanta.instance.moduleStorage.getT(KillAura.class).isEnabled()) {
+                if (mc.objectMouseOver != null && mc.objectMouseOver.entityHit != null && mc.objectMouseOver.entityHit instanceof EntityLivingBase && !Vanta.instance.moduleStorage.getT(KillAura.class).isEnabled()) {
                     entity = (EntityLivingBase) mc.objectMouseOver.entityHit;
                 } else {
                     entity = null;
@@ -199,6 +200,10 @@ public class TargetHUDRecode extends Module {
 
     private int getAlpha(int alpha) {
         return (int) (alpha * animatedScale);
+    }
+
+    private Color getColorWAlpha(Color color) {
+        return new Color(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha() * animatedScale);
     }
 
     @EventListen
@@ -380,6 +385,53 @@ public class TargetHUDRecode extends Module {
 //                    }
 
                         CFonts.getFont("T-Regular", 14).drawStringWithShadow(String.format("%.1f", mc.thePlayer.getHealth() - entityHealth), x.getValue().floatValue() + width - (length) - 2, y.getValue().floatValue() + 15, white);
+                        break;
+                    case "Myau":
+                        // i made this without even launching the game
+                        float nameWidth = mc.fontRendererObj.getStringWidth(entityDisplayName);
+                        String ratio = "W";
+
+                        if (mc.thePlayer.getHealth() > entityHealth) {
+                            ratio = EnumChatFormatting.GREEN + "W";
+                        } else if (mc.thePlayer.getHealth() == entityHealth) {
+                            ratio = EnumChatFormatting.YELLOW + "T";
+                        } else if (entityHealth > mc.thePlayer.getHealth()) {
+                            ratio = EnumChatFormatting.RED + "L";
+                        }
+
+                        int padding = 1;
+                        width = 92;
+                        height = 27;
+                        int outlineWidth = 1;
+
+                        if (nameWidth + (padding * 2) + mc.fontRendererObj.getStringWidth(ratio) > width) {
+                            float dif = Math.min(nameWidth + (padding * 2) + mc.fontRendererObj.getStringWidth(ratio) - width,0);
+                            width += dif;
+                        }
+
+                        Rectangle
+                                .create(x.getValue().floatValue(),y.getValue().floatValue(),outlineWidth,height)
+                                .color(getColorWAlpha(color1))
+                                .push(e);
+                        Rectangle
+                                .create(x.getValue().floatValue(),y.getValue().floatValue(),width,outlineWidth)
+                                .color(getColorWAlpha(color1))
+                                .push(e);
+                        Rectangle
+                                .create(x.getValue().floatValue() + width, y.getValue().floatValue(),outlineWidth,height)
+                                .color(getColorWAlpha(color1))
+                                .push(e);
+                        Rectangle
+                                .create(x.getValue().floatValue(),y.getValue().floatValue() + height,width,outlineWidth)
+                                .color(getColorWAlpha(color1))
+                                .push(e);
+
+                        Rectangle
+                                .create(x.getValue().floatValue() + outlineWidth, y.getValue().floatValue() + outlineWidth, width - 2, height - 2)
+                                        .color(new Color(20,20,20,175))
+                                                .push(e);
+
+                        mc.fontRendererObj.drawStringWithShadow(entityDisplayName,x.getValue().floatValue() + padding + outlineWidth,y.getValue().floatValue() + padding + outlineWidth,1);
                         break;
                 }
 
