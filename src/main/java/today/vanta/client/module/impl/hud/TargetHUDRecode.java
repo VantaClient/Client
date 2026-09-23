@@ -404,10 +404,17 @@ public class TargetHUDRecode extends Module {
                         height = 27;
                         int outlineWidth = 1;
 
+
                         barWidth = width - 2 - (outlineWidth * 2);
                         barHeight = 3f;
 
-                        if (nameWidth + (padding * 2) + mc.fontRendererObj.getStringWidth(ratio) > width) {
+                        if (entityIsPlayer) {
+                            headSize = height - (outlineWidth * 2) - (padding * 2);
+                        } else {
+                            headSize = 0;
+                        }
+
+                        if (headSize + nameWidth + (padding * 2) + mc.fontRendererObj.getStringWidth(ratio) > width) {
                             float dif = Math.min(nameWidth + (padding * 2) + mc.fontRendererObj.getStringWidth(ratio) - width,0);
                             width += dif;
                         }
@@ -435,7 +442,9 @@ public class TargetHUDRecode extends Module {
                                         .color(getColorWAlpha(new Color(20,20,20,190)))
                                                 .push(e);
 
-                        mc.fontRendererObj.drawStringWithShadow(entityDisplayName,x.getValue().floatValue() + padding + outlineWidth,y.getValue().floatValue() + padding + outlineWidth, getColorWAlpha(Color.white));
+                        RenderUtil.renderHead(e, entityLocationSkin, x.getValue().floatValue() + outlineWidth + padding, y.getValue().floatValue() + padding + outlineWidth, headSize, getColorWAlpha(Color.white));
+
+                        mc.fontRendererObj.drawStringWithShadow(entityDisplayName,x.getValue().floatValue() + padding + outlineWidth + headSize,y.getValue().floatValue() + padding + outlineWidth, getColorWAlpha(Color.white));
                         mc.fontRendererObj.drawStringWithShadow(ratio,x.getValue().floatValue() + width - outlineWidth - padding,y.getValue().floatValue() + padding + outlineWidth, getColorWAlpha(Color.white));
 
                         Rectangle
