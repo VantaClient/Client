@@ -404,10 +404,14 @@ public class TargetHUDRecode extends Module {
                         height = 27;
                         int outlineWidth = 1;
 
+                        barWidth = width - 2 - (outlineWidth * 2);
+                        barHeight = 3f;
+
                         if (nameWidth + (padding * 2) + mc.fontRendererObj.getStringWidth(ratio) > width) {
                             float dif = Math.min(nameWidth + (padding * 2) + mc.fontRendererObj.getStringWidth(ratio) - width,0);
                             width += dif;
                         }
+
 
                         Rectangle
                                 .create(x.getValue().floatValue(),y.getValue().floatValue(),outlineWidth,height)
@@ -427,11 +431,13 @@ public class TargetHUDRecode extends Module {
                                 .push(e);
 
                         Rectangle
-                                .create(x.getValue().floatValue() + outlineWidth, y.getValue().floatValue() + outlineWidth, width - 2, height - 2)
+                                .create(x.getValue().floatValue() + outlineWidth, y.getValue().floatValue() + outlineWidth, width - (outlineWidth * 2), height - (outlineWidth * 2))
                                         .color(new Color(20,20,20,175))
                                                 .push(e);
 
-                        mc.fontRendererObj.drawStringWithShadow(entityDisplayName,x.getValue().floatValue() + padding + outlineWidth,y.getValue().floatValue() + padding + outlineWidth,1);
+                        mc.fontRendererObj.drawStringWithShadow(entityDisplayName,x.getValue().floatValue() + padding + outlineWidth,y.getValue().floatValue() + padding + outlineWidth, getColorWAlpha(Color.white));
+                        mc.fontRendererObj.drawStringWithShadow(ratio,x.getValue().floatValue() + width - outlineWidth - padding,y.getValue().floatValue() + padding + outlineWidth, getColorWAlpha(Color.white));
+
                         break;
                 }
 
