@@ -40,7 +40,7 @@ public class TargetHUDRecode extends Module {
     private final NumberSetting
             x = Setting.of("X position", 20, 0, 2000),
             y = Setting.of("Y position", 20, 0, 2000);
-    private final StringSetting mode = Setting.of("Mode", "Vanta", "Vanta", "Adjust");
+    private final StringSetting mode = Setting.of("Mode", "Vanta", "Vanta", "Adjust", "Myau");
     private final BooleanSetting
             onlyPlayers = Setting.of("Allow only players", true),
             useCustom = Setting.of("Use custom animation values", false);
@@ -203,7 +203,7 @@ public class TargetHUDRecode extends Module {
     }
 
     private Color getColorWAlpha(Color color) {
-        return new Color(color.getRed(),color.getGreen(),color.getBlue(),color.getAlpha() * animatedScale);
+        return new Color(color.getRed(),color.getGreen(),color.getBlue(),(int) (color.getAlpha() * animatedScale));
     }
 
     @EventListen
@@ -387,10 +387,10 @@ public class TargetHUDRecode extends Module {
                         CFonts.getFont("T-Regular", 14).drawStringWithShadow(String.format("%.1f", mc.thePlayer.getHealth() - entityHealth), x.getValue().floatValue() + width - (length) - 2, y.getValue().floatValue() + 15, white);
                         break;
                     case "Myau":
-                        // i made this without even launching the game
                         float nameWidth = mc.fontRendererObj.getStringWidth(entityDisplayName);
                         String ratio = "W";
                         String dif = "0";
+
 
                         if (mc.thePlayer.getHealth() > entityHealth) {
                             dif = EnumChatFormatting.DARK_RED + "+" + String.format("%.1f", mc.thePlayer.getHealth() - entityHealth);
@@ -409,13 +409,8 @@ public class TargetHUDRecode extends Module {
                         }
 
                         int padding = 1;
-                        width = 92;
                         height = 27;
-                        int outlineWidth = 1;
-
-
-                        barWidth = width - 2 - (outlineWidth * 2);
-                        barHeight = 3f;
+                        float outlineWidth = 0.5f;
 
                         if (entityIsPlayer) {
                             headSize = height - (outlineWidth * 2) - (padding * 2);
@@ -423,11 +418,15 @@ public class TargetHUDRecode extends Module {
                             headSize = 0;
                         }
 
-                        if (headSize + nameWidth + (padding * 2) + mc.fontRendererObj.getStringWidth(ratio) > width) {
-                            float differ = Math.min(nameWidth + (padding * 2) + mc.fontRendererObj.getStringWidth(ratio) - width,0);
-                            width += differ;
+                        if (nameWidth > 62) {
+                            float differ = nameWidth - 61;
+                            width = 102 + differ;
+                        } else {
+                            width = 102;
                         }
 
+                        barWidth = width - 4 - (outlineWidth * 2) - headSize;
+                        barHeight = 3f;
 
                         Rectangle
                                 .create(x.getValue().floatValue(),y.getValue().floatValue(),outlineWidth,height)
@@ -438,7 +437,7 @@ public class TargetHUDRecode extends Module {
                                 .color(getColorWAlpha(color1))
                                 .push(e);
                         Rectangle
-                                .create(x.getValue().floatValue() + width, y.getValue().floatValue(),outlineWidth,height)
+                                .create(x.getValue().floatValue() + width, y.getValue().floatValue(),outlineWidth,height + 1)
                                 .color(getColorWAlpha(color1))
                                 .push(e);
                         Rectangle
@@ -447,27 +446,27 @@ public class TargetHUDRecode extends Module {
                                 .push(e);
 
                         Rectangle
-                                .create(x.getValue().floatValue() + outlineWidth, y.getValue().floatValue() + outlineWidth, width - (outlineWidth * 2), height - (outlineWidth * 2))
+                                .create(x.getValue().floatValue() + outlineWidth, y.getValue().floatValue() + outlineWidth, width - (outlineWidth), height - outlineWidth)
                                         .color(getColorWAlpha(new Color(20,20,20,190)))
                                                 .push(e);
 
                         RenderUtil.renderHead(e, entityLocationSkin, x.getValue().floatValue() + outlineWidth + padding, y.getValue().floatValue() + padding + outlineWidth, headSize, getColorWAlpha(Color.white));
 
-                        mc.fontRendererObj.drawStringWithShadow(entityDisplayName,x.getValue().floatValue() + padding + outlineWidth + headSize,y.getValue().floatValue() + padding + outlineWidth, getColorWAlpha(Color.white));
-                        mc.fontRendererObj.drawStringWithShadow(ratio,x.getValue().floatValue() + width - outlineWidth - padding,y.getValue().floatValue() + padding + outlineWidth, getColorWAlpha(Color.white));
+                        mc.fontRendererObj.drawStringWithShadow(entityDisplayName,x.getValue().floatValue() + (padding * 2) + outlineWidth + headSize,y.getValue().floatValue() + (padding * 2) + outlineWidth, getColorWAlpha(Color.white));
+                        mc.fontRendererObj.drawStringWithShadow(ratio,x.getValue().floatValue() + width - outlineWidth - padding - mc.fontRendererObj.getStringWidth(ratio),y.getValue().floatValue() + padding + outlineWidth + 1, getColorWAlpha(Color.white));
 
                         Rectangle
-                                .create(x.getValue().floatValue() + outlineWidth + 2,y.getValue().floatValue() + 13, barWidth, barHeight)
+                                .create(x.getValue().floatValue() + outlineWidth + 2.5f + headSize,y.getValue().floatValue() + height - barHeight - 2, barWidth, barHeight)
                                 .color(getColorWAlpha(new Color(20,20,20,255)))
                                 .push(e);
                         Rectangle
-                                .create(x.getValue().floatValue() + outlineWidth + 2, y.getValue().floatValue() + height - barWidth - 2, bar, barHeight)
+                                .create(x.getValue().floatValue() + outlineWidth + 2.5f + headSize, y.getValue().floatValue() + height - barHeight- 2, bar, barHeight)
                                 .color(getColorWAlpha(color1))
                                 .push(e);
 
-                        float barElementsY = y.getValue().floatValue() + height - barWidth - mc.fontRendererObj.getFontHeight() - padding;
-                        mc.fontRendererObj.drawStringWithShadow(EnumChatFormatting.RED + "❤ " + EnumChatFormatting.WHITE + entityHealth,x.getValue().floatValue() + outlineWidth + 2 + padding, barElementsY, getColorWAlpha(Color.white));
-                        mc.fontRendererObj.drawStringWithShadow(dif,x.getValue().floatValue() + outlineWidth + 2 + barWidth - padding, barElementsY, getColorWAlpha(Color.white));
+                        float barElementsY = y.getValue().floatValue() + height - barHeight - 2 - padding;
+                        mc.fontRendererObj.drawStringWithShadow("" + entityHealth + EnumChatFormatting.RED + "❤",x.getValue().floatValue() + outlineWidth + 2 + padding + headSize, barElementsY - mc.fontRendererObj.getFontHeight() + 1, getColorWAlpha(Color.white));
+                        mc.fontRendererObj.drawStringWithShadow(dif,x.getValue().floatValue() + outlineWidth + 2 + barWidth - padding + headSize - mc.fontRendererObj.getStringWidth(dif) + 2, barElementsY - mc.fontRendererObj.getFontHeight() + 1, getColorWAlpha(Color.white));
                         break;
                 }
 

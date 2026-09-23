@@ -54,7 +54,7 @@ public class ClientSettings extends Module {
                 colors = new Color[]{new Color(0xdd1818), new Color(0x333333)};
                 break;
             case "Light":
-                colors = new Color[]{new Color(255, 255, 255, 185), new Color(0x29A6FF)};
+                colors = new Color[]{new Color(255, 255, 255, 255), new Color(0x29A6FF)};
                 break;
             case "ShadowNotro":
                 colors = new Color[]{new Color(255, 0, 181), new Color(28, 0, 100)};

@@ -139,7 +139,6 @@ public class DropDownGUI extends VantaScreen {
                         renderSetting(setting,event.mouseX,event.mouseY,mX + modulePadding,sY + 3,panelWidth - (modulePadding * 2),event);
                         sY += getSettingHeight(setting);
                     }
-                    sY += 2;
                 }
                 mY += (moduleRectHeight) + modulePadding + (module.isExpanded() ? settingHeight + 1 : 0);
             }

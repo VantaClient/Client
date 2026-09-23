@@ -43,6 +43,7 @@ public class Notifications extends Module {
         float yAddition = 5;
         MsdfFontRenderer font = CFonts.SFPT_REGULAR_18;
         for (int i = 0; i < NotificationUtil.notifTitle.size(); i++) {
+
             if (NotificationUtil.notifTime.get(i) + 3000 <= System.currentTimeMillis()) {
                 NotificationUtil.notifTitle.remove(i);
                 NotificationUtil.notifMessage.remove(i);
@@ -51,6 +52,7 @@ public class Notifications extends Module {
                 yAddition -= height + 5;
                 return;
             }
+
             String message = NotificationUtil.notifMessage.get(i);
             float width = font.getStringWidth(message) + 4;
             float x = event.scaledResolution.getScaledWidth() - width - 5;
@@ -61,6 +63,7 @@ public class Notifications extends Module {
             long lifetimea = NotificationUtil.notifLifetime.get(i);
             float remainingFraction = 1f - ((float) elapsed / lifetimea);
             float barWidth = totalBarWidth * remainingFraction;
+
             Rectangle.create(x,y,width,height).color(new Color(10,10,10,190)).push(event);
             GradientRectangle.create(x,y,width,1f).firstColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[0]).secondColor(Vanta.instance.moduleStorage.getT(ClientSettings.class).colors[1]).gradientMode(GradientMode.HORIZONTAL).push(event);
             Rectangle.create( x + 2,y + height - 6f,totalBarWidth,3f).color(new Color(10,10,10,255)).push(event);

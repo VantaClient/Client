@@ -13,7 +13,9 @@ import today.vanta.client.setting.impl.BooleanSetting;
 import today.vanta.client.setting.impl.NumberSetting;
 import today.vanta.client.setting.impl.StringSetting;
 import today.vanta.util.game.events.EventListen;
+import today.vanta.util.game.render.RenderUtil;
 import today.vanta.util.game.render.font.CFonts;
+import today.vanta.util.game.render.shape.impl.GradientRectangle;
 import today.vanta.util.game.render.shape.impl.Rectangle;
 import today.vanta.util.system.math.ColorUtil;
 import today.vanta.util.system.math.animation.Animation;
@@ -34,6 +36,7 @@ public class Arraylist extends Module {
             xOffset = Setting.of("X offset", 5, 0, 25),
             yOffset = Setting.of("Y offset", 5, 0, 25),
             animationLength = Setting.of("Animation length", 250, 0, 1000, "ms");
+    private final BooleanSetting hAnim = Setting.of("Horizontal animation",true);
 
     private final StringSetting
             font = Setting.of("Font", "SFPT", "SFPT", "Tahoma", "Roboto", "Minecraft", "Exhibition"),
@@ -56,6 +59,8 @@ public class Arraylist extends Module {
 
     private final Map<Module, ArraylistEntry> entryMap = new HashMap<>();
     private final List<ArraylistEntry> entries = new ArrayList<>();
+
+    private float animTarget = 1;
 
     public Arraylist() {
         super("Arraylist", "Draws an arraylist of modules.", Category.HUD);
@@ -105,16 +110,31 @@ public class Arraylist extends Module {
                     entryMap.put(module, entry);
                     entries.add(entry);
                     entry.visible = true;
-                    entry.animateTo(0, animationLength.getValue().longValue());
+                    if (hAnim.getValue()) {
+                        entry.animateSlide(0, animationLength.getValue().longValue()); // <-- was `offscreen`, should be `0`
+                    } else {
+                        entry.slideOffset = 0;
+                    }
+                    entry.animateHeight(true, animationLength.getValue().longValue());
                 } else if (!entry.visible) {
                     entry.visible = true;
-                    entry.animateTo(0, animationLength.getValue().longValue());
+                    if (hAnim.getValue()) {
+                        entry.animateSlide(0, animationLength.getValue().longValue());
+                    } else {
+                        entry.slideOffset = 0;
+                    }
+                    entry.animateHeight(true, animationLength.getValue().longValue());
                 }
             } else if (entry != null && entry.visible) {
                 entry.visible = false;
                 float width = getModuleWidth(module);
                 float offscreen = width + xOffset.getValue().floatValue() + 5;
-                entry.animateTo(offscreen, animationLength.getValue().longValue());
+                if (hAnim.getValue()) {
+                    entry.animateSlide(offscreen, animationLength.getValue().longValue());
+                } else {
+                    entry.slideOffset = 0;
+                }
+                entry.animateHeight(false, animationLength.getValue().longValue());
             }
         }
 
@@ -159,7 +179,6 @@ public class Arraylist extends Module {
 
             float modWidth = arraylistFontRenderer.getStringWidth(name);
             float x = event.scaledResolution.getScaledWidth() - modWidth - xOffset.getValue().floatValue() - 2.5f + entry.slideOffset;
-
             Color color = primaryColor;
 
             switch (colorMode.getValue()) {
@@ -180,7 +199,7 @@ public class Arraylist extends Module {
             float rectX = x - 2;
             float rectY = y;
             float rectWidth = modWidth + 5;
-            float rectHeight = arraylistFontRenderer.getBoxHeight();
+            float rectHeight = arraylistFontRenderer.getBoxHeight() * entry.heightProgress;
 
             if (background.getValue()) {
                 Rectangle
@@ -192,21 +211,23 @@ public class Arraylist extends Module {
             boolean first = counter == 0;
             boolean last = counter == entries.size() - 1;
             ArraylistEntry nextEntry = last ? null : entries.get(counter + 1);
-
+            Color finalColor1 = color;
+            float finalY1 = y;
+            RenderUtil.scissor(x, y,rectWidth,rectHeight, () -> {
             switch (line.getValue()) {
                 case "Top+right":
                 case "Top":
                     if (first) {
                         Rectangle
                                 .create(rectX, rectY - 1, rectWidth, 1)
-                                .color(color)
+                                .color(finalColor1)
                                 .push(event);
                     }
 
                     if (line.isValue("Top+right")) {
                         Rectangle
                                 .create(rectX + rectWidth, rectY - 1, 1, rectHeight + 1)
-                                .color(color)
+                                .color(finalColor1)
                                 .push(event);
                     }
                     break;
@@ -214,18 +235,18 @@ public class Arraylist extends Module {
                     if (first) {
                         Rectangle
                                 .create(rectX, rectY - 1, rectWidth, 1)
-                                .color(color)
+                                .color(finalColor1)
                                 .push(event);
                         Rectangle
                                 .create(rectX - 1, rectY - 1, 1, 1)
-                                .color(color)
+                                .color(finalColor1)
                                 .push(event);
                     }
 
                     if (last) {
                         Rectangle
                                 .create(rectX, rectY + rectHeight, rectWidth, 1)
-                                .color(color)
+                                .color(finalColor1)
                                 .push(event);
                     } else {
                         String nextName = getModuleName(nextEntry.module);
@@ -237,43 +258,46 @@ public class Arraylist extends Module {
                         if (widthToNext > 0) {
                             Rectangle
                                     .create(rectX, rectY + rectHeight, widthToNext, 1)
-                                    .color(color)
+                                    .color(finalColor1)
                                     .push(event);
                         }
                     }
 
                     Rectangle
                             .create(rectX - 1, rectY, 1, rectHeight)
-                            .color(color)
+                            .color(finalColor1)
                             .push(event);
                     Rectangle
                             .create(rectX - 1, rectY + rectHeight, 1, 1)
-                            .color(color)
+                            .color(finalColor1)
                             .push(event);
                     Rectangle
                             .create(rectX + rectWidth, rectY - 1, 1, rectHeight + 2)
-                            .color(color)
+                            .color(finalColor1)
                             .push(event);
                     break;
 
                 case "Left":
                     Rectangle
                             .create(rectX - 1, rectY, 1, rectHeight)
-                            .color(color)
+                            .color(finalColor1)
                             .push(event);
                     break;
 
                 case "Right":
                     Rectangle
                             .create(rectX + rectWidth, rectY, 1, rectHeight)
-                            .color(color)
+                            .color(finalColor1)
                             .push(event);
                     break;
             }
 
-            arraylistFontRenderer.drawString(name, x + 1f, y + 1f, color, fontShadow.getValue());
+            Color finalColor = finalColor1;
+            float finalY = finalY1;
+                arraylistFontRenderer.drawString(name, x + 1f, finalY + 1f, finalColor, fontShadow.getValue());
+            });
 
-            y += (background.getValue() || !line.isValue("None")) ? arraylistFontRenderer.getBoxHeight() : arraylistFontRenderer.getFontHeight() + 2;
+            y += rectHeight;
             counter++;
         }
     }
@@ -312,25 +336,34 @@ public class Arraylist extends Module {
     private static class ArraylistEntry {
         final Module module;
         float slideOffset;
+        float heightProgress;
         boolean visible;
-        Animation animation;
+        Animation slideAnimation;
+        Animation heightAnimation;
 
         ArraylistEntry(Module module, float slideOffset) {
             this.module = module;
             this.slideOffset = slideOffset;
+            this.heightProgress = 0f;
         }
 
-        void animateTo(float target, long duration) {
-            if (animation != null) {
-                animation.stop();
-            }
+        void animateSlide(float target, long duration) {
+            if (slideAnimation != null) slideAnimation.stop();
+            slideAnimation = Animation.create(slideOffset, target, duration, Easing.EASE_OUT_QUART, value -> slideOffset = value);
+            slideAnimation.start();
+        }
 
-            animation = Animation.create(slideOffset, target, duration, Easing.EASE_OUT_QUART, value -> slideOffset = value);
-            animation.start();
+        void animateHeight(boolean show, long duration) {
+            if (heightAnimation != null) heightAnimation.stop();
+            float target = show ? 1f : 0f;
+            heightAnimation = Animation.create(heightProgress, target, duration, Easing.EASE_OUT_QUART, value -> heightProgress = value);
+            heightAnimation.start();
         }
 
         boolean isAnimationFinished() {
-            return animation == null || animation.finished;
+            boolean slideDone = slideAnimation == null || slideAnimation.finished;
+            boolean heightDone = heightAnimation == null || heightAnimation.finished;
+            return slideDone && heightDone;
         }
     }
 }

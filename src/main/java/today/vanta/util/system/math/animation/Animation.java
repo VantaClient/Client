@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 public class Animation {
     public final float start, end;
     public final long duration;
+    public float progress;
     private final Easing easing;
     private final Consumer<Float> onUpdate;
 
@@ -52,7 +53,7 @@ public class Animation {
         if (!started || finished) return;
 
         long elapsed = System.currentTimeMillis() - startTime;
-        float progress = (float) elapsed / duration;
+        progress = (float) elapsed / duration;
 
         if (progress >= 1.0f) {
             progress = 1.0f;
